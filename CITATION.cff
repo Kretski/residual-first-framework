@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite it as below."
+title: "Residual-level Hellings–Downs diagnostics for pulsar timing arrays: calibration failures and a pre-registered EPTA replication"
+authors:
+  - family-names: Kretski
+    given-names: Dimitar
+    affiliation: >-
+      Institute of Metal Science, Equipment and Technologies "Acad. A. Balevski",
+      Center for Hydro- and Aerodynamics, Bulgarian Academy of Sciences
+version: "2.1"
+date-released: 2026-09-26
+license: MIT
+repository-code: "https://github.com/Kretski/residual-first-framework"
+type: software
+abstract: >-
+  Residual-level cross-pulsar statistics applied to NANOGrav 15-yr and EPTA DR2
+  timing residuals. A sky-scramble-calibrated Hellings–Downs test orthogonalised
+  against monopole and dipole patterns gives p = 0.0135 (EPTA DR2full,
+  pre-registered primary) and p = 0.0065 (DR2new, pre-registered secondary),
+  recovering the known PTA signal. An omnibus cross-correlation statistic and
+  temporal-shift nulls are shown to be miscalibrated on real PTA sampling.
+keywords:
+  - pulsar timing arrays
+  - gravitational waves
+  - Hellings-Downs correlation
+  - pre-registration
+  - calibration
+  - NANOGrav
+  - EPTA
+  - reproducibility
+references:
+  - type: dataset
+    title: "The NANOGrav 15-Year Data Set (v2.1.0)"
+    authors:
+      - name: "The NANOGrav Collaboration"
+    doi: "10.5281/zenodo.16051178"
+  - type: dataset
+    title: "EPTA DR2"
+    authors:
+      - name: "The EPTA Collaboration"
+    doi: "10.5281/zenodo.8300645"
