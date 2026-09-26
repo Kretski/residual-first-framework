@@ -92,6 +92,9 @@ def split_tim_tempo2(tim, out_dir):
     including the file's own FORMAT/MODE lines — kept. Each copy is later read
     by PINT separately, so each keeps its own TOA format (EPTA mixes tempo2
     FORMAT 1 files with older fixed-column Princeton/Parkes files).
+    tempo2 commands are case-insensitive, so a line whose first token is 'C' OR
+    'c' is a comment (PINT only recognises upper-case 'C'); such lines are
+    dropped from the copies (Amendment 4b).
     Returns [(copy path, original name, TOA lines, lines ignored after END)].
     """
     out_dir = Path(out_dir)
@@ -114,8 +117,10 @@ def split_tim_tempo2(tim, out_dir):
                 p = Path(tok[1])
                 read(p if p.is_absolute() else (path.parent / p).resolve(), depth + 1)
                 continue
+            if tok and (tok[0].upper() == "C" or tok[0].startswith("#")):
+                continue                              # comment, any case
             own.append(line)
-            if tok and tok[0].upper() not in ("FORMAT", "MODE", "C") and not tok[0].startswith("#"):
+            if tok and tok[0].upper() not in ("FORMAT", "MODE"):
                 n_toa += 1
         if n_toa:
             dst = out_dir / f"{len(leaves):03d}_{path.name}"
@@ -139,7 +144,10 @@ def read_leaf(pint_toa, path, model):
                 return pint_toa.get_TOAs(str(alt), model=model)
             except Exception:
                 pass
-        raise RuntimeError(f"{Path(path).name}: {type(e1).__name__}: {e1}")
+        bad = str(e1).split(": ")[-1].strip("'\" ")
+        where = next((f"line {i + 1}: {l.strip()[:160]}" for i, l in enumerate(txt.splitlines())
+                      if bad and bad in l), "offending line not located")
+        raise RuntimeError(f"{Path(path).name}: {type(e1).__name__}: {e1}\n      → {where}")
 
 
 def load_pint(psr_dir, with_residuals, verbose=False):

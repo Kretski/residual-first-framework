@@ -123,3 +123,12 @@ Note from the 17-pulsar gate: on EPTA sampling the shift-null tests are NOT
 calibrated (monopole 0.145, hd_perp_*:shift 0.15–0.16, cross_correlation 0.95);
 only the sky-scramble tests are (0.035–0.07). Secondary shift-null results on
 EPTA will therefore be reported as uninterpretable.
+
+### Amendment 4b (same day, still before any residual)
+
+`check J0613-0200` with the Amendment-4 reader failed on EFF.EBPP.2639.tim: a line
+whose first token is a lower-case `c` (a tempo2 comment — tempo2 commands are
+case-insensitive, as the lower-case `end` lines in the same release show) was
+parsed by PINT as a TOA. Fix: lines starting with `C` or `c` (or `#`) are dropped
+from the per-file copies. On any remaining parse failure the offending line is
+printed.
