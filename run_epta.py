@@ -7,6 +7,7 @@ Run INSIDE WSL/Linux (80-bit long double), from the project folder:
   python run_epta.py gate                 # 2. calibration gate: sampling/errors/positions only
   python run_epta.py real                 # 3. only if the gate PASSED: residuals + frozen V2.1
   python run_epta.py real --variant DR2new    (secondary dataset, after the primary)
+  python run_epta.py dipole [--variant DR2new]  # method check M1: nuisance leakage
 
 The frozen analysis module (common_residual_search_v2.py, tag v2.1-epta-prereg)
 is imported, never modified. Nothing here changes its statistics or defaults.
@@ -329,6 +330,45 @@ def synthetic_h0_array(rng, template):
     return out
 
 
+def synthetic_injected_array(rng, template, kind="none", amp=0.0):
+    """
+    Same H_0 noise as synthetic_h0_array() plus an injected COMMON red process
+    (β = 13/3) of RMS `amp` [s], added before the quadratic removal:
+      'dipole'   s(t)·(n̂·d), random direction d   (ephemeris-like)
+      'monopole' s(t)                              (clock-like)
+      'hd'       Hellings–Downs-correlated         (GWB-like)
+    """
+    import common_residual_search_v2 as v
+    from common_residual_search import hellings_downs, radec_to_unit
+    names = sorted(template)
+    t0 = min(p.toas.min() for p in template.values())
+    T = max(p.toas.max() for p in template.values()) - t0
+    grid = np.linspace(0, T, 8192)
+    nhat = radec_to_unit(np.array([template[n].ra for n in names]),
+                         np.array([template[n].dec for n in names]))
+    common = np.zeros((len(names), len(grid)))
+    if kind == "dipole":
+        d = rng.standard_normal(3); d /= np.linalg.norm(d)
+        common = np.outer(nhat @ d, v._red(rng, grid, amp, 13 / 3, grid))
+    elif kind == "monopole":
+        common = np.tile(v._red(rng, grid, amp, 13 / 3, grid), (len(names), 1))
+    elif kind == "hd":
+        G = hellings_downs(nhat @ nhat.T); np.fill_diagonal(G, 1.0)
+        L = np.linalg.cholesky(G + 1e-9 * np.eye(len(names)))
+        common = L @ np.array([v._red(rng, grid, amp, 13 / 3, grid) for _ in names])
+    out = {}
+    for i, n in enumerate(names):
+        p = template[n]
+        t, e = p.toas - t0, p.errors
+        r = e * rng.standard_normal(len(t)) + np.interp(t, grid, common[i])
+        if i % 3 == 0:
+            r += v._red(rng, t, 1.0e-6, 3.0, grid)
+        V = np.vander((t - t.mean()) / T, 3)
+        r -= V @ np.linalg.lstsq(V / e[:, None], r / e, rcond=None)[0]
+        out[n] = Psr(n, t, r, e, p.ra, p.dec)
+    return out
+
+
 # ---------------------------------------------------------------- stages
 def stage_check(psr):
     check_precision()
@@ -382,6 +422,53 @@ def stage_gate(variant, trials):
         "clock_override": clk}, indent=2))
 
 
+DIPOLE_CHECK = [            # (label, kind, amplitude [s], trials) — pre-specified (Method check M1)
+    ("H0", "none", 0.0, 100),
+    ("dipole 0.5 us", "dipole", 0.5e-6, 100),
+    ("dipole 1.0 us", "dipole", 1.0e-6, 100),
+    ("monopole 0.5 us", "monopole", 0.5e-6, 50),
+    ("HD 1.0 us", "hd", 1.0e-6, 50),
+]
+LEAK_LIMIT = 0.10
+
+
+def stage_dipole(variant):
+    """Method check M1: leakage of monopole/dipole into the primary HD test, EPTA geometry."""
+    import common_residual_search_v2 as v
+    check_precision()
+    setup_pint()
+    print(f"Method check M1 — injected nuisance processes, EPTA {variant} sampling/positions")
+    pulsars, failed = load_variant(variant, with_residuals=False)
+    pulsars = {n: p for n, p in pulsars.items() if np.isfinite(p.ra) and np.isfinite(p.dec)}
+    print(f"  pulsars: {len(pulsars)}; excluded: {len(failed)}")
+    rng = np.random.default_rng(1)
+    table = {}
+    for label, kind, amp, trials in DIPOLE_CHECK:
+        rej = []
+        for k in range(trials):
+            s = v.CommonResidualSearchV2(synthetic_injected_array(rng, pulsars, kind, amp),
+                                         seed=k, verbose=False, n_null=200, n_scramble=200).run()
+            rej.append(np.array(list(s.p_values) + list(s.exploratory_p)) <= 0.05)
+        names = list(s.test_names) + list(s.exploratory_names)
+        table[label] = dict(zip(names, np.mean(rej, axis=0).round(3).tolist()))
+        table[label]["_trials"] = trials
+        print(f"  {label:<16s} primary rate {table[label][PRIMARY]:.3f}   ({trials} trials)", flush=True)
+
+    scr = ["hd_sky_scramble", "hd_perp_mono:scramble", PRIMARY]
+    print(f"\n  rate p≤0.05 {'':<4s}" + "".join(f"{c.split(':')[0][:22]:>24s}" for c in scr))
+    for label in table:
+        print(f"  {label:<16s}" + "".join(f"{table[label][c]:24.3f}" for c in scr))
+    worst = max(table["dipole 0.5 us"][PRIMARY], table["dipole 1.0 us"][PRIMARY])
+    robust = worst <= LEAK_LIMIT and table["monopole 0.5 us"][PRIMARY] <= LEAK_LIMIT
+    print(f"\n  Primary test under nuisance injections: worst dipole rate {worst:.3f}, "
+          f"monopole {table['monopole 0.5 us'][PRIMARY]:.3f} (limit {LEAK_LIMIT}, pre-specified)")
+    print(f"  → {'ROBUST' if robust else 'LEAKAGE ABOVE LIMIT — report as a limitation'}")
+    Path(f"epta_dipole_check_{variant}.json").write_text(json.dumps({
+        "created_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+        "variant": variant, "design": DIPOLE_CHECK, "limit": LEAK_LIMIT,
+        "rates": table, "robust": bool(robust), "pulsars": sorted(pulsars)}, indent=2))
+
+
 def stage_real(variant):
     import common_residual_search_v2 as v
     gate = Path(GATE_FILE.format(variant=variant))
@@ -424,12 +511,14 @@ def stage_real(variant):
 if __name__ == "__main__":
     args = sys.argv[1:]
     variant = args[args.index("--variant") + 1] if "--variant" in args else "DR2full"
-    if not args or args[0] not in ("check", "gate", "real"):
+    if not args or args[0] not in ("check", "gate", "real", "dipole"):
         sys.exit(__doc__)
     if args[0] == "check":
         stage_check(args[1] if len(args) > 1 and not args[1].startswith("--") else "J1909-3744")
     elif args[0] == "gate":
         trials = int(args[args.index("--trials") + 1]) if "--trials" in args else 200
         stage_gate(variant, trials)
+    elif args[0] == "dipole":
+        stage_dipole(variant)
     else:
         stage_real(variant)

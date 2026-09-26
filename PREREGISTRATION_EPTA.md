@@ -200,3 +200,19 @@ quadratic removal, not the full timing-model fit; the sky-scramble null of the
 primary test does not depend on the temporal model.
 Programming errors (AttributeError, NameError, TypeError, ImportError) abort the
 run instead of excluding pulsars; after fixing, the run is repeated in full.
+
+## Method check M1 — nuisance leakage in EPTA geometry (specified BEFORE running)
+
+Purpose: the NANOGrav validation showed the primary test leaks under an injected
+dipole (0.10–0.20). This check measures leakage with EPTA sampling, errors and
+positions. It uses synthetic data only (no EPTA residuals), so it can be run after
+the real-data results without affecting them; its criterion is fixed here first.
+
+Design (`run_epta.py dipole`, for DR2full and DR2new): H₀ noise as in the gate
+plus an injected common red process (β = 13/3): H₀ (100 trials), dipole 0.5 µs and
+1.0 µs (100 each, random direction per trial), monopole 0.5 µs (50), HD 1.0 µs (50,
+power reference). n_null = n_scramble = 200 per trial, seed 1.
+Criterion: the primary test is called ROBUST for this geometry if its p ≤ 0.05
+rate is ≤ 0.10 under both dipole amplitudes and under the monopole; otherwise the
+leakage rate is reported as a limitation of the EPTA results. The amplitudes are
+stress-test values, not estimates of real ephemeris errors.
