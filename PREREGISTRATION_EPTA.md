@@ -3,7 +3,8 @@
 Author: Dimitar Kretski
 Status: **to be committed and tagged BEFORE any EPTA residual is computed or inspected.**
 Frozen analysis code: `common_residual_search_v2.py` (V2.1), SHA-256 recorded at tag time:
-`<fill in: certutil -hashfile common_residual_search_v2.py SHA256>`
+`089a94e073c962eb332779e0cc50807ebbb30a6e3f02bb49bced0226497ec2b2`
+(git tag `v2.1-epta-prereg`, commit ff05b3e)
 
 ## 1. Background (what was already seen)
 
@@ -58,3 +59,25 @@ the real-data run is NOT performed and the calibration failure is reported inste
   independence of *systematics*, not of the signal.
 - All outputs (JSON provenance, validation logs) are published regardless of outcome.
 - No further variants are run on EPTA before this result is published.
+
+## Amendment 1 — technical, recorded BEFORE any EPTA residual was computed
+
+Made after inspecting only the release's folder structure, README, one .par header
+and one .tim header (output of `fetch_epta_dr2.py`); no TOAs were processed.
+
+1. **Dataset names.** The release contains four variants: DR2full, DR2full+,
+   DR2new, DR2new+ ("+" = combined with InPTA DR1 for 10 pulsars).
+   Primary = `DR2full`; secondary = `DR2new`. The "+" variants are NOT analysed
+   (they add a different PTA's data and would not be an EPTA-only replication).
+2. **Numerical precision.** PINT on native Windows reports "platform does not
+   support extended precision floating-point". Residuals will be computed only
+   on a platform with 80-bit long double (Linux / WSL2), verified with
+   `numpy.finfo(numpy.longdouble).eps < 1e-18` and recorded in the output.
+3. **Model conversions required by PINT.** The released .par files use
+   `UNITS TCB` and `BINARY T2`. PINT's own TCB→TDB and T2→equivalent-binary
+   conversions are applied; these are re-expressions of the released model, not
+   re-fits. Any pulsar for which conversion fails is listed and excluded.
+4. **Clock files.** The corrected NRT clock file shipped in the release is used,
+   as the release README instructs.
+5. **Residual type.** PINT pre-fit residuals with the released (converted) model,
+   epoch-averaged per observing day and backend before the frozen V2.1 binning.
