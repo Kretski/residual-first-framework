@@ -132,6 +132,10 @@ For anyone building residual-level PTA diagnostics:
 5. Measure nuisance leakage for each array's geometry; it differed between NANOGrav and EPTA.
 6. Freeze code and gate each real-data run on a pre-specified calibration check.
 
+## Use of AI
+
+Analysis code, diagnostics and the text of this note were developed with the assistance of an AI model (Claude, Anthropic), used for writing and debugging code, designing calibration checks and drafting text. The author ran every analysis on his own machine, made every analysis decision, committed the pre-registration and each amendment before the corresponding run, and checked the reported numbers against the run logs and provenance files in the repository.
+
 ## Reproducibility and data
 
 All code, the pre-registration with its amendments and results, gate and provenance JSON files, and run logs are in [github.com/Kretski/residual-first-framework](https://github.com/Kretski/residual-first-framework).
