@@ -252,7 +252,11 @@ def load_variant(variant, with_residuals):
             par = read_par_file(psr_files(psr_dir)[0])
             res = d["res_s"] if with_residuals else np.zeros_like(d["mjd"])
             pulsars[name] = Psr(name, d["mjd"], res, d["err_s"], par["ra"], par["dec"])
-        except Exception as e:                # pre-registered: list and exclude
+        except OSError as e:                  # disk / filesystem problem — NOT a pulsar exclusion
+            sys.exit(f"\nFilesystem error while loading {name}: {e}\n"
+                     f"Aborting: I/O errors must never turn into pulsar exclusions "
+                     f"(Amendment 5). Run from the Linux filesystem (~/rff), not /mnt/c.")
+        except Exception as e:                # pre-registered: PINT cannot load → list and exclude
             failed[name] = f"{type(e).__name__}: {e}"
     return pulsars, failed
 

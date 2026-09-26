@@ -166,3 +166,13 @@ FORMAT 1 (e.g. ' J090811_044909.NEFTp 1520.00000000 55054.2…': column 41 is th
 MJD decimal point). FORMAT 1 is whitespace-delimited, so leading blanks are
 stripped from TOA lines read under FORMAT 1. No MJD, frequency or error value is
 altered.
+
+## Amendment 5 — invalid gate run, runner fix (before any residual)
+
+Gate run #2 (after Amendment 4e) is INVALID and not counted: WSL filesystem errors
+on /mnt/c (Errno 5 "Input/output error", Errno 14 "Bad address") made 22 of 25
+pulsars fail to load; the runner wrongly treated these as pulsar exclusions and
+completed the gate on 3 pulsars (primary H₀ rate 0.000, meaningless with 3 pairs).
+The gate JSON was not written (same I/O error), so no real-data run was possible.
+Fix: any OSError now aborts the run; only PINT loading errors exclude a pulsar.
+All further runs are executed from the Linux filesystem (~/rff), outputs copied back.
