@@ -1,0 +1,413 @@
+{
+  "created_utc": "2026-09-26T07:05:26+00:00",
+  "script": "common_residual_search_v2.py",
+  "script_sha256": "089a94e073c962eb332779e0cc50807ebbb30a6e3f02bb49bced0226497ec2b2",
+  "python": "3.13.12",
+  "numpy": "2.5.3",
+  "parameters": {
+    "bin_days": 30.0,
+    "min_overlap": 12,
+    "n_null": 2000,
+    "n_scramble": 2000,
+    "temporal_null": "mirror",
+    "detrend_deg": 2,
+    "seed": 0
+  },
+  "pulsars": [
+    "J0613-0200",
+    "J0751+1807",
+    "J0900-3144",
+    "J1012+5307",
+    "J1022+1001",
+    "J1024-0719",
+    "J1455-3330",
+    "J1600-3053",
+    "J1640+2224",
+    "J1713+0747",
+    "J1730-2304",
+    "J1738+0333",
+    "J1744-1134",
+    "J1751-2857",
+    "J1801-1417",
+    "J1804-2717",
+    "J1843-1113",
+    "J1857+0943",
+    "J1909-3744",
+    "J1910+1256",
+    "J1911+1347",
+    "J1918-0642",
+    "J2124-3358",
+    "J2322+2057"
+  ],
+  "binned_data_sha256": "0b68d32a659dd6a91a3c9ca5f5c0e227c39ae4afdf5229590eabd6abb1f43355",
+  "n_pairs_used": 276,
+  "primary_family": {
+    "tests": [
+      "cross_correlation",
+      "monopole",
+      "hd_sky_scramble"
+    ],
+    "p_raw": [
+      0.1054472763618191,
+      0.8675662168915542,
+      0.009495252373813094
+    ],
+    "p_bh": [
+      0.15817091454272864,
+      0.8675662168915542,
+      0.028485757121439283
+    ],
+    "reject": [
+      false,
+      false,
+      true
+    ],
+    "status": "pre-specified before the V2 real-data run (not formally preregistered)"
+  },
+  "exploratory_family": {
+    "tests": [
+      "hd_perp_mono:shift",
+      "hd_perp_mono:scramble",
+      "hd_perp_mono_dipole:shift",
+      "hd_perp_mono_dipole:scramble"
+    ],
+    "p_raw": [
+      0.004997501249375313,
+      0.0079960019990005,
+      0.00849575212393803,
+      0.013493253373313344
+    ],
+    "reject": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "status": "added after seeing V2 results — exploratory only"
+  },
+  "null_distributions": {
+    "P1_cross_correlation": {
+      "observed": 1.8771509389885257,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": 1.5070627042152314,
+      "null_std": 0.28424556118855365,
+      "null_quantiles": {
+        "0.05": 1.1217901806257002,
+        "0.5": 1.4643849804355846,
+        "0.95": 2.0081417855913823,
+        "0.99": 2.3493074687457693
+      },
+      "n_exceed": 210,
+      "p": 0.1054472763618191,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "P2_monopole": {
+      "observed": -1.32253061905531,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": 0.031933613927802106,
+      "null_std": 1.2200041518122586,
+      "null_quantiles": {
+        "0.05": -1.8571487766781958,
+        "0.5": -0.012802705166547211,
+        "0.95": 2.139314979523878,
+        "0.99": 3.2341743961763605
+      },
+      "n_exceed": 1735,
+      "p": 0.8675662168915542,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "P3_hd_sky_scramble": {
+      "observed": 2.4353249642781694,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.5993247221521557,
+      "null_std": 1.1655920324421944,
+      "null_quantiles": {
+        "0.05": -2.4197614995912518,
+        "0.5": -0.6600905886549311,
+        "0.95": 1.3805769050921661,
+        "0.99": 2.3724746392445555
+      },
+      "n_exceed": 18,
+      "p": 0.009495252373813094,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "info_hd_shift": {
+      "observed": 2.4353249642781694,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.028478987584035116,
+      "null_std": 1.1616396456878237,
+      "null_quantiles": {
+        "0.05": -1.8483507056516464,
+        "0.5": -0.05543867182813409,
+        "0.95": 1.9044915824498592,
+        "0.99": 2.840929438764966
+      },
+      "n_exceed": 42,
+      "p": 0.02148925537231384,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "info_dipole_trace_scramble": {
+      "observed": 0.4320651471279324,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.37957183115367743,
+      "null_std": 1.2377845983064477,
+      "null_quantiles": {
+        "0.05": -2.2136703596232774,
+        "0.5": -0.44953501931594997,
+        "0.95": 1.7540090947487998,
+        "0.99": 3.2576182512336755
+      },
+      "n_exceed": 455,
+      "p": 0.22788605697151423,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_shift": {
+      "observed": 3.396884883677848,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.048106750771259324,
+      "null_std": 1.1791384679437427,
+      "null_quantiles": {
+        "0.05": -1.8848904870527219,
+        "0.5": -0.09316151839764832,
+        "0.95": 1.9170923058970528,
+        "0.99": 2.7767972068653153
+      },
+      "n_exceed": 9,
+      "p": 0.004997501249375313,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_scramble": {
+      "observed": 3.396884883677848,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.042434788251009894,
+      "null_std": 1.2738174134332405,
+      "null_quantiles": {
+        "0.05": -2.1162885374616085,
+        "0.5": -0.05911951104319518,
+        "0.95": 2.080909297426411,
+        "0.99": 3.1931227109450115
+      },
+      "n_exceed": 15,
+      "p": 0.0079960019990005,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_dipole_shift": {
+      "observed": 3.244909150343308,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.03115335335564776,
+      "null_std": 1.2303512749026384,
+      "null_quantiles": {
+        "0.05": -1.9494606561060532,
+        "0.5": -0.08887180556986432,
+        "0.95": 2.0313790194690706,
+        "0.99": 3.1194956977311805
+      },
+      "n_exceed": 16,
+      "p": 0.00849575212393803,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_dipole_scramble": {
+      "observed": 3.244909150343308,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.0037919640967359262,
+      "null_std": 1.299617175066799,
+      "null_quantiles": {
+        "0.05": -2.037532283568625,
+        "0.5": -0.06581185565758087,
+        "0.95": 2.119761282933247,
+        "0.99": 3.375385496705893
+      },
+      "n_exceed": 26,
+      "p": 0.013493253373313344,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    }
+  },
+  "hd_monopole_overlap": 0.45939416288408846,
+  "dataset": "EPTA DR2 DR2full, doi:10.5281/zenodo.8300645",
+  "primary_test": "hd_perp_mono_dipole:scramble",
+  "primary_p": 0.013493253373313344,
+  "excluded_pulsars": {
+    "J0030+0451": "MissingTOAs: Parameter 'JUMP9, -sys, ['JBO.DFB.1520']' does not correspond to any TOAs: you might need to run `model.find_empty_masks(toas, freeze=True)`"
+  },
+  "longdouble_eps": 1.0842021724855044e-19,
+  "per_pulsar_qc": {
+    "J0613-0200": {
+      "prefit_rms_us": 42.525859581060224,
+      "postfit_rms_us": 41.45791883626011,
+      "chi2_reduced": 11.307924365270829,
+      "n_free": 50,
+      "fit_status": "converged"
+    },
+    "J0751+1807": {
+      "prefit_rms_us": 4.097444353735711,
+      "postfit_rms_us": 4.063524677014226,
+      "chi2_reduced": 1.3662404257150484,
+      "n_free": 42,
+      "fit_status": "converged"
+    },
+    "J0900-3144": {
+      "prefit_rms_us": 6.358628677817329,
+      "postfit_rms_us": 6.292265280162961,
+      "chi2_reduced": 1.5072805712671264,
+      "n_free": 33,
+      "fit_status": "converged"
+    },
+    "J1012+5307": {
+      "prefit_rms_us": 4.018984340590778,
+      "postfit_rms_us": 3.9810261606130495,
+      "chi2_reduced": 1.1778212333800209,
+      "n_free": 54,
+      "fit_status": "converged"
+    },
+    "J1022+1001": {
+      "prefit_rms_us": 214.59380440826513,
+      "postfit_rms_us": 213.0405430357627,
+      "chi2_reduced": 253.92372695536764,
+      "n_free": 43,
+      "fit_status": "converged"
+    },
+    "J1024-0719": {
+      "prefit_rms_us": 5.402131710851772,
+      "postfit_rms_us": 5.377299560047443,
+      "chi2_reduced": 0.8277088245371155,
+      "n_free": 33,
+      "fit_status": "converged"
+    },
+    "J1455-3330": {
+      "prefit_rms_us": 14.640474289371294,
+      "postfit_rms_us": 14.643891951472035,
+      "chi2_reduced": 0.8240877119684372,
+      "n_free": 31,
+      "fit_status": "converged"
+    },
+    "J1600-3053": {
+      "prefit_rms_us": 2.6228832497837855,
+      "postfit_rms_us": 2.2628417515987405,
+      "chi2_reduced": 12.671456663449817,
+      "n_free": 46,
+      "fit_status": "converged"
+    },
+    "J1640+2224": {
+      "prefit_rms_us": 7.853098835534371,
+      "postfit_rms_us": 7.836852671892746,
+      "chi2_reduced": 1.1349037453772428,
+      "n_free": 37,
+      "fit_status": "converged"
+    },
+    "J1713+0747": {
+      "prefit_rms_us": 29.02606024976065,
+      "postfit_rms_us": 28.76066414468834,
+      "chi2_reduced": 320.61026140183714,
+      "n_free": 55,
+      "fit_status": "converged"
+    },
+    "J1730-2304": {
+      "prefit_rms_us": 73.27757178857587,
+      "postfit_rms_us": 74.83505322146895,
+      "chi2_reduced": 124.48420956879134,
+      "n_free": 20,
+      "fit_status": "converged"
+    },
+    "J1738+0333": {
+      "prefit_rms_us": 9.966556362600286,
+      "postfit_rms_us": 9.933872926639523,
+      "chi2_reduced": 1.2984894792244133,
+      "n_free": 23,
+      "fit_status": "converged"
+    },
+    "J1744-1134": {
+      "prefit_rms_us": 40.80668279458201,
+      "postfit_rms_us": 43.90483764718784,
+      "chi2_reduced": 7207.971912749659,
+      "n_free": 34,
+      "fit_status": "converged"
+    },
+    "J1751-2857": {
+      "prefit_rms_us": 94.15872052932818,
+      "postfit_rms_us": 93.64189474109392,
+      "chi2_reduced": 17.045421625471747,
+      "n_free": 22,
+      "fit_status": "converged"
+    },
+    "J1801-1417": {
+      "prefit_rms_us": 6.883389897886712,
+      "postfit_rms_us": 6.843627647887144,
+      "chi2_reduced": 1.9781927024852382,
+      "n_free": 17,
+      "fit_status": "converged"
+    },
+    "J1804-2717": {
+      "prefit_rms_us": 12.931539983507806,
+      "postfit_rms_us": 12.899245387607895,
+      "chi2_reduced": 0.819001701544914,
+      "n_free": 22,
+      "fit_status": "converged"
+    },
+    "J1843-1113": {
+      "prefit_rms_us": 3.962641063198048,
+      "postfit_rms_us": 3.889104545789415,
+      "chi2_reduced": 6.240290166829294,
+      "n_free": 21,
+      "fit_status": "converged"
+    },
+    "J1857+0943": {
+      "prefit_rms_us": 95.2721502708555,
+      "postfit_rms_us": 92.54007233931762,
+      "chi2_reduced": 2067.3128470962974,
+      "n_free": 40,
+      "fit_status": "converged"
+    },
+    "J1909-3744": {
+      "prefit_rms_us": 0.9870479526235197,
+      "postfit_rms_us": 0.8005319172125108,
+      "chi2_reduced": 5.3822743961825115,
+      "n_free": 35,
+      "fit_status": "converged"
+    },
+    "J1910+1256": {
+      "prefit_rms_us": 5.599419268081934,
+      "postfit_rms_us": 5.538021947354333,
+      "chi2_reduced": 0.934209838340464,
+      "n_free": 22,
+      "fit_status": "converged"
+    },
+    "J1911+1347": {
+      "prefit_rms_us": 3.2785024148229716,
+      "postfit_rms_us": 3.223693368361079,
+      "chi2_reduced": 1.3353343988168442,
+      "n_free": 21,
+      "fit_status": "converged"
+    },
+    "J1918-0642": {
+      "prefit_rms_us": 4.139237947964704,
+      "postfit_rms_us": 4.112876834157712,
+      "chi2_reduced": 1.35944197291615,
+      "n_free": 34,
+      "fit_status": "converged"
+    },
+    "J2124-3358": {
+      "prefit_rms_us": 9.39450508958005,
+      "postfit_rms_us": 9.358765225060399,
+      "chi2_reduced": 0.9097657766906277,
+      "n_free": 28,
+      "fit_status": "converged"
+    },
+    "J2322+2057": {
+      "prefit_rms_us": 18.65645215346199,
+      "postfit_rms_us": 18.65482721912324,
+      "chi2_reduced": 1.0265864612294784,
+      "n_free": 18,
+      "fit_status": "converged"
+    }
+  },
+  "gate_file": "epta_gate_DR2full.json"
+}
