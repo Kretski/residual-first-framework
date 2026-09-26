@@ -1,0 +1,419 @@
+{
+  "created_utc": "2026-09-26T07:16:28+00:00",
+  "script": "common_residual_search_v2.py",
+  "script_sha256": "089a94e073c962eb332779e0cc50807ebbb30a6e3f02bb49bced0226497ec2b2",
+  "python": "3.13.12",
+  "numpy": "2.5.3",
+  "parameters": {
+    "bin_days": 30.0,
+    "min_overlap": 12,
+    "n_null": 2000,
+    "n_scramble": 2000,
+    "temporal_null": "mirror",
+    "detrend_deg": 2,
+    "seed": 0
+  },
+  "pulsars": [
+    "J0030+0451",
+    "J0613-0200",
+    "J0751+1807",
+    "J0900-3144",
+    "J1012+5307",
+    "J1022+1001",
+    "J1024-0719",
+    "J1455-3330",
+    "J1600-3053",
+    "J1640+2224",
+    "J1713+0747",
+    "J1730-2304",
+    "J1738+0333",
+    "J1744-1134",
+    "J1751-2857",
+    "J1801-1417",
+    "J1804-2717",
+    "J1843-1113",
+    "J1857+0943",
+    "J1909-3744",
+    "J1910+1256",
+    "J1911+1347",
+    "J1918-0642",
+    "J2124-3358",
+    "J2322+2057"
+  ],
+  "binned_data_sha256": "2a8aef665341bca6357b516c254ea5274357082a5e3e4b233be5850e6b0bfe3d",
+  "n_pairs_used": 300,
+  "primary_family": {
+    "tests": [
+      "cross_correlation",
+      "monopole",
+      "hd_sky_scramble"
+    ],
+    "p_raw": [
+      0.0004997501249375312,
+      0.014492753623188406,
+      0.010994502748625687
+    ],
+    "p_bh": [
+      0.0014992503748125937,
+      0.014492753623188406,
+      0.014492753623188406
+    ],
+    "reject": [
+      true,
+      true,
+      true
+    ],
+    "status": "pre-specified before the V2 real-data run (not formally preregistered)"
+  },
+  "exploratory_family": {
+    "tests": [
+      "hd_perp_mono:shift",
+      "hd_perp_mono:scramble",
+      "hd_perp_mono_dipole:shift",
+      "hd_perp_mono_dipole:scramble"
+    ],
+    "p_raw": [
+      0.0004997501249375312,
+      0.009495252373813094,
+      0.0004997501249375312,
+      0.006496751624187906
+    ],
+    "reject": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "status": "added after seeing V2 results — exploratory only"
+  },
+  "null_distributions": {
+    "P1_cross_correlation": {
+      "observed": 3.917551368087649,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": 2.0030963361335075,
+      "null_std": 0.30511855463360915,
+      "null_quantiles": {
+        "0.05": 1.561095806179133,
+        "0.5": 1.9746322946821406,
+        "0.95": 2.5633125804924473,
+        "0.99": 2.8419185109603307
+      },
+      "n_exceed": 0,
+      "p": 0.0004997501249375312,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "P2_monopole": {
+      "observed": 3.6384927654658417,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.03828321728925094,
+      "null_std": 1.387216871035643,
+      "null_quantiles": {
+        "0.05": -1.9783328410797476,
+        "0.5": -0.1842083643687854,
+        "0.95": 2.5078404512137613,
+        "0.99": 3.97496505546409
+      },
+      "n_exceed": 28,
+      "p": 0.014492753623188406,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "P3_hd_sky_scramble": {
+      "observed": 7.7352475220202495,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": 1.4841040501500127,
+      "null_std": 2.2383524191893045,
+      "null_quantiles": {
+        "0.05": -1.6879939410843972,
+        "0.5": 1.2225973243497665,
+        "0.95": 5.542624716279963,
+        "0.99": 7.787961317447267
+      },
+      "n_exceed": 21,
+      "p": 0.010994502748625687,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "info_hd_shift": {
+      "observed": 7.7352475220202495,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.03206700774725337,
+      "null_std": 1.358219237490355,
+      "null_quantiles": {
+        "0.05": -2.1023854836744857,
+        "0.5": -0.13528755313736923,
+        "0.95": 2.3082115920068946,
+        "0.99": 3.5261148905030866
+      },
+      "n_exceed": 0,
+      "p": 0.0004997501249375312,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "info_dipole_trace_scramble": {
+      "observed": 2.208973848843047,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": 0.8985908289565461,
+      "null_std": 2.3770273065714926,
+      "null_quantiles": {
+        "0.05": -2.351609893236364,
+        "0.5": 0.5713455755575153,
+        "0.95": 5.461155455843951,
+        "0.99": 7.908303311796034
+      },
+      "n_exceed": 482,
+      "p": 0.2413793103448276,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_shift": {
+      "observed": 6.854569310048648,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.018402683262953204,
+      "null_std": 1.2975923207021127,
+      "null_quantiles": {
+        "0.05": -2.064146898550286,
+        "0.5": -0.11719238697583684,
+        "0.95": 2.2209528451374183,
+        "0.99": 3.272996253508106
+      },
+      "n_exceed": 0,
+      "p": 0.0004997501249375312,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_scramble": {
+      "observed": 6.854569310048648,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.009401483204983472,
+      "null_std": 2.352893950588849,
+      "null_quantiles": {
+        "0.05": -3.4401280426234395,
+        "0.5": -0.20591942151841502,
+        "0.95": 4.218317344643049,
+        "0.99": 6.563088142681899
+      },
+      "n_exceed": 18,
+      "p": 0.009495252373813094,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_dipole_shift": {
+      "observed": 7.01903720255265,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.037937172057560475,
+      "null_std": 1.3624667142258613,
+      "null_quantiles": {
+        "0.05": -2.133492365390184,
+        "0.5": -0.10220802923221411,
+        "0.95": 2.3481937522952188,
+        "0.99": 3.4963399511233844
+      },
+      "n_exceed": 0,
+      "p": 0.0004997501249375312,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_dipole_scramble": {
+      "observed": 7.01903720255265,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.08705655075684879,
+      "null_std": 2.338244710206952,
+      "null_quantiles": {
+        "0.05": -3.7066016284398313,
+        "0.5": -0.22287438036920515,
+        "0.95": 3.8547846666675523,
+        "0.99": 5.95846901340659
+      },
+      "n_exceed": 12,
+      "p": 0.006496751624187906,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    }
+  },
+  "hd_monopole_overlap": 0.4088530883421799,
+  "dataset": "EPTA DR2 DR2new, doi:10.5281/zenodo.8300645",
+  "primary_test": "hd_perp_mono_dipole:scramble",
+  "primary_p": 0.006496751624187906,
+  "excluded_pulsars": {},
+  "longdouble_eps": 1.0842021724855044e-19,
+  "per_pulsar_qc": {
+    "J0030+0451": {
+      "prefit_rms_us": 5.9148566603268105,
+      "postfit_rms_us": 5.9150027345732425,
+      "chi2_reduced": 0.7149202033123663,
+      "n_free": 26,
+      "fit_status": "converged"
+    },
+    "J0613-0200": {
+      "prefit_rms_us": 3.5869400743658395,
+      "postfit_rms_us": 3.1415654837115787,
+      "chi2_reduced": 0.9420290342030689,
+      "n_free": 36,
+      "fit_status": "converged"
+    },
+    "J0751+1807": {
+      "prefit_rms_us": 2.9695204224925162,
+      "postfit_rms_us": 2.9682207690670968,
+      "chi2_reduced": 1.0963923736536934,
+      "n_free": 33,
+      "fit_status": "converged"
+    },
+    "J0900-3144": {
+      "prefit_rms_us": 6.334961502289345,
+      "postfit_rms_us": 6.3354321238713345,
+      "chi2_reduced": 1.3936863355548599,
+      "n_free": 29,
+      "fit_status": "converged"
+    },
+    "J1012+5307": {
+      "prefit_rms_us": 3.708467545611563,
+      "postfit_rms_us": 3.707748259347282,
+      "chi2_reduced": 1.0569363733800623,
+      "n_free": 39,
+      "fit_status": "converged"
+    },
+    "J1022+1001": {
+      "prefit_rms_us": 4.880975588209675,
+      "postfit_rms_us": 4.8803609916899555,
+      "chi2_reduced": 2.5118308441225228,
+      "n_free": 34,
+      "fit_status": "converged"
+    },
+    "J1024-0719": {
+      "prefit_rms_us": 4.926462595973108,
+      "postfit_rms_us": 4.9248299174692765,
+      "chi2_reduced": 0.723677229980203,
+      "n_free": 25,
+      "fit_status": "converged"
+    },
+    "J1455-3330": {
+      "prefit_rms_us": 15.039506394840155,
+      "postfit_rms_us": 15.03922139994726,
+      "chi2_reduced": 0.6991319791007836,
+      "n_free": 28,
+      "fit_status": "converged"
+    },
+    "J1600-3053": {
+      "prefit_rms_us": 1.991815744358712,
+      "postfit_rms_us": 1.4680862992856396,
+      "chi2_reduced": 5.805132855268748,
+      "n_free": 42,
+      "fit_status": "converged"
+    },
+    "J1640+2224": {
+      "prefit_rms_us": 7.711358482294762,
+      "postfit_rms_us": 7.710212542319927,
+      "chi2_reduced": 1.0771317379107996,
+      "n_free": 30,
+      "fit_status": "converged"
+    },
+    "J1713+0747": {
+      "prefit_rms_us": 1.9839141555102062,
+      "postfit_rms_us": 1.9839161945807258,
+      "chi2_reduced": 3.3488184144946973,
+      "n_free": 41,
+      "fit_status": "converged"
+    },
+    "J1730-2304": {
+      "prefit_rms_us": 5.422263344200047,
+      "postfit_rms_us": 5.422191763146018,
+      "chi2_reduced": 0.894935011110601,
+      "n_free": 17,
+      "fit_status": "converged"
+    },
+    "J1738+0333": {
+      "prefit_rms_us": 7.505752227048568,
+      "postfit_rms_us": 7.506148097300714,
+      "chi2_reduced": 1.145879816487927,
+      "n_free": 21,
+      "fit_status": "converged"
+    },
+    "J1744-1134": {
+      "prefit_rms_us": 2.8421634744589666,
+      "postfit_rms_us": 2.8432111940583695,
+      "chi2_reduced": 2.279929256592127,
+      "n_free": 25,
+      "fit_status": "converged"
+    },
+    "J1751-2857": {
+      "prefit_rms_us": 7.003022047999117,
+      "postfit_rms_us": 7.003852549920101,
+      "chi2_reduced": 0.7273999236015674,
+      "n_free": 20,
+      "fit_status": "converged"
+    },
+    "J1801-1417": {
+      "prefit_rms_us": 6.853478847396344,
+      "postfit_rms_us": 6.854131845134109,
+      "chi2_reduced": 1.0755018990137806,
+      "n_free": 15,
+      "fit_status": "converged"
+    },
+    "J1804-2717": {
+      "prefit_rms_us": 12.536062568747443,
+      "postfit_rms_us": 12.535488545195824,
+      "chi2_reduced": 0.7575045978400557,
+      "n_free": 20,
+      "fit_status": "converged"
+    },
+    "J1843-1113": {
+      "prefit_rms_us": 3.5409547926447433,
+      "postfit_rms_us": 3.5415559325904598,
+      "chi2_reduced": 5.584367795304105,
+      "n_free": 17,
+      "fit_status": "converged"
+    },
+    "J1857+0943": {
+      "prefit_rms_us": 3.8504189292856865,
+      "postfit_rms_us": 3.850548959924242,
+      "chi2_reduced": 1.3966620549525661,
+      "n_free": 32,
+      "fit_status": "converged"
+    },
+    "J1909-3744": {
+      "prefit_rms_us": 0.8059808992075349,
+      "postfit_rms_us": 0.806867592093515,
+      "chi2_reduced": 5.396161086400505,
+      "n_free": 32,
+      "fit_status": "converged"
+    },
+    "J1910+1256": {
+      "prefit_rms_us": 5.325017072490483,
+      "postfit_rms_us": 5.325401959603827,
+      "chi2_reduced": 0.8868930377896422,
+      "n_free": 20,
+      "fit_status": "converged"
+    },
+    "J1911+1347": {
+      "prefit_rms_us": 3.061213830210703,
+      "postfit_rms_us": 3.0613627238261287,
+      "chi2_reduced": 1.0847086849769003,
+      "n_free": 19,
+      "fit_status": "converged"
+    },
+    "J1918-0642": {
+      "prefit_rms_us": 3.4994598563743193,
+      "postfit_rms_us": 3.499434153920643,
+      "chi2_reduced": 1.1115415034084024,
+      "n_free": 29,
+      "fit_status": "converged"
+    },
+    "J2124-3358": {
+      "prefit_rms_us": 9.486452576454539,
+      "postfit_rms_us": 9.486478507329998,
+      "chi2_reduced": 0.7630502982090255,
+      "n_free": 24,
+      "fit_status": "converged"
+    },
+    "J2322+2057": {
+      "prefit_rms_us": 16.891754861623795,
+      "postfit_rms_us": 16.891766826136664,
+      "chi2_reduced": 0.8746945907927529,
+      "n_free": 15,
+      "fit_status": "converged"
+    }
+  },
+  "gate_file": "epta_gate_DR2new.json"
+}

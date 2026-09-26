@@ -1,0 +1,26 @@
+
+WARNING  (pint.models.tcb_conversion    ): Converting this timing model from TCB to TDB. Please note that the TCB to TDB conversion is only approximate and the resulting timing model should be re-fit to get reliable results.
+  pulsars loaded: 25; excluded: 0
+    20/200 trials
+    40/200 trials
+    60/200 trials
+    80/200 trials
+    100/200 trials
+    120/200 trials
+    140/200 trials
+    160/200 trials
+    180/200 trials
+    200/200 trials
+
+  H_0 rates p≤0.05:
+    cross_correlation                1.000
+    monopole                         0.150
+    hd_sky_scramble                  0.060
+    hd_perp_mono:shift               0.105
+    hd_perp_mono:scramble            0.065
+    hd_perp_mono_dipole:shift        0.115
+    hd_perp_mono_dipole:scramble     0.040   ← PRIMARY
+
+  GATE PASSED: primary H_0 rate 0.040 (threshold 0.09, pre-registered)
+(pta) (base) lenovo@DESKTOP-VINV7PA:~/rff$ python run_epta.py real --variant DR2new
+EPTA DR2new — REAL residuals, frozen V2.1
