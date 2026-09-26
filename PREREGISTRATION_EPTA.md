@@ -216,3 +216,88 @@ Criterion: the primary test is called ROBUST for this geometry if its p ≤ 0.05
 rate is ≤ 0.10 under both dipole amplitudes and under the monopole; otherwise the
 leakage rate is reported as a limitation of the EPTA results. The amplitudes are
 stress-test values, not estimates of real ephemeris errors.
+
+---
+
+# RESULTS (reported in full, regardless of outcome)
+
+## R1. Primary result — EPTA DR2full
+
+Gate (run #3, valid): 25/25 pulsars, 200 H₀ trials, primary H₀ rate **0.045** → PASSED.
+Real run (Amendment 6 WLS re-fit): 24 pulsars; **J0030+0451 excluded** (PINT
+`MissingTOAs`: JUMP9 on -sys JBO.DFB.1520 has no TOAs). 301 × 30-d bins, 276 pairs,
+median overlap 158 bins.
+
+**Primary `hd_perp_mono_dipole:scramble`: p = 0.0135 → p ≤ 0.05.**
+Pre-registered wording: "EPTA DR2 shows an HD-like correlation beyond monopole +
+linear dipole, consistent with the NANOGrav result" — with the caveats below.
+
+| test | null | calibrated on DR2full? (gate H₀ rate) | p |
+|---|---|---|---|
+| hd_perp_mono_dipole | scramble | yes (0.045) | **0.0135** (primary) |
+| hd_perp_mono | scramble | yes (0.045) | 0.0080 |
+| hd_sky_scramble | scramble | yes (0.035) | 0.0095 |
+| monopole (projection −1.32) | shift | **no** (0.135) | 0.868 — uninterpretable |
+| hd_perp_* | shift | **no** (0.120) | 0.005 / 0.0085 — uninterpretable |
+| cross_correlation (z²) | shift | **no** (1.000) | 0.105 — uninterpretable |
+
+QC caveat: several pulsars have implausibly large post-fit residuals / χ²_red
+(J1744-1134 7208, J1857+0943 2067, J1713+0747 321, J1022+1001 254, J1730-2304 124),
+most likely unmodelled DM / solar-wind (chromatic) noise and low-frequency WSRT data.
+Per Section 3 QC was not used to select pulsars.
+
+## R2. Secondary result — EPTA DR2new
+
+Gate: 25/25 pulsars, primary H₀ rate **0.040** → PASSED. Real run: 25 pulsars,
+0 excluded, 126 × 30-d bins, 300 pairs, median overlap 107. QC clean
+(χ²_red 0.70–5.81; largest J1600-3053 5.81, J1843-1113 5.58, J1909-3744 5.40).
+
+**Primary test on DR2new: p = 0.0065 → p ≤ 0.05.**
+
+| test | calibrated on DR2new? (gate H₀) | p |
+|---|---|---|
+| hd_perp_mono_dipole:scramble | yes (0.040) | **0.0065** |
+| hd_perp_mono:scramble | yes (0.065) | 0.0095 |
+| hd_sky_scramble | yes (0.060) | 0.011 |
+| monopole (+3.64) | **no** (0.150) | 0.014 — uninterpretable |
+| hd_perp_*:shift | **no** (0.105–0.115) | 0.0005 — uninterpretable |
+| cross_correlation (z²) | **no** (1.000) | 0.0005 — uninterpretable |
+
+The signal is stronger in the cleaner DR2new subset, which argues against the
+DR2full QC problems as its origin. DR2new is a subset of DR2full: not independent.
+
+## R3. Method check M1 (nuisance leakage, EPTA geometry)
+
+Rate of p ≤ 0.05 (H₀/dipole 100 trials, monopole/HD 50):
+
+| injection | DR2full: primary / hd_sky / hd_perp_mono | DR2new: primary / hd_sky / hd_perp_mono |
+|---|---|---|
+| H₀ | 0.040 / 0.040 / 0.050 | 0.050 / 0.040 / 0.050 |
+| dipole 0.5 µs | 0.060 / 0.090 / 0.070 | 0.020 / 0.110 / 0.080 |
+| dipole 1.0 µs | 0.010 / 0.100 / 0.110 | 0.000 / 0.160 / 0.160 |
+| monopole 0.5 µs | 0.000 / 0.020 / 0.020 | 0.020 / 0.020 / 0.040 |
+| HD 1.0 µs (power) | 0.28 / 0.28 / 0.32 | 0.52 / 0.48 / 0.50 |
+
+Criterion (≤ 0.10 under both dipoles and the monopole): **ROBUST for both variants.**
+Removing the 6-dim dipole subspace is what makes the difference (0.10–0.16 → 0.00–0.01
+at 1 µs). In NANOGrav geometry the same test leaked 0.10–0.20; robustness is
+geometry-dependent.
+
+## R4. Deviations and record-keeping notes
+
+- Amendments 1–6 and 4b–4e were all committed before the corresponding runs.
+- Commit 2b3d95f is labelled "Amendment 6" but contained only the gate JSON; the
+  Amendment 6 files were committed in ca75402, still before any residual.
+- Gate run #2 is invalid (Amendment 5) and not counted.
+- The EPTA, DR2full and DR2new results are not independent of each other or of
+  NANOGrav (shared pulsars, same GWB realisation, DR2new ⊂ DR2full). No combined
+  p-value is reported.
+
+## R5. Limitations
+
+No DM / chromatic / solar-wind noise model; no EFAC/EQUAD from the EPTA noise files;
+PINT TCB→TDB conversion is approximate (hence the re-fit); some Effelsberg/LEAP TOAs
+fall outside the shipped clock files; power of the primary test is modest (0.28–0.52
+at 1 µs HD); M1 amplitudes are stress values, not estimates of real ephemeris errors.
+This analysis recovers the known PTA HD signal with a simple residual-level method;
+it is not a new detection and has no bearing on modified-gravity models.
