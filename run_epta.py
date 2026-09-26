@@ -84,66 +84,85 @@ def psr_files(psr_dir):
     return par, tims[0]
 
 
+TEMPO2_COMMANDS = {"FORMAT", "MODE", "JUMP", "TIME", "PHASE", "EFAC", "EQUAD", "EMIN", "EMAX",
+                   "FMIN", "FMAX", "INFO", "SKIP", "NOSKIP", "TRACK"}
+
+
+def _is_comment(tok):
+    """'C', 'c', 'C??', 'c!!', '#…' — C/c followed only by punctuation, or '#'."""
+    t = tok[0]
+    return t.startswith("#") or (t[0] in "Cc" and all(not ch.isalnum() for ch in t[1:]))
+
+
+def _is_toa_line(tok):
+    """A FORMAT 1 TOA line: name freq MJD error site ... with numeric freq/MJD/error."""
+    if _is_comment(tok) or len(tok) < 5:
+        return False
+    try:
+        float(tok[1]); float(tok[2]); float(tok[3])
+        return True
+    except ValueError:
+        return False
+
+
 def split_tim_tempo2(tim, out_dir):
     """
-    tempo2 semantics, one file at a time (Amendment 4, supersedes the merge of
-    Amendment 3): every INCLUDEd file is copied to out_dir truncated at its own
-    END line (END ends only that file), INCLUDE lines removed, everything else —
-    including the file's own FORMAT/MODE lines — kept. Each copy is later read
-    by PINT separately, so each keeps its own TOA format (EPTA mixes tempo2
-    FORMAT 1 files with older fixed-column Princeton/Parkes files).
-    tempo2 commands are case-insensitive, so a line whose first token is 'C' OR
-    'c' is a comment (PINT only recognises upper-case 'C'); such lines are
-    dropped from the copies (Amendment 4b).
-    Returns [(copy path, original name, TOA lines, lines ignored after END)].
+    tempo2 semantics, one file at a time (Amendments 4 / 4c):
+      * INCLUDE is followed recursively; END ends only the file it is in.
+      * FORMAT is INHERITED from the including file (EPTA sub-files often have
+        no FORMAT line of their own) — every copy gets 'FORMAT 1' if any
+        ancestor or itself declared it.
+      * A line is kept if it is a valid FORMAT 1 TOA line or a known tempo2
+        command. Everything else (comments 'C', 'c', 'C??', '#', stray text)
+        is dropped — tempo2 cannot parse such lines as TOAs either — and COUNTED.
+    Returns [(copy path, original name, TOAs kept, lines dropped, lines after END)].
     """
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     leaves = []
 
-    def read(path, depth=0):
-        own, n_toa, skipped, ended = [], 0, 0, False
+    def read(path, fmt1=False, depth=0):
+        own, n_toa, dropped, skipped, ended = [], 0, 0, 0, False
         for raw in open(path, errors="replace"):
             line = raw.rstrip("\n")
             tok = line.split()
-            if ended:
-                if tok:
-                    skipped += 1
+            if not tok:
                 continue
-            if tok and tok[0].upper() == "END":
+            key = tok[0].upper()
+            if ended:
+                skipped += 1
+                continue
+            if key == "END":
                 ended = True
                 continue
-            if tok and tok[0].upper() == "INCLUDE" and len(tok) > 1 and depth < 5:
-                p = Path(tok[1])
-                read(p if p.is_absolute() else (path.parent / p).resolve(), depth + 1)
+            if key == "FORMAT" and len(tok) > 1 and tok[1] == "1":
+                fmt1 = True
                 continue
-            if tok and (tok[0].upper() == "C" or tok[0].startswith("#")):
-                continue                              # comment, any case
-            own.append(line)
-            if tok and tok[0].upper() not in ("FORMAT", "MODE"):
+            if key == "INCLUDE" and len(tok) > 1 and depth < 5:
+                p = Path(tok[1])
+                read(p if p.is_absolute() else (path.parent / p).resolve(), fmt1, depth + 1)
+                continue
+            if _is_toa_line(tok):
+                own.append(line)
                 n_toa += 1
+            elif key in TEMPO2_COMMANDS:
+                own.append(line)
+            else:
+                dropped += 1
         if n_toa:
             dst = out_dir / f"{len(leaves):03d}_{path.name}"
-            dst.write_text("\n".join(own) + "\n")
-            leaves.append((dst, path.name, n_toa, skipped))
+            dst.write_text(("FORMAT 1\n" if fmt1 else "") + "\n".join(own) + "\n")
+            leaves.append((dst, path.name, n_toa, dropped, skipped))
 
     read(Path(tim).resolve())
     return leaves
 
 
 def read_leaf(pint_toa, path, model):
-    """Read one leaf; if PINT fails, retry once with an explicit 'FORMAT 1' header."""
     try:
         return pint_toa.get_TOAs(str(path), model=model)
     except Exception as e1:
         txt = Path(path).read_text()
-        if not any(l.split()[:1] == ["FORMAT"] for l in txt.splitlines() if l.split()):
-            alt = Path(str(path) + ".fmt1.tim")
-            alt.write_text("FORMAT 1\n" + txt)
-            try:
-                return pint_toa.get_TOAs(str(alt), model=model)
-            except Exception:
-                pass
         bad = str(e1).split(": ")[-1].strip("'\" ")
         where = next((f"line {i + 1}: {l.strip()[:160]}" for i, l in enumerate(txt.splitlines())
                       if bad and bad in l), "offending line not located")
@@ -157,8 +176,9 @@ def load_pint(psr_dir, with_residuals, verbose=False):
     leaves = split_tim_tempo2(psr_dir / tim.name,
                               CACHE / f"{psr_dir.parent.name}_{psr_dir.name}_tims")
     if verbose:
-        for _, name, k, sk in leaves:
-            print(f"    {name:<32s} TOA lines {k:5d}" + (f", ignored after END {sk}" if sk else ""))
+        for _, name, k, dr, sk in leaves:
+            print(f"    {name:<24s} TOAs {k:5d}" + (f", dropped (comment/non-TOA) {dr}" if dr else "")
+                  + (f", after END {sk}" if sk else ""))
     with cwd(psr_dir):
         try:
             model = pint.models.get_model(par.name, allow_tcb=True, allow_T2=True)
@@ -214,7 +234,7 @@ def load_variant(variant, with_residuals):
     pulsars, failed = {}, {}
     for psr_dir in sorted(p for p in vdir.iterdir() if p.is_dir()):
         name = psr_dir.name
-        cache = CACHE / f"{variant}_{name}_{tag}_a4.npz"      # a4: Amendment-4 reader
+        cache = CACHE / f"{variant}_{name}_{tag}_a4c.npz"     # a4c: Amendment-4c reader
         try:
             if cache.exists():
                 d = dict(np.load(cache))

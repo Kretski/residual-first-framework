@@ -132,3 +132,16 @@ case-insensitive, as the lower-case `end` lines in the same release show) was
 parsed by PINT as a TOA. Fix: lines starting with `C` or `c` (or `#`) are dropped
 from the per-file copies. On any remaining parse failure the offending line is
 printed.
+
+### Amendment 4c (same day, still before any residual) — supersedes 4 and 4b
+
+The printed offending lines showed the Amendment-4 diagnosis (mixed TOA formats)
+was WRONG. All EPTA files are tempo2 FORMAT 1:
+- J0751+1807, JBO.DFB.1520.tim line 2 is a normal FORMAT 1 TOA line; the file has
+  no FORMAT line of its own and inherits FORMAT 1 from the master .tim (tempo2
+  behaviour). Read on its own, PINT fell back to the Princeton format and failed.
+- J0613-0200, EFF.EBPP.2639.tim line 66 starts with `C??` — a TOA commented out by
+  EPTA (not a bare `C`, so Amendment 4b missed it).
+Reader rule now: FORMAT inherited from including files; a line is kept only if it
+is a valid FORMAT 1 TOA line (numeric frequency, MJD, error) or a known tempo2
+command; all other lines are dropped and the number dropped is printed per file.
