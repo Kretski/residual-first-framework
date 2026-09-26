@@ -204,10 +204,40 @@ def load_pint(psr_dir, with_residuals, verbose=False):
                                                  toas.get_obss())]),
     }
     if with_residuals:
-        import pint.residuals
-        r = pint.residuals.Residuals(toas, model, subtract_mean=True)
-        out["res_s"] = np.asarray(r.time_resids.to_value("s"), dtype=float)
+        out.update(fit_and_residuals(toas, model))
     return out
+
+
+def fit_and_residuals(toas, model, maxiter=10):
+    """
+    Amendment 6 (decision A): one weighted-least-squares re-fit of the parameters
+    marked free in the released .par (PINT's TCB→TDB conversion is approximate
+    and PINT requires a re-fit). Downhill WLS is used for robustness. If the fit
+    raises anything other than a max-iteration warning, the exception propagates
+    and the pulsar is excluded (listed). Post-fit residuals are returned.
+    """
+    import pint.fitter
+    import pint.residuals
+    pre = pint.residuals.Residuals(toas, model, subtract_mean=True)
+    Fitter = getattr(pint.fitter, "DownhillWLSFitter", pint.fitter.WLSFitter)
+    f = Fitter(toas, model)
+    status = "converged"
+    try:
+        f.fit_toas(maxiter=maxiter)
+    except Exception as e:
+        if "maxiter" in type(e).__name__.lower():
+            status = f"max-iterations ({type(e).__name__})"
+        else:
+            raise
+    post = f.resids
+    return {
+        "res_s": np.asarray(post.time_resids.to_value("s"), dtype=float),
+        "prefit_rms_us": np.array(float(np.std(pre.time_resids.to_value("us")))),
+        "postfit_rms_us": np.array(float(np.std(post.time_resids.to_value("us")))),
+        "chi2_reduced": np.array(float(post.chi2_reduced)),
+        "n_free": np.array(len(f.model.free_params)),
+        "fit_status": np.array(status),
+    }
 
 
 def epoch_average(d):
@@ -223,7 +253,11 @@ def epoch_average(d):
     if "res_s" in d:
         out["res_s"] = np.bincount(inv, weights=w * d["res_s"]) / W
     order = np.argsort(out["mjd"])
-    return {k: v[order] for k, v in out.items()}
+    out = {k: v[order] for k, v in out.items()}
+    for k in ("prefit_rms_us", "postfit_rms_us", "chi2_reduced", "n_free", "fit_status"):
+        if k in d:
+            out[k] = d[k]
+    return out
 
 
 class Psr:                                    # interface expected by the frozen V2.1 module
@@ -241,7 +275,7 @@ def load_variant(variant, with_residuals):
     pulsars, failed = {}, {}
     for psr_dir in sorted(p for p in vdir.iterdir() if p.is_dir()):
         name = psr_dir.name
-        cache = CACHE / f"{variant}_{name}_{tag}_a4e.npz"     # a4e: Amendment-4e reader
+        cache = CACHE / f"{variant}_{name}_{tag}_a6.npz"      # a6: Amendment-6 (reader 4e + WLS fit)
         try:
             if cache.exists():
                 d = dict(np.load(cache))
@@ -252,11 +286,18 @@ def load_variant(variant, with_residuals):
             par = read_par_file(psr_files(psr_dir)[0])
             res = d["res_s"] if with_residuals else np.zeros_like(d["mjd"])
             pulsars[name] = Psr(name, d["mjd"], res, d["err_s"], par["ra"], par["dec"])
+            if with_residuals:
+                pulsars[name].qc = {k: d[k].item() for k in
+                                    ("prefit_rms_us", "postfit_rms_us", "chi2_reduced",
+                                     "n_free", "fit_status") if k in d}
         except OSError as e:                  # disk / filesystem problem — NOT a pulsar exclusion
             sys.exit(f"\nFilesystem error while loading {name}: {e}\n"
                      f"Aborting: I/O errors must never turn into pulsar exclusions "
                      f"(Amendment 5). Run from the Linux filesystem (~/rff), not /mnt/c.")
-        except Exception as e:                # pre-registered: PINT cannot load → list and exclude
+        except (AttributeError, NameError, TypeError, ImportError) as e:
+            sys.exit(f"\nProgramming error while processing {name}: {type(e).__name__}: {e}\n"
+                     f"Aborting: code errors must never turn into pulsar exclusions.")
+        except Exception as e:                # pre-registered: PINT cannot load/fit → list and exclude
             failed[name] = f"{type(e).__name__}: {e}"
     return pulsars, failed
 
@@ -355,10 +396,14 @@ def stage_real(variant):
     print(f"EPTA {variant} — REAL residuals, frozen V2.1\n")
     pulsars, failed = load_variant(variant, with_residuals=True)
     pulsars = {n: p for n, p in pulsars.items() if np.isfinite(p.ra) and np.isfinite(p.dec)}
-    print(f"\nPer-pulsar QC (residual RMS after epoch averaging):")
+    print(f"\nPer-pulsar QC (Amendment 6 WLS re-fit; RMS of individual TOA residuals):")
+    print(f"  {'pulsar':<12s} {'epochs':>6s} {'yr':>5s} {'free':>4s} {'pre-fit µs':>11s} "
+          f"{'post-fit µs':>11s} {'χ²_red':>7s}  fit")
     for n, p in sorted(pulsars.items()):
-        print(f"  {n}: {len(p.toas):5d} epochs, {p.time_span:5.1f} yr, "
-              f"RMS {np.std(p.residuals) * 1e6:8.3f} µs")
+        q = getattr(p, "qc", {})
+        print(f"  {n:<12s} {len(p.toas):6d} {p.time_span:5.1f} {q.get('n_free', 0):4d} "
+              f"{q.get('prefit_rms_us', float('nan')):11.3f} {q.get('postfit_rms_us', float('nan')):11.3f} "
+              f"{q.get('chi2_reduced', float('nan')):7.2f}  {q.get('fit_status', '?')}")
     for n, e in failed.items():
         print(f"  EXCLUDED {n}: {e}")
     print()
@@ -372,6 +417,7 @@ def stage_real(variant):
                 extra={"dataset": f"EPTA DR2 {variant}, doi:10.5281/zenodo.8300645",
                        "primary_test": PRIMARY, "primary_p": p,
                        "excluded_pulsars": failed, "longdouble_eps": eps,
+                       "per_pulsar_qc": {n: getattr(p, "qc", {}) for n, p in pulsars.items()},
                        "gate_file": str(gate)})
 
 

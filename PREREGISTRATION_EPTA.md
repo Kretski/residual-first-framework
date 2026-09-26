@@ -176,3 +176,27 @@ completed the gate on 3 pulsars (primary H₀ rate 0.000, meaningless with 3 pai
 The gate JSON was not written (same I/O error), so no real-data run was possible.
 Fix: any OSError now aborts the run; only PINT loading errors exclude a pulsar.
 All further runs are executed from the Linux filesystem (~/rff), outputs copied back.
+
+## Gate result (valid run #3, from ~/rff, after Amendment 5)
+
+25/25 pulsars loaded, 0 excluded; 200 H₀ trials. Primary
+`hd_perp_mono_dipole:scramble` H₀ rate **0.045** ≤ 0.09 → **GATE PASSED**.
+Other rates: hd_sky_scramble 0.035, hd_perp_mono:scramble 0.045 (calibrated);
+monopole 0.135, hd_perp_mono:shift 0.120, hd_perp_mono_dipole:shift 0.120,
+cross_correlation 1.000 (NOT calibrated on EPTA sampling → reported as
+uninterpretable). Record: `epta_gate_DR2full.json`.
+
+## Amendment 6 — pre-fit vs re-fit decided, BEFORE any residual is computed
+
+Decision **A**: because PINT's TCB→TDB conversion is approximate (PINT warns the
+model "should be re-fit"), each pulsar's released model is re-fitted once with
+PINT's downhill WLS fitter (max 10 iterations) over the parameters marked free
+in the released .par. Post-fit residuals are used (as for NANOGrav, whose
+released residuals are also post-fit). A pulsar whose fit raises an error other
+than a max-iteration warning is excluded and listed. Per-pulsar QC (number of free
+parameters, pre-/post-fit RMS, reduced χ², fit status) is printed and saved;
+QC is not used to select pulsars. Note: the gate simulator applied only a
+quadratic removal, not the full timing-model fit; the sky-scramble null of the
+primary test does not depend on the temporal model.
+Programming errors (AttributeError, NameError, TypeError, ImportError) abort the
+run instead of excluding pulsars; after fixing, the run is repeated in full.
