@@ -1,11 +1,37 @@
 # Residual-level Hellings–Downs diagnostics for pulsar timing arrays
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22976009.svg)](https://doi.org/10.5281/zenodo.22976009)
+
 A simple, fully reproducible residual-level analysis of NANOGrav 15-yr and EPTA DR2
 timing residuals, with a **pre-registered replication on EPTA** and a documented
 record of which statistics are — and are not — calibrated on real PTA data.
 
-📄 **Full write-up:** [`METHODS_NOTE.md`](METHODS_NOTE.md) ·
+📄 **Full write-up:** [`METHODS_NOTE.md`](METHODS_NOTE.md) (preprint: [doi:10.5281/zenodo.22976009](https://doi.org/10.5281/zenodo.22976009)) ·
 📋 **Pre-registration, amendments and all results:** [`PREREGISTRATION_EPTA.md`](PREREGISTRATION_EPTA.md)
+
+## What it does
+
+It bins pulsar timing residuals, correlates every pulsar pair, and tests whether the
+correlation depends on the pairs' sky separation as the Hellings–Downs curve predicts —
+after removing monopole (clock-like) and dipole (ephemeris-like) patterns. Before any
+real-data run, it checks whether each test is actually calibrated for that array's
+real sampling, uncertainties and sky positions.
+
+## Who it is for
+
+- **Developers of new PTA statistics** — use `--validate --real-gaps` and
+  `diagnostics_shared_structure.py` to check whether *your* null holds on real sampling.
+  Here a test that looked calibrated on idealised simulations gave 69–100 % false alarms.
+- **Researchers and students** who want a fast, transparent cross-check of HD evidence:
+  a few hundred lines of Python, minutes to run, every step visible.
+- **New or small arrays** — a quick first look, and a statement of which tests are valid
+  for that geometry.
+- **Anyone reading EPTA .tim files with PINT** — `run_epta.py` handles tempo2 semantics
+  (`END` per file, global `FORMAT`, `C??` comments, leading blanks).
+
+**Not for:** GWB amplitude or spectrum estimation, pulsar noise modelling, or formal
+detection significance — use the collaborations' full analyses (e.g. enterprise) for those.
+The power of the test here is modest (28–52 % for a 1 µs HD process in EPTA geometry).
 
 ## Main results
 
