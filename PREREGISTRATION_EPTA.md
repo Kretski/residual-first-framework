@@ -81,3 +81,27 @@ and one .tim header (output of `fetch_epta_dr2.py`); no TOAs were processed.
    as the release README instructs.
 5. **Residual type.** PINT pre-fit residuals with the released (converted) model,
    epoch-averaged per observing day and backend before the frozen V2.1 binning.
+
+## Amendment 2 — gate simulator span, recorded BEFORE the gate was run
+
+The frozen module's `synthetic_array()` hard-codes a 16-yr time grid (NANOGrav).
+EPTA DR2 spans up to ~25 yr, so beyond 16 yr its simulated red noise would be
+constant. The calibration gate therefore uses `run_epta.synthetic_h0_array()`:
+the same H₀ noise model (real TOA errors, 1 µs β = 3 red noise on every third
+pulsar, weighted quadratic removal) on a grid spanning the actual data span.
+The analysis itself (`common_residual_search_v2.py`) is unchanged; the gate uses
+200 trials with n_null = n_scramble = 200 per trial. The real-data run uses the
+frozen defaults (n_null = n_scramble = 2000, seed = 0).
+
+## Amendment 3 — TOA reading, recorded BEFORE the gate and before any residual
+
+Found by loading J1909-3744 TOAs only (no residuals): PINT treats an `END` line in
+an INCLUDEd .tim file as the end of ALL input, whereas tempo2 (used by EPTA) stops
+only that file. Result: 183 of ~2800 TOAs read, all NUPPI data missing.
+Fix: `run_epta.merge_tim_tempo2()` flattens the INCLUDEs with tempo2 semantics
+(END ends the current file only; commented 'C' lines dropped) before PINT reads them.
+Epoch averaging (Amendment 1.5) uses the `-group` flag as "backend" (the NUPPI
+`-sys` flag differs per frequency channel), falling back to `-sys`, then observatory.
+The pre-fit vs. re-fit question (PINT warns its TCB→TDB conversion is approximate)
+is NOT decided here; it will be recorded as a separate amendment before the
+real-data run, and before any residual is computed.
