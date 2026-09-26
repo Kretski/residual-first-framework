@@ -105,3 +105,21 @@ Epoch averaging (Amendment 1.5) uses the `-group` flag as "backend" (the NUPPI
 The pre-fit vs. re-fit question (PINT warns its TCB→TDB conversion is approximate)
 is NOT decided here; it will be recorded as a separate amendment before the
 real-data run, and before any residual is computed.
+
+## Amendment 4 — TOA reader bug fix, recorded BEFORE any residual
+
+The first gate run (17/25 pulsars, primary H₀ rate 0.035, PASSED) excluded 8 pulsars
+(J0613-0200, J0751+1807, J1012+5307, J1022+1001, J1640+2224, J1738+0333,
+J1744-1134, J1911+1347) because of a bug in the Amendment-3 reader: merging all
+INCLUDEd files under one global `FORMAT 1` header forced older fixed-column
+(Princeton/Parkes-style) TOA files to be parsed as tempo2 format. These are not
+"pulsars PINT cannot load" in the sense of Section 2, so they may not be excluded.
+Fix (`split_tim_tempo2`, `read_leaf`): each INCLUDEd file is truncated at its own
+END and read by PINT separately with its own format; the TOAs are then merged
+(`pint.toa.merge_TOAs`). The gate is RE-RUN on all loadable pulsars and the re-run
+is the one that counts; the 17-pulsar run is reported for completeness.
+
+Note from the 17-pulsar gate: on EPTA sampling the shift-null tests are NOT
+calibrated (monopole 0.145, hd_perp_*:shift 0.15–0.16, cross_correlation 0.95);
+only the sky-scramble tests are (0.035–0.07). Secondary shift-null results on
+EPTA will therefore be reported as uninterpretable.

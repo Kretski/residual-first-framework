@@ -84,65 +84,80 @@ def psr_files(psr_dir):
     return par, tims[0]
 
 
-def merge_tim_tempo2(tim, out_path):
+def split_tim_tempo2(tim, out_dir):
     """
-    Flatten INCLUDEs with tempo2 semantics (Amendment 3): an END line stops
-    reading ONLY the file it is in; the parent continues with the next INCLUDE.
-    (PINT treats END as the end of all input, which silently dropped every
-    backend after the first END — e.g. all NUPPI data of J1909-3744.)
-    Commented TOA lines ('C ...', '#') and FORMAT/MODE lines are dropped;
-    a single 'FORMAT 1' / 'MODE 1' header is written.
-    Returns {included file: (TOA lines kept, lines ignored after END)}.
+    tempo2 semantics, one file at a time (Amendment 4, supersedes the merge of
+    Amendment 3): every INCLUDEd file is copied to out_dir truncated at its own
+    END line (END ends only that file), INCLUDE lines removed, everything else —
+    including the file's own FORMAT/MODE lines — kept. Each copy is later read
+    by PINT separately, so each keeps its own TOA format (EPTA mixes tempo2
+    FORMAT 1 files with older fixed-column Princeton/Parkes files).
+    Returns [(copy path, original name, TOA lines, lines ignored after END)].
     """
-    stats, toa_lines = {}, []
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    leaves = []
 
     def read(path, depth=0):
-        kept = skipped = 0
-        ended = False
+        own, n_toa, skipped, ended = [], 0, 0, False
         for raw in open(path, errors="replace"):
             line = raw.rstrip("\n")
             tok = line.split()
-            if not tok:
-                continue
-            key = tok[0].upper()
             if ended:
-                skipped += 1
+                if tok:
+                    skipped += 1
                 continue
-            if key == "END":
+            if tok and tok[0].upper() == "END":
                 ended = True
                 continue
-            if key == "INCLUDE" and len(tok) > 1 and depth < 5:
-                read((path.parent / tok[1]).resolve() if not Path(tok[1]).is_absolute()
-                     else Path(tok[1]), depth + 1)
+            if tok and tok[0].upper() == "INCLUDE" and len(tok) > 1 and depth < 5:
+                p = Path(tok[1])
+                read(p if p.is_absolute() else (path.parent / p).resolve(), depth + 1)
                 continue
-            if key in ("FORMAT", "MODE") or key == "C" or tok[0].startswith("#"):
-                continue
-            toa_lines.append(line)
-            kept += 1
-        if depth > 0 or kept:
-            stats[path.name] = (kept, skipped)
+            own.append(line)
+            if tok and tok[0].upper() not in ("FORMAT", "MODE", "C") and not tok[0].startswith("#"):
+                n_toa += 1
+        if n_toa:
+            dst = out_dir / f"{len(leaves):03d}_{path.name}"
+            dst.write_text("\n".join(own) + "\n")
+            leaves.append((dst, path.name, n_toa, skipped))
 
     read(Path(tim).resolve())
-    Path(out_path).write_text("FORMAT 1\nMODE 1\n" + "\n".join(toa_lines) + "\n")
-    return stats
+    return leaves
+
+
+def read_leaf(pint_toa, path, model):
+    """Read one leaf; if PINT fails, retry once with an explicit 'FORMAT 1' header."""
+    try:
+        return pint_toa.get_TOAs(str(path), model=model)
+    except Exception as e1:
+        txt = Path(path).read_text()
+        if not any(l.split()[:1] == ["FORMAT"] for l in txt.splitlines() if l.split()):
+            alt = Path(str(path) + ".fmt1.tim")
+            alt.write_text("FORMAT 1\n" + txt)
+            try:
+                return pint_toa.get_TOAs(str(alt), model=model)
+            except Exception:
+                pass
+        raise RuntimeError(f"{Path(path).name}: {type(e1).__name__}: {e1}")
 
 
 def load_pint(psr_dir, with_residuals, verbose=False):
     import pint.models
     import pint.toa
     par, tim = psr_files(psr_dir)
-    CACHE.mkdir(exist_ok=True)
-    merged = (CACHE / f"{psr_dir.parent.name}_{psr_dir.name}_merged.tim").resolve()
-    stats = merge_tim_tempo2(psr_dir / tim.name, merged)
+    leaves = split_tim_tempo2(psr_dir / tim.name,
+                              CACHE / f"{psr_dir.parent.name}_{psr_dir.name}_tims")
     if verbose:
-        for f, (k, sk) in stats.items():
-            print(f"    {f:<28s} TOAs read {k:5d}" + (f", ignored after END {sk}" if sk else ""))
+        for _, name, k, sk in leaves:
+            print(f"    {name:<32s} TOA lines {k:5d}" + (f", ignored after END {sk}" if sk else ""))
     with cwd(psr_dir):
         try:
             model = pint.models.get_model(par.name, allow_tcb=True, allow_T2=True)
         except TypeError:                     # older PINT without these keywords
             model = pint.models.get_model(par.name)
-        toas = pint.toa.get_TOAs(str(merged), model=model)
+    parts = [read_leaf(pint.toa, p, model) for p, *_ in leaves]
+    toas = parts[0] if len(parts) == 1 else pint.toa.merge_TOAs(parts)
     out = {
         "mjd": np.asarray(toas.get_mjds().value, dtype=float),
         "err_s": np.asarray(toas.get_errors().to_value("s"), dtype=float),
@@ -191,7 +206,7 @@ def load_variant(variant, with_residuals):
     pulsars, failed = {}, {}
     for psr_dir in sorted(p for p in vdir.iterdir() if p.is_dir()):
         name = psr_dir.name
-        cache = CACHE / f"{variant}_{name}_{tag}.npz"
+        cache = CACHE / f"{variant}_{name}_{tag}_a4.npz"      # a4: Amendment-4 reader
         try:
             if cache.exists():
                 d = dict(np.load(cache))
