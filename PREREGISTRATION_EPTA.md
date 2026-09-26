@@ -156,3 +156,13 @@ earlier file it applies to all following files. Fix: FORMAT tracked as global
 state; FORMAT lines kept in place; a copy gets a leading 'FORMAT 1' only if that
 state was already set when the file started. Dropped lines remain only EPTA's own
 commented-out TOAs, printed per file.
+
+### Amendment 4e (same day, still before any residual)
+
+Root cause of the remaining J0751+1807 / J0613-0200 failures: the TOA lines begin
+with a blank, and PINT's per-line format detection classifies a line that starts
+with a blank and has '.' at column 41 as fixed-column Parkes format BEFORE applying
+FORMAT 1 (e.g. ' J090811_044909.NEFTp 1520.00000000 55054.2…': column 41 is the
+MJD decimal point). FORMAT 1 is whitespace-delimited, so leading blanks are
+stripped from TOA lines read under FORMAT 1. No MJD, frequency or error value is
+altered.

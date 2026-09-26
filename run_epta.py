@@ -146,7 +146,11 @@ def split_tim_tempo2(tim, out_dir):
                 read(p if p.is_absolute() else (path.parent / p).resolve(), depth + 1)
                 continue
             if _is_toa_line(tok):
-                own.append(line)
+                # FORMAT 1 is whitespace-delimited, so leading blanks carry no
+                # meaning — but PINT classifies ' …' lines with '.' at column 41
+                # as fixed-column Parkes format before honouring FORMAT 1.
+                # Strip them (Amendment 4e). Non-FORMAT-1 lines are kept raw.
+                own.append(line.strip() if state["fmt1"] else line)
                 n_toa += 1
             elif key in TEMPO2_COMMANDS - {"FORMAT"}:
                 own.append(line)
@@ -237,7 +241,7 @@ def load_variant(variant, with_residuals):
     pulsars, failed = {}, {}
     for psr_dir in sorted(p for p in vdir.iterdir() if p.is_dir()):
         name = psr_dir.name
-        cache = CACHE / f"{variant}_{name}_{tag}_a4d.npz"     # a4d: Amendment-4d reader
+        cache = CACHE / f"{variant}_{name}_{tag}_a4e.npz"     # a4e: Amendment-4e reader
         try:
             if cache.exists():
                 d = dict(np.load(cache))
