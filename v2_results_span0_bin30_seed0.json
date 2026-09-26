@@ -1,0 +1,282 @@
+{
+  "created_utc": "2026-09-26T04:59:09+00:00",
+  "script": "common_residual_search_v2.py",
+  "script_sha256": "089a94e073c962eb332779e0cc50807ebbb30a6e3f02bb49bced0226497ec2b2",
+  "python": "3.13.12",
+  "numpy": "2.5.2",
+  "parameters": {
+    "bin_days": 30.0,
+    "min_overlap": 12,
+    "n_null": 2000,
+    "n_scramble": 2000,
+    "temporal_null": "mirror",
+    "detrend_deg": 2,
+    "seed": 0
+  },
+  "pulsars": [
+    "B1855+09",
+    "B1937+21",
+    "B1953+29",
+    "J0023+0923",
+    "J0030+0451",
+    "J0340+4130",
+    "J0406+3039",
+    "J0437-4715",
+    "J0509+0856",
+    "J0557+1551",
+    "J0605+3757",
+    "J0610-2100",
+    "J0613-0200",
+    "J0614-3329",
+    "J0636+5128",
+    "J0645+5158",
+    "J0709+0458",
+    "J0740+6620",
+    "J0931-1902",
+    "J1012+5307",
+    "J1012-4235",
+    "J1022+1001",
+    "J1024-0719",
+    "J1125+7819",
+    "J1312+0051",
+    "J1453+1902",
+    "J1455-3330",
+    "J1600-3053",
+    "J1614-2230",
+    "J1630+3734",
+    "J1640+2224",
+    "J1643-1224",
+    "J1705-1903",
+    "J1713+0747",
+    "J1719-1438",
+    "J1730-2304",
+    "J1738+0333",
+    "J1741+1351",
+    "J1744-1134",
+    "J1745+1017",
+    "J1747-4036",
+    "J1751-2857",
+    "J1802-2124",
+    "J1811-2405",
+    "J1832-0836",
+    "J1843-1113",
+    "J1853+1303",
+    "J1903+0327",
+    "J1909-3744",
+    "J1910+1256",
+    "J1911+1347",
+    "J1918-0642",
+    "J1923+2515",
+    "J1944+0907",
+    "J1946+3417",
+    "J2010-1323",
+    "J2017+0603",
+    "J2033+1734",
+    "J2043+1711",
+    "J2124-3358",
+    "J2145-0750",
+    "J2214+3000",
+    "J2229+2643",
+    "J2234+0611",
+    "J2234+0944",
+    "J2302+4442",
+    "J2317+1439",
+    "J2322+2057"
+  ],
+  "binned_data_sha256": "14306f54ef2841111afc38fb3b6f428266eda7c73466dbbad4b11cc9c1106e9f",
+  "n_pairs_used": 2258,
+  "primary_family": {
+    "tests": [
+      "cross_correlation",
+      "monopole",
+      "hd_sky_scramble"
+    ],
+    "p_raw": [
+      0.04547726136931534,
+      0.03498250874562719,
+      0.03398300849575212
+    ],
+    "p_bh": [
+      0.04547726136931534,
+      0.04547726136931534,
+      0.04547726136931534
+    ],
+    "reject": [
+      true,
+      true,
+      true
+    ],
+    "status": "pre-specified before the V2 real-data run (not formally preregistered)"
+  },
+  "exploratory_family": {
+    "tests": [
+      "hd_perp_mono:shift",
+      "hd_perp_mono:scramble",
+      "hd_perp_mono_dipole:shift",
+      "hd_perp_mono_dipole:scramble"
+    ],
+    "p_raw": [
+      0.013493253373313344,
+      0.025987006496751622,
+      0.025987006496751622,
+      0.046476761619190406
+    ],
+    "reject": [
+      true,
+      true,
+      true,
+      true
+    ],
+    "status": "added after seeing V2 results — exploratory only"
+  },
+  "null_distributions": {
+    "P1_cross_correlation": {
+      "observed": 1.502055539010207,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": 1.3219266892457968,
+      "null_std": 0.09480108261176938,
+      "null_quantiles": {
+        "0.05": 1.1883276122049837,
+        "0.5": 1.3108579573310342,
+        "0.95": 1.4952222606386867,
+        "0.99": 1.6096318718045088
+      },
+      "n_exceed": 90,
+      "p": 0.04547726136931534,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "P2_monopole": {
+      "observed": 2.7603259229992347,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": 0.0020931492776075375,
+      "null_std": 1.3480744191620355,
+      "null_quantiles": {
+        "0.05": -2.031048296642579,
+        "0.5": -0.11415785252045198,
+        "0.95": 2.427271735310915,
+        "0.99": 3.415369347162538
+      },
+      "n_exceed": 69,
+      "p": 0.03498250874562719,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "P3_hd_sky_scramble": {
+      "observed": 3.849888144984242,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": 0.7187220206972441,
+      "null_std": 1.554486273482222,
+      "null_quantiles": {
+        "0.05": -1.6779167629915335,
+        "0.5": 0.6235974660357979,
+        "0.95": 3.4583433190529496,
+        "0.99": 4.975010084116081
+      },
+      "n_exceed": 67,
+      "p": 0.03398300849575212,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "info_hd_shift": {
+      "observed": 3.849888144984242,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.01647986480270932,
+      "null_std": 1.3304288225685814,
+      "null_quantiles": {
+        "0.05": -2.054202833144918,
+        "0.5": -0.09768434990742583,
+        "0.95": 2.3582007200979827,
+        "0.99": 3.3736318687694573
+      },
+      "n_exceed": 5,
+      "p": 0.0029985007496251873,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "info_dipole_trace_scramble": {
+      "observed": 2.6639622496107283,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": 0.5145375791407261,
+      "null_std": 1.5741094661409314,
+      "null_quantiles": {
+        "0.05": -1.8275059292303997,
+        "0.5": 0.40379530728667945,
+        "0.95": 3.40543516064573,
+        "0.99": 4.7917002024935424
+      },
+      "n_exceed": 202,
+      "p": 0.10144927536231885,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_shift": {
+      "observed": 3.188159876942818,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.017716788223740735,
+      "null_std": 1.318204467776555,
+      "null_quantiles": {
+        "0.05": -2.079585747686867,
+        "0.5": -0.08737318162948635,
+        "0.95": 2.242635618677779,
+        "0.99": 3.3657543031523125
+      },
+      "n_exceed": 26,
+      "p": 0.013493253373313344,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_scramble": {
+      "observed": 3.188159876942818,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.023902959762359836,
+      "null_std": 1.5537666367118061,
+      "null_quantiles": {
+        "0.05": -2.4606107125171452,
+        "0.5": -0.12013620771238553,
+        "0.95": 2.6102299992846927,
+        "0.99": 3.9895735896807354
+      },
+      "n_exceed": 51,
+      "p": 0.025987006496751622,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_dipole_shift": {
+      "observed": 2.7988702337967424,
+      "null_type": "mirror-shift within span",
+      "n_null": 2000,
+      "null_mean": -0.018460654714973566,
+      "null_std": 1.3559527995838172,
+      "null_quantiles": {
+        "0.05": -2.1730405448742243,
+        "0.5": -0.06671910183358566,
+        "0.95": 2.3187059001249635,
+        "0.99": 3.3661453633096974
+      },
+      "n_exceed": 51,
+      "p": 0.025987006496751622,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    },
+    "E_hd_perp_mono_dipole_scramble": {
+      "observed": 2.7988702337967424,
+      "null_type": "sky-position scramble",
+      "n_null": 2000,
+      "null_mean": -0.010637605740392948,
+      "null_std": 1.5643054364727125,
+      "null_quantiles": {
+        "0.05": -2.374722726665695,
+        "0.5": -0.09756551911096112,
+        "0.95": 2.704217352020053,
+        "0.99": 4.2614879122924325
+      },
+      "n_exceed": 92,
+      "p": 0.046476761619190406,
+      "p_formula": "(n_exceed + 1) / (n_null + 1), one-sided, null >= observed"
+    }
+  },
+  "hd_monopole_overlap": 0.2715194971305484,
+  "configuration_family": "PRIMARY",
+  "min_span_yr": 0.0,
+  "data": "NANOGrav 15-yr v2.1.0 narrowband epoch-averaged residuals, doi:10.5281/zenodo.16051178 (archive MD5 557d42dd8486a5f8272d90dec9b228a8)"
+}
