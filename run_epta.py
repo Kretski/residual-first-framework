@@ -120,8 +120,10 @@ def split_tim_tempo2(tim, out_dir):
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     leaves = []
+    state = {"fmt1": False}     # tempo2/PINT: FORMAT is GLOBAL state in reading order (Amendment 4d)
 
-    def read(path, fmt1=False, depth=0):
+    def read(path, depth=0):
+        fmt1_at_start = state["fmt1"]
         own, n_toa, dropped, skipped, ended = [], 0, 0, 0, False
         for raw in open(path, errors="replace"):
             line = raw.rstrip("\n")
@@ -135,23 +137,24 @@ def split_tim_tempo2(tim, out_dir):
             if key == "END":
                 ended = True
                 continue
-            if key == "FORMAT" and len(tok) > 1 and tok[1] == "1":
-                fmt1 = True
+            if key == "FORMAT":
+                state["fmt1"] = len(tok) > 1 and tok[1] == "1"
+                own.append(line)                      # kept in place: applies to the lines after it
                 continue
             if key == "INCLUDE" and len(tok) > 1 and depth < 5:
                 p = Path(tok[1])
-                read(p if p.is_absolute() else (path.parent / p).resolve(), fmt1, depth + 1)
+                read(p if p.is_absolute() else (path.parent / p).resolve(), depth + 1)
                 continue
             if _is_toa_line(tok):
                 own.append(line)
                 n_toa += 1
-            elif key in TEMPO2_COMMANDS:
+            elif key in TEMPO2_COMMANDS - {"FORMAT"}:
                 own.append(line)
             else:
                 dropped += 1
         if n_toa:
             dst = out_dir / f"{len(leaves):03d}_{path.name}"
-            dst.write_text(("FORMAT 1\n" if fmt1 else "") + "\n".join(own) + "\n")
+            dst.write_text(("FORMAT 1\n" if fmt1_at_start else "") + "\n".join(own) + "\n")
             leaves.append((dst, path.name, n_toa, dropped, skipped))
 
     read(Path(tim).resolve())
@@ -234,7 +237,7 @@ def load_variant(variant, with_residuals):
     pulsars, failed = {}, {}
     for psr_dir in sorted(p for p in vdir.iterdir() if p.is_dir()):
         name = psr_dir.name
-        cache = CACHE / f"{variant}_{name}_{tag}_a4c.npz"     # a4c: Amendment-4c reader
+        cache = CACHE / f"{variant}_{name}_{tag}_a4d.npz"     # a4d: Amendment-4d reader
         try:
             if cache.exists():
                 d = dict(np.load(cache))

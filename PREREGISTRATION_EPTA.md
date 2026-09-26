@@ -145,3 +145,14 @@ was WRONG. All EPTA files are tempo2 FORMAT 1:
 Reader rule now: FORMAT inherited from including files; a line is kept only if it
 is a valid FORMAT 1 TOA line (numeric frequency, MJD, error) or a known tempo2
 command; all other lines are dropped and the number dropped is printed per file.
+
+### Amendment 4d (same day, still before any residual)
+
+Remaining failures (J0751+1807 JBO.DFB.1520.tim, J0613-0200 LEAP.1396.tim) were
+standard FORMAT 1 lines parsed by PINT as Princeton format. Cause: the 4c reader
+passed FORMAT only from parent to child, whereas in tempo2 (and in PINT's own
+INCLUDE handling) FORMAT is global state in reading order — once set by any
+earlier file it applies to all following files. Fix: FORMAT tracked as global
+state; FORMAT lines kept in place; a copy gets a leading 'FORMAT 1' only if that
+state was already set when the file started. Dropped lines remain only EPTA's own
+commented-out TOAs, printed per file.
