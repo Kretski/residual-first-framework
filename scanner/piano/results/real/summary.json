@@ -1,9 +1,9 @@
 {
   "config_hash": "639993ecfbe5fc3b",
   "null": {
-    "M": 0,
-    "fpr": NaN,
-    "binom_p": NaN
+    "M": 19,
+    "fpr": 0.3684210526315789,
+    "binom_p": 4.534831506714599e-10
   },
   "stopped": true
 }

@@ -52,9 +52,9 @@ except Exception:
 # Хешът ѝ се записва във всеки изход, за да може да се цитира в регистрацията.
 # ----------------------------------------------------------------------------
 CONFIG = {
-    "version": "0.3.0",
+    "version": "0.4.1",
     "analysis": {
-        "skip_after_peak_s": 0.10,     # пропуск след удара (преходен процес)
+        "skip_after_peak_s": 0.10,     # пропуск след началото на тона (преходен процес)
         "window_s": 1.0,               # дължина на анализирания участък
         "min_window_s": 0.3,           # по-къс участък → нотата се изключва
         "zero_pad": 8,                 # допълване с нули при FFT
@@ -68,10 +68,16 @@ CONFIG = {
         "max_consecutive_misses": 3,   # спиране след толкова пропуснати поред
         "f_max_hz": 12000.0,           # горна граница на честотата
         "weights": "snr",              # тегла във фита: σ_n ∝ 1/SNR
+        "onset_rel": 0.1,              # начало на тона: 10 % от максимума
+        "freq_method": "phase_demod",  # честота чрез фазова демодулация (устойчиво на вибрато)
+        "ref_max_n": 6,                # общата фаза φ(t) — от 3-те най-силни обертона с n ≤ 6
+        "phase_halfband_rel": 0.4,     # лента около обертона: ±0.4·f0
+        "phase_max_rms": 1.0,          # обертон с по-разхвърляна фаза [rad] отпада
     },
     "templates": [0, 2, 3, 4],
     "stats": {
         "alpha_note": 0.01,            # праг на ниво нота (след Holm по шаблоните)
+        "min_effect_cents": 0.1,       # минимален размер: |отклонение при n = 10| ≥ 0.1 цента
         "barrier_test_alpha": 0.05,    # бариера: СТОП, ако броят фалшиви аларми е
                                        # значимо над α (едностранен биномен тест)
         "group_alpha": 0.001,          # праг за структура в групата за търсене
@@ -144,8 +150,13 @@ def load_audio(path):
 # Спектър и проследяване на обертоновете
 # ----------------------------------------------------------------------------
 def analysis_segment(x, sr, a):
-    i_peak = int(np.argmax(np.abs(x)))
-    start = i_peak + int(a["skip_after_peak_s"] * sr)
+    """Участъкът започва skip_after_peak_s след НАЧАЛОТО на тона (първото
+    надвишаване на onset_rel от максимума на обвивката). При удар (пиано)
+    началото практически съвпада с максимума; при смичок — не."""
+    k = max(1, int(0.01 * sr))
+    env = np.convolve(np.abs(x), np.ones(k) / k, mode="same")
+    i_on = int(np.argmax(env >= a["onset_rel"] * env.max()))
+    start = i_on + int(a["skip_after_peak_s"] * sr)
     seg = x[start:start + int(a["window_s"] * sr)]
     if len(seg) < int(a["min_window_s"] * sr):
         return None
@@ -175,6 +186,56 @@ def find_peak(mag, df, lo, hi, floor_lo, floor_hi, snr_db):
     denom = a_ - 2 * b_ + c_
     delta = 0.5 * (a_ - c_) / denom if denom < 0 else 0.0
     return (k + delta) * df, snr
+
+
+def _band(X, f, f_c, halfband):
+    """Изолира лента ±halfband около f_c (гладка маска) → комплексен сигнал."""
+    u = (f - f_c) / halfband
+    mask = np.where(np.abs(u) < 1, 0.5 * (1 + np.cos(np.pi * u)), 0.0)
+    mask[f < 0] = 0.0                                   # аналитичен сигнал
+    return np.fft.ifft(X * mask) * 2
+
+
+def refine_phase_demod(seg, sr, found, a):
+    """
+    Честоти на обертоновете чрез фазова демодулация.
+    1) От най-силните ниски обертони (n ≤ ref_max_n) се измерва общата фаза
+       φ(t) = средно на ψ_k(t)/k — тя съдържа вибратото и дрейфа на тона.
+    2) За всеки обертон остатъчната фаза θ_n(t) = arg[y_n · e^{-i n φ(t)}]
+       се фитва с права (еднакви времеви тегла за всички n).
+       f_n = n·f_ref + наклон/2π.
+    При точно хармоничен звук θ_n е константа за всяко n, дори с вибрато.
+    Обертон с rms на θ_n над phase_max_rms (шум / изгубена фаза) отпада.
+    """
+    N = len(seg)
+    X = np.fft.fft(seg)
+    f = np.fft.fftfreq(N, 1.0 / sr)
+    t = np.arange(N) / sr
+    f1 = np.median([fn / n for n, fn, _ in found[:5]])
+    hb = a["phase_halfband_rel"] * f1
+    i0, i1 = int(0.1 * N), int(0.9 * N)
+    tt = t[i0:i1] - t[i0:i1].mean()
+    A = np.column_stack([tt, np.ones_like(tt)])
+
+    low = [p for p in found if p[0] <= a["ref_max_n"]]
+    ref = sorted(low, key=lambda p: -p[2])[:3]
+    phis = []
+    for n, fn, _ in ref:
+        psi = np.unwrap(np.angle(_band(X, f, fn, hb)))
+        phis.append((psi - psi[i0]) / n)
+    phi = np.mean(phis, axis=0)
+    c_ref, *_ = np.linalg.lstsq(A, phi[i0:i1], rcond=None)
+    f_ref = c_ref[0] / (2 * np.pi)
+
+    out = []
+    for n, fn, snr in found:
+        z = _band(X, f, fn, hb) * np.exp(-1j * n * phi)
+        th = np.unwrap(np.angle(z))[i0:i1]
+        c, *_ = np.linalg.lstsq(A, th, rcond=None)
+        rms = float(np.sqrt(np.mean((th - A @ c) ** 2)))
+        if rms <= a["phase_max_rms"]:
+            out.append((n, n * f_ref + c[0] / (2 * np.pi), snr))
+    return out
 
 
 def track_partials(seg, sr, f_nom, a):
@@ -211,6 +272,8 @@ def track_partials(seg, sr, f_nom, a):
             continue
         misses = 0
         found.append((n, pk[0], pk[1]))
+    if a["freq_method"] == "phase_demod" and len(found) >= 2:
+        found = refine_phase_demod(seg, sr, found, a)
     return found
 
 
@@ -282,11 +345,18 @@ def analyze_signal(x, sr, f_nom, cfg=CONFIG):
     fit = fit_templates(n, f, cfg["templates"], w=snr if cfg["analysis"]["weights"] == "snr" else None)
     alpha = cfg["stats"]["alpha_note"]
     w = fit["winner"]
+    for p, v in fit["per"].items():
+        # размер на ефекта: отклонение на 10-ия обертон спрямо 10·f0, в цента
+        rel = v["a"] * 10.0 ** p / (10.0 * v["f0"])
+        v["cents10"] = float(1200 * np.log2(max(1e-12, 1 + rel)))
+    min_c = cfg["stats"]["min_effect_cents"]
+    flag = {p: bool(fit["per"][p]["padj"] < alpha and abs(fit["per"][p]["cents10"]) >= min_c)
+            for p in cfg["templates"]}
     res = {
         "n_partials": n_all, "n_fit": len(n), "f0_fit": fit["f0_fit"],
         "winner": w,
-        "significant": bool(fit["per"][w]["padj"] < alpha),
-        "flags": {p: bool(fit["per"][p]["padj"] < alpha) for p in cfg["templates"]},
+        "significant": flag[w],
+        "flags": flag,
         "per": fit["per"], "n": n, "f": f, "resid": fit["resid"],
         # вторично тълкуване (отделен модул): твърда струна, Δf ≈ (f0 B/2) n³
         "B_est": 2.0 * fit["per"][3]["a"] / fit["per"][3]["f0"] if 3 in fit["per"] else np.nan,
@@ -406,7 +476,7 @@ def write_notes_csv(path, rows, cfg=CONFIG):
     cols = ["label", "midi", "note", "dynamic", "group", "f_nom", "n_partials",
             "n_fit", "f0_fit", "winner", "significant", "B_est"]
     for p in cfg["templates"]:
-        cols += [f"F_{p}", f"p_{p}", f"padj_{p}", f"a_{p}"]
+        cols += [f"F_{p}", f"p_{p}", f"padj_{p}", f"a_{p}", f"cents10_{p}"]
     with open(path, "w", newline="", encoding="utf-8") as fh:
         w = csv.writer(fh)
         w.writerow(cols)
@@ -416,7 +486,8 @@ def write_notes_csv(path, rows, cfg=CONFIG):
                      int(r["significant"]), f"{r['B_est']:.3e}"]
             for p in cfg["templates"]:
                 v = r["per"][p]
-                line += [f"{v['F']:.4g}", f"{v['p']:.3e}", f"{v['padj']:.3e}", f"{v['a']:.4e}"]
+                line += [f"{v['F']:.4g}", f"{v['p']:.3e}", f"{v['padj']:.3e}", f"{v['a']:.4e}",
+                         f"{v['cents10']:.4f}"]
             w.writerow(line)
 
 
@@ -571,6 +642,10 @@ def run_real(args):
         nrows, nskip = analyze_files(nfiles, "null_")
         nres = [r for _, r in nrows]
         fpr, pb, passed = barrier(nres)
+        from collections import Counter
+        reasons = Counter(why.split(" (")[0] for _, why in nskip)
+        if reasons:
+            print("  причини за изключване:", dict(reasons))
         print(f"\nреален нулев тест: {len(nres)} ноти (изключени {len(nskip)})")
         print(f"FPR на ниво нота: {fpr:.3f}  (очаквано ≤ {CONFIG['stats']['alpha_note']}), "
               f"биномно p = {pb:.3f}")
@@ -583,8 +658,20 @@ def run_real(args):
                 json.dump(summary, fh, indent=2, default=float)
             return 2
         print("БАРИЕРА: ПРЕМИНАТА")
+        if args.null_only:
+            print("(--null-only: пианото не се анализира)")
+            with open(os.path.join(args.out, "summary.json"), "w", encoding="utf-8") as fh:
+                json.dump(summary, fh, indent=2, default=float)
+            return 0
     else:
         print("\n(няма реален нулев тест — синтетичната бариера трябва да е минала)")
+
+    if args.null_only:
+        print("--null-only изисква --null-data")
+        return 1
+    if not args.data:
+        print("липсва --data")
+        return 1
 
     # 2) Пиано: разделяне по фиксирано правило
     dyn = args.dynamic or CONFIG["primary_dynamic"]
@@ -652,7 +739,9 @@ def main():
     b.add_argument("--out", default="out_synth_inject")
 
     c = sub.add_parser("real", help="реални записи")
-    c.add_argument("--data", required=True, help="папка с нотите на пианото")
+    c.add_argument("--data", help="папка с нотите на пианото")
+    c.add_argument("--null-only", action="store_true",
+                   help="само нулевият тест; пианото не се анализира")
     c.add_argument("--null-data", help="папка с хармоничен инструмент (нулев тест)")
     c.add_argument("--dynamic", choices=list(DYNAMICS) + ["all"])
     c.add_argument("--plots", type=int, default=0, help="брой графики на остатъци")

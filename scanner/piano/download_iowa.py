@@ -4,7 +4,8 @@
 download_iowa.py — сваля данните за Модул 0 (пиано) от University of Iowa MIS.
 
   data/Piano   ← Piano.mf.<нота>.aiff  (Steinway B, 2001, 16 bit / 44.1 kHz, стерео)
-  data/Violin  ← Violin.arco.ff.sul*.stereo.zip (2012, безехова камера), разархивирани
+  data/Violin  ← Violin.arco.ff.sul*.stereo.zip (2012, безехова камера) — нулев тест за разработка
+  data/Cello   ← Cello.arco.ff.sul*.stereo.zip  (2012, безехова камера) — окончателен нулев тест
 
 Пускане от папката scanner\\piano:
   python download_iowa.py
@@ -23,7 +24,9 @@ except Exception:
 
 BASE = "https://theremin.music.uiowa.edu/"
 PIANO_DIR = "sound files/MIS/Piano_Other/piano/"
-VIOLIN_DIR = "sound files/MIS Pitches - 2014/Strings/Violin/"
+STRINGS_DIR = "sound files/MIS Pitches - 2014/Strings/"
+STRING_SETS = {"Violin": ["sulG", "sulD", "sulA", "sulE"],
+               "Cello": ["sulC", "sulG", "sulD", "sulA"]}
 NAMES = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"]
 DYNAMIC = "mf"
 
@@ -49,8 +52,7 @@ def fetch(u, dest):
 
 def main():
     os.makedirs("data/Piano", exist_ok=True)
-    os.makedirs("data/Violin", exist_ok=True)
-
+    
     print("=== Пиано, динамика", DYNAMIC, "===")
     ok = 0
     for midi in range(21, 109):                       # A0 … C8
@@ -61,26 +63,29 @@ def main():
         print(f"  {fn:22s} {status}")
     print(f"пиано: {ok} файла")
 
-    print("\n=== Цигулка arco (нулев тест) ===")
-    for s in ["sulG", "sulD", "sulA", "sulE"]:
-        fn = f"Violin.arco.ff.{s}.stereo.zip"
-        dest = os.path.join("data/Violin", fn)
-        print(f"  {fn:34s} {fetch(url(VIOLIN_DIR + fn), dest)}")
-        if os.path.exists(dest):
-            with zipfile.ZipFile(dest) as z:
-                for m in z.namelist():
-                    base = os.path.basename(m)
-                    # пропуска служебните файлове на macOS (__MACOSX, ._*)
-                    if "__MACOSX" in m or base.startswith("._") or not base:
-                        continue
-                    if base.lower().endswith((".aif", ".aiff")):
-                        out = os.path.join("data/Violin", base)
-                        if not os.path.exists(out):
-                            with open(out, "wb") as fh:
-                                fh.write(z.read(m))
-            os.remove(dest)
-    n_v = len([f for f in os.listdir("data/Violin") if f.lower().endswith((".aif", ".aiff"))])
-    print(f"цигулка: {n_v} файла")
+    for inst, strings in STRING_SETS.items():
+        folder = os.path.join("data", inst)
+        os.makedirs(folder, exist_ok=True)
+        print(f"\n=== {inst} arco (нулев тест) ===")
+        for st in strings:
+            fn = f"{inst}.arco.ff.{st}.stereo.zip"
+            dest = os.path.join(folder, fn)
+            print(f"  {fn:34s} {fetch(url(STRINGS_DIR + inst + '/' + fn), dest)}")
+            if os.path.exists(dest):
+                with zipfile.ZipFile(dest) as z:
+                    for m in z.namelist():
+                        base = os.path.basename(m)
+                        # пропуска служебните файлове на macOS (__MACOSX, ._*)
+                        if "__MACOSX" in m or base.startswith("._") or not base:
+                            continue
+                        if base.lower().endswith((".aif", ".aiff")):
+                            out = os.path.join(folder, base)
+                            if not os.path.exists(out):
+                                with open(out, "wb") as fh:
+                                    fh.write(z.read(m))
+                os.remove(dest)
+        n_f = len([f for f in os.listdir(folder) if f.lower().endswith((".aif", ".aiff"))])
+        print(f"{inst}: {n_f} файла")
 
 
 if __name__ == "__main__":
