@@ -1,0 +1,47 @@
+{
+  "config": {
+    "version": "0.4.1",
+    "analysis": {
+      "skip_after_peak_s": 0.1,
+      "window_s": 1.0,
+      "min_window_s": 0.3,
+      "zero_pad": 8,
+      "max_partials": 60,
+      "fit_max_n": 25,
+      "min_partials": 8,
+      "seed_tol_rel": 0.06,
+      "seed_max_n": 3,
+      "track_halfwidth_rel": 0.25,
+      "snr_db": 20.0,
+      "max_consecutive_misses": 3,
+      "f_max_hz": 12000.0,
+      "weights": "snr",
+      "onset_rel": 0.1,
+      "freq_method": "phase_demod",
+      "ref_max_n": 6,
+      "phase_halfband_rel": 0.4,
+      "phase_max_rms": 1.0
+    },
+    "templates": [
+      0,
+      2,
+      3,
+      4
+    ],
+    "stats": {
+      "alpha_note": 0.01,
+      "min_effect_cents": 0.1,
+      "barrier_test_alpha": 0.05,
+      "group_alpha": 0.001,
+      "confirm_alpha": 0.01,
+      "shape_majority": 0.6
+    },
+    "groups": {
+      "rule": "midi_parity",
+      "search": "even",
+      "confirm": "odd"
+    },
+    "primary_dynamic": "mf"
+  },
+  "config_hash": "5bdf34b190a4b9ef"
+}
