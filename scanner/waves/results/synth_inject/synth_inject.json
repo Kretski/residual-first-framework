@@ -1,0 +1,67 @@
+{
+ "config_hash": "f79a6d58b1611118",
+ "args": {
+  "mode": "synth-inject",
+  "m": 10,
+  "segments": 14,
+  "n0": 271,
+  "n1": 281,
+  "noise": 0.01,
+  "seed": 1,
+  "out": "results\\synth_inject",
+  "mults": [
+   0.0,
+   0.25,
+   0.5,
+   1.0,
+   2.0
+  ]
+ },
+ "table": [
+  {
+   "mult": 0.0,
+   "detect": 0.0,
+   "correct": 0.0,
+   "unique": 0.0,
+   "a_ratio_median": NaN
+  },
+  {
+   "mult": 0.25,
+   "detect": 0.5,
+   "correct": 0.4,
+   "unique": 0.0,
+   "a_ratio_median": 0.9937936973244876
+  },
+  {
+   "mult": 0.5,
+   "detect": 1.0,
+   "correct": 0.4,
+   "unique": 0.1,
+   "a_ratio_median": 0.9420556117425313
+  },
+  {
+   "mult": 1.0,
+   "detect": 1.0,
+   "correct": 1.0,
+   "unique": 0.8,
+   "a_ratio_median": 0.969734475002449
+  },
+  {
+   "mult": 2.0,
+   "detect": 1.0,
+   "correct": 1.0,
+   "unique": 1.0,
+   "a_ratio_median": 0.9928573632525222
+  },
+  {
+   "wrong_shape": 1,
+   "detect": 1.0,
+   "correct": 0.6
+  },
+  {
+   "wrong_shape": 3,
+   "detect": 1.0,
+   "correct": 1.0
+  }
+ ]
+}
