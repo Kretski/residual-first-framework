@@ -22,12 +22,11 @@ waves_scanner.py — Модул 0 (морски вълни, стерео пол�
   q = 0 се поглъща от g_eff и не се тества.
   q = 2 е формата на капилярния член и на Λ модела (ω² = gk(1 + Λk²)).
 
-Два предварително регистрирани теста:
-  ТЕСТ A (нулев):          база с C свободен; шаблони q ∈ {1, 3}.
-                           Очакване: нищо. (q = 2 не може да се тества тук:
-                           поглъща се от C.)
+Активен тест (v0.5.0):
   ТЕСТ B (известен ефект): база без C; шаблони q ∈ {1, 2, 3}.
                            Очакване: q = 2 с a > 0 (повърхностното напрежение).
+  Нулевата калибровка е синтетична; реалните данни НЕ са нулев тест.
+  Тест A (база с C свободен) е оттеглен във v0.5.0 — причината е в CONFIG["retired"].
 Разделяне: първата половина на записа — търсене, втората — потвърждение.
 
 Режими:
@@ -63,7 +62,7 @@ C_NOMINAL = GAMMA_NOMINAL / (RHO * G)        # ℓ_c² ≈ 7,23e-6 m²
 # ФИКСИРАНА КОНФИГУРАЦИЯ — хешът ѝ влиза в регистрацията
 # ----------------------------------------------------------------------------
 CONFIG = {
-    "version": "0.4.0",
+    "version": "0.5.0",
     "spectrum": {
         "seg_frames": 512,          # 42,7 s при 12 Hz → Δf = 0,0234 Hz
         "time_window": "hann",
@@ -82,12 +81,21 @@ CONFIG = {
         "weights": "inv_cg",        # тегло ∝ 1/c_g ∝ √k: грешката по ω идва от
                                     # ширината на клетката, σ ≈ c_g·Δk (калибрирано)
     },
-    "templates_A": [1, 3],
     "templates_B": [1, 2, 3],
+    "retired": {
+        "test_A": ("Оттеглен във v0.5.0 като решение за дизайна на модела, взето ПРЕДИ "
+                   "новата серия за бариерата на B. Причина: при свободен капилярен "
+                   "коефициент C, g_eff и шаблоните k^1/k^3 са почти колинеарни в "
+                   "k = 5,8–36 rad/m; систематичното изместване на хребета (~1e-4) се "
+                   "усилва до |a(k^1)| ~ 1e-3–4e-3. Наблюдавани провали на v0.4.0: "
+                   "2/40 (seed 1) и 8/200 (seed 1001, p = 0,001)."),
+    },
     "k_ref": 20.0,                  # rad/m, при него се мери размерът на ефекта
     "stats": {
         "alpha": 0.01,              # след Holm по шаблоните
-        "min_effect_rel": 2e-4,     # |δω/ω| при k_ref ≥ 0,02 %
+        "min_effect_rel": 5e-4,     # |δω/ω| при k_ref ≥ 0,05 %: систематичен праг
+                                    # (изместване на хребета до ~8e-4 по пръстени;
+                                    # 99-и процентил на |a(k^1)| в нулевите B: 4,7e-4)
         "barrier_test_alpha": 0.05,
     },
     "split": "first_half_search_second_half_confirm",
@@ -223,9 +231,11 @@ def _ftest(rss_small, rss_big, dof):
 
 def run_test(d, test, cfg=CONFIG):
     """test = 'A' или 'B'. Връща речник с резултатите."""
+    if test != "B":
+        raise ValueError("във v0.5.0 е активен само тест B (тест A е оттеглен, виж CONFIG['retired'])")
     k_ref = cfg["k_ref"]
-    with_C = test == "A"
-    templates = cfg["templates_A"] if test == "A" else cfg["templates_B"]
+    with_C = False
+    templates = cfg["templates_B"]
     wt = cfg["ridge"]["weights"]
     w = (np.sqrt(d["k"]) if wt == "inv_cg" else
          np.sqrt(d["snr"]) if wt == "sqrt_snr" else np.ones_like(d["k"]))
@@ -356,14 +366,6 @@ def run_synth_null(args):
         t0 = time.time()
         U = random_U(rng)
         row, line = {}, []
-        if "A" in args.tests:
-            # полето съдържа капилярност с неизвестен (случаен) коефициент
-            dA = synth_run(rng, args, U=U, C=C_NOMINAL * rng.uniform(0.6, 1.0))
-            rA = run_test(dA, "A")
-            row["A"] = rA
-            flags["A"].append(rA["any_flag"])
-            fl = [q for q, v in rA["per"].items() if v["flag"]]
-            line.append(f"A флаг {rA['any_flag']!s:5}" + (f" {['k^%d' % q for q in fl]}" if fl else ""))
         if "B" in args.tests:
             dB = synth_run(rng, args, U=U, C=0.0)          # без капилярност → нула за B
             rB = run_test(dB, "B")
@@ -492,37 +494,33 @@ def run_real(args):
     summary = {"config_hash": config_hash(), "file": os.path.basename(args.file)}
     res = {}
     for name in ("search", "confirm"):
-        P, f, ka, kb = spectra[name]
-        d = extract_ridge(P, f, ka, kb)
+        d = extract_ridge(*spectra[name])
         print(f"\n=== {name.upper()}: кандидат-клетки {d['n_candidates']}, над прага {len(d['k'])}, "
               f"Δf = {d['df_hz']:.4f} Hz ===")
-        rA, rB = run_test(d, "A"), run_test(d, "B")
-        print_test(rA, name)
+        rB = run_test(d, "B")
         print_test(rB, name)
-        res[name] = {"A": rA, "B": rB, "n_cells": len(d["k"])}
-    sA, cA = res["search"]["A"], res["confirm"]["A"]
+        res[name] = {"B": rB, "n_cells": len(d["k"])}
     sB, cB = res["search"]["B"], res["confirm"]["B"]
-    a_fail = sA["significant"] and cA["significant"] and sA["winner"] == cA["winner"]
+
     def b_ok(r):
         return r["significant"] and r["winner"] == 2 and r["per"][2]["a"] > 0
     b_found = b_ok(sB)
     b_conf = b_found and b_ok(cB)
     b_shape = b_conf and sB["shape_unique"] and cB["shape_unique"]
-    print("\n=== РЕЗУЛТАТ ===")
-    print("тест A (нулев): " + ("ПОТВЪРДЕНА структура — нулевият тест НЕ мина" if a_fail
-                                else "няма потвърдена структура — мина"))
-    print("тест B (капилярност): " + ("намерена и потвърдена (k^2, a > 0)" if b_conf
-                                      else "намерена, но не потвърдена" if b_found else "не е намерена"))
+    print("\n=== РЕЗУЛТАТ (v0.5.0, само тест B; нулевият тест е синтетичен) ===")
+    print("капилярен член k^2, a > 0: " + ("намерен и потвърден" if b_conf
+                                          else "намерен, но не потвърден" if b_found else "не е намерен"))
     if b_conf:
         print("   формата k^2 е " + ("РАЗЛИЧИМА от k^1 и k^3 и в двете половини" if b_shape
-                                     else "НЕРАЗЛИЧИМА от съседна форма (виж 'форма' по-горе)"))
+                                     else "НЕРАЗЛИЧИМА от съседна форма → отчита се като "
+                                          "'отклонение с неопределена форма'"))
     for name in ("search", "confirm"):
         a = res[name]["B"]["per"][2]["a"]
         C_est = 2 * a / CONFIG["k_ref"] ** 2
         print(f"[тълкуване, {name}] ℓ_c² ≈ {C_est:.2e} m² → γ ≈ {C_est * RHO * G:.4f} N/m "
               f"(чиста вода {GAMMA_NOMINAL})")
-    summary.update({"results": res, "A_failed": a_fail, "B_found": b_found,
-                    "B_confirmed": b_conf, "B_shape_unique": b_shape})
+    summary.update({"results": res, "B_found": b_found, "B_confirmed": b_conf,
+                    "B_shape_unique": b_shape})
     with open(os.path.join(args.out, "summary.json"), "w", encoding="utf-8") as fh:
         json.dump(summary, fh, indent=1, default=float, ensure_ascii=False)
 
@@ -539,7 +537,7 @@ def main():
         p.add_argument("--noise", type=float, default=0.01, help="шум на стереото [m]")
         p.add_argument("--seed", type=int, default=1)
         if name == "synth-null":
-            p.add_argument("--tests", default="AB", choices=["AB", "A", "B"])
+            p.add_argument("--tests", default="B", choices=["B"])
         p.add_argument("--out", default=f"results/{name.replace('-', '_')}")
         if name == "synth-inject":
             p.add_argument("--mults", type=float, nargs="+", default=[0.0, 0.25, 0.5, 1.0, 2.0])
