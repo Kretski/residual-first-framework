@@ -1,40 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-waves_scanner.py — Модул 0 (морски вълни, стерео поле η(x, y, t)) на търсачката
+waves_scanner.py — Module 0 (sea waves, stereo field η(x, y, t)) of the residual-first scanner
 =================================================================================
 
-Данни: IFREMER stereo data set (Guimarães et al. 2020, CC-BY), напр.
+Data: IFREMER stereo data set (Guimarães et al. 2020, CC-BY), e.g.
   BS_2011/2011-10-04_11-38-00_12Hz/nc/Surfaces_20111004_113800_short.nc
-  решетка 0,05 m, 12 Hz, 20 min; работна лента 0,6–3 Hz (дълбока вода, kh > 40).
+  grid 0.05 m, 12 Hz, 20 min; working band 0.6–3 Hz (deep water, kh > 40).
 
-Измерване: за всяка клетка k = (k_a, k_b) от тримерния спектър S(f, k_a, k_b)
-се намира честотата на хребета ω_meas(k) (максимум по f + параболично уточняване).
+Measurement: for every cell k = (k_a, k_b) of the 3-D spectrum S(f, k_a, k_b)
+the ridge frequency ω_meas(k) is found (maximum over f + parabolic refinement).
 
-Базов модел (параметрите се фитват съвместно, нелинейно):
+Baseline model (parameters fitted jointly, nonlinear least squares):
   ω = √(g_eff · k · (1 + C k²)) + k·U
-    g_eff  — свободен (поглъща грешка в мащаба на стерео калибровката)
-    U      — свободен вектор (течение / Доплер)
-    C      — капилярен коефициент ℓ_c² = γ/(ρg) (≈ 7,2·10⁻⁶ m²)
+    g_eff  — free (absorbs any scale error of the stereo calibration)
+    U      — free vector (current / Doppler)
+    C      — capillary coefficient ℓ_c² = γ/(ρg) (≈ 7.2·10⁻⁶ m²)
 
-Шаблони за остатъка (относителен ефект a при k_ref):
+Residual templates (relative effect a at k_ref):
   δω = a · √(g k) · (k / k_ref)^q
-  q = 0 се поглъща от g_eff и не се тества.
-  q = 2 е формата на капилярния член и на Λ модела (ω² = gk(1 + Λk²)).
+  q = 0 is absorbed by g_eff and is not tested.
+  q = 2 is the shape of the capillary term and of the Λ model (ω² = gk(1 + Λk²)).
 
-Активен тест (v0.5.0):
-  ТЕСТ B (известен ефект): база без C; шаблони q ∈ {1, 2, 3}.
-                           Очакване: q = 2 с a > 0 (повърхностното напрежение).
-  Нулевата калибровка е синтетична; реалните данни НЕ са нулев тест.
-  Тест A (база с C свободен) е оттеглен във v0.5.0 — причината е в CONFIG["retired"].
-Разделяне: първата половина на записа — търсене, втората — потвърждение.
+Active test (v0.5.x):
+  TEST B (known effect): baseline without C; templates q ∈ {1, 2, 3}.
+                         Expectation: q = 2 with a > 0 (surface tension).
+  The null calibration is synthetic; the real data are NOT a null test.
+  Test A (baseline with free C) was retired in v0.5.0 — reason in CONFIG["retired"].
+Split: first half of the record — search, second half — confirmation.
 
-Режими:
-  synth-null     синтетични полета (калибровъчна бариера за A и B)
-  synth-inject   синтетични полета: скала от капилярни амплитуди + грешни форми
-  real           реален NetCDF файл
+Modes:
+  synth-null     synthetic fields (calibration barrier for test B)
+  synth-inject   synthetic fields: scale of capillary amplitudes + wrong shapes
+  real           real NetCDF file
 
-Зависимости: numpy, scipy; за real: xarray, netCDF4.
+Dependencies: numpy, scipy; for real: xarray, netCDF4.
 """
 
 import argparse
@@ -55,47 +55,48 @@ except Exception:
 
 G = 9.81
 RHO = 1025.0
-GAMMA_NOMINAL = 0.0727                       # N/m, чиста морска вода ~20 °C
+GAMMA_NOMINAL = 0.0727                       # N/m, clean sea water ~20 °C
 C_NOMINAL = GAMMA_NOMINAL / (RHO * G)        # ℓ_c² ≈ 7,23e-6 m²
 
 # ----------------------------------------------------------------------------
-# ФИКСИРАНА КОНФИГУРАЦИЯ — хешът ѝ влиза в регистрацията
+# FIXED CONFIGURATION — its hash goes into the registration
 # ----------------------------------------------------------------------------
 CONFIG = {
-    "version": "0.5.0",
+    "version": "0.5.1",
+    "note": "English translation of v0.5.0 (config hash 069ba514c71704e5); no functional change.",
     "spectrum": {
-        "seg_frames": 512,          # 42,7 s при 12 Hz → Δf = 0,0234 Hz
+        "seg_frames": 512,          # 42.7 s at 12 Hz → Δf = 0.0234 Hz
         "time_window": "hann",
         "space_window": "hann",
-        "prewhiten": "laplacian",   # мощност × ~k⁴: изравнява наклона k⁻⁴ и
-                                    # премахва изместването от изтичане в k
+        "prewhiten": "laplacian",   # power × ~k⁴: flattens the k⁻⁴ slope and
+                                    # removes the frequency bias from leakage in k
     },
     "ridge": {
-        "band_hz": [1.2, 3.0],      # клетки с k от 5,8 до 36 rad/m; под 1,2 Hz
-                                    # стъпката по k е > 8 % от k и изтичането
-                                    # измества честотата (виж калибровката)
-        "search_hz": [0.2, 5.8],    # търсене на върха по f (Nyquist 6 Hz)
-        "snr_db": 10.0,             # мощност на върха / медиана по f ≥ 10 dB
-        "cell_stride": 2,           # само клетки с четни индекси (намалява
-                                    # корелацията от прозореца в пространството)
-        "weights": "inv_cg",        # тегло ∝ 1/c_g ∝ √k: грешката по ω идва от
-                                    # ширината на клетката, σ ≈ c_g·Δk (калибрирано)
+        "band_hz": [1.2, 3.0],      # cells with k from 5.8 to 36 rad/m; below 1.2 Hz
+                                    # the k step exceeds 8 % of k and leakage
+                                    # biases the frequency (see calibration)
+        "search_hz": [0.2, 5.8],    # peak search range in f (Nyquist 6 Hz)
+        "snr_db": 10.0,             # peak power / median over f ≥ 10 dB
+        "cell_stride": 2,           # only cells with even indices (reduces the
+                                    # correlation introduced by the spatial window)
+        "weights": "inv_cg",        # weight ∝ 1/c_g ∝ √k: the ω error comes from
+                                    # the cell width, σ ≈ c_g·Δk (calibrated)
     },
     "templates_B": [1, 2, 3],
     "retired": {
-        "test_A": ("Оттеглен във v0.5.0 като решение за дизайна на модела, взето ПРЕДИ "
-                   "новата серия за бариерата на B. Причина: при свободен капилярен "
-                   "коефициент C, g_eff и шаблоните k^1/k^3 са почти колинеарни в "
-                   "k = 5,8–36 rad/m; систематичното изместване на хребета (~1e-4) се "
-                   "усилва до |a(k^1)| ~ 1e-3–4e-3. Наблюдавани провали на v0.4.0: "
-                   "2/40 (seed 1) и 8/200 (seed 1001, p = 0,001)."),
+        "test_A": ("Retired in v0.5.0 as a model-design decision made BEFORE the "
+                   "new B barrier series. Reason: with a free capillary coefficient C, "
+                   "g_eff and the k^1/k^3 templates are nearly collinear for "
+                   "k = 5.8–36 rad/m; the systematic ridge bias (~1e-4) is amplified "
+                   "to |a(k^1)| ~ 1e-3–4e-3. Observed v0.4.0 failures: "
+                   "2/40 (seed 1) and 8/200 (seed 1001, p = 0.001)."),
     },
-    "k_ref": 20.0,                  # rad/m, при него се мери размерът на ефекта
+    "k_ref": 20.0,                  # rad/m, where the effect size is measured
     "stats": {
-        "alpha": 0.01,              # след Holm по шаблоните
-        "min_effect_rel": 5e-4,     # |δω/ω| при k_ref ≥ 0,05 %: систематичен праг
-                                    # (изместване на хребета до ~8e-4 по пръстени;
-                                    # 99-и процентил на |a(k^1)| в нулевите B: 4,7e-4)
+        "alpha": 0.01,              # after Holm over templates
+        "min_effect_rel": 5e-4,     # |δω/ω| at k_ref ≥ 0.05 %: systematic floor
+                                    # (ridge bias up to ~8e-4 per ring;
+                                    # 99th percentile of |a(k^1)| in B nulls: 4.7e-4)
         "barrier_test_alpha": 0.05,
     },
     "split": "first_half_search_second_half_confirm",
@@ -112,12 +113,12 @@ def k_deep(f_hz):
 
 
 # ----------------------------------------------------------------------------
-# Спектър
+# Spectrum
 # ----------------------------------------------------------------------------
 class SpectrumAccumulator:
-    """Осреднява |FFT|² на отрязъци (Welch без припокриване).
-    Индекс [f, a, b]; f ≥ 0. Вълна cos(k·x − ωt) с ω > 0 се появява
-    при пространствен индекс −k, затова векторът на разпространение е −(k_a, k_b)."""
+    """Averages |FFT|² over segments (Welch without overlap).
+    Index [f, a, b]; f ≥ 0. A wave cos(k·x − ωt) with ω > 0 appears at
+    spatial index −k, so the propagation vector is −(k_a, k_b)."""
 
     def __init__(self, nt, n0, n1, dt, dx0, dx1, prewhiten=None):
         self.prewhiten = CONFIG["spectrum"]["prewhiten"] if prewhiten is None else prewhiten
@@ -149,7 +150,7 @@ class SpectrumAccumulator:
 
 
 def extract_ridge(P, f, ka, kb, cfg=CONFIG):
-    """Връща масиви: kx, ky (вектор на разпространение), kmag, ω_meas, snr."""
+    """Returns arrays: kx, ky (propagation vector), kmag, ω_meas, snr."""
     r = cfg["ridge"]
     KA, KB = np.meshgrid(ka, kb, indexing="ij")
     kx, ky = -KA, -KB
@@ -186,7 +187,7 @@ def extract_ridge(P, f, ka, kb, cfg=CONFIG):
 
 
 # ----------------------------------------------------------------------------
-# Модели и тестове
+# Models and tests
 # ----------------------------------------------------------------------------
 def holm(p):
     p = np.asarray(p, float)
@@ -230,9 +231,9 @@ def _ftest(rss_small, rss_big, dof):
 
 
 def run_test(d, test, cfg=CONFIG):
-    """test = 'A' или 'B'. Връща речник с резултатите."""
+    """test = 'B'. Returns a dictionary with the results."""
     if test != "B":
-        raise ValueError("във v0.5.0 е активен само тест B (тест A е оттеглен, виж CONFIG['retired'])")
+        raise ValueError("only test B is active since v0.5.0 (test A retired, see CONFIG['retired'])")
     k_ref = cfg["k_ref"]
     with_C = False
     templates = cfg["templates_B"]
@@ -255,8 +256,8 @@ def run_test(d, test, cfg=CONFIG):
         per[q]["padj"] = float(pa)
         per[q]["flag"] = bool(pa < alpha and abs(per[q]["a"]) >= mine)
     winner = min(templates, key=lambda q: per[q]["rss"])
-    # Различима ли е формата? Победителят трябва да е нужен и при наличие на
-    # всеки друг шаблон (частичен F-тест, Holm по алтернативите).
+    # Is the shape distinguishable? The winner must be needed even in the presence
+    # of every other template (partial F-test, Holm over the alternatives).
     others = [q for q in templates if q != winner]
     part = {}
     for q in others:
@@ -272,7 +273,7 @@ def run_test(d, test, cfg=CONFIG):
         base["C"] = float(th0[3])
     significant = per[winner]["flag"]
     shape = (winner if shape_unique else
-             "неопределена: " + ", ".join(f"k^{q}" for q in [winner] + [q for q in others
+             "undetermined: " + ", ".join(f"k^{q}" for q in [winner] + [q for q in others
                                                                        if part[q]["padj"] >= alpha]))
     return {"test": test, "N": N, "base": base, "per": per, "winner": winner,
             "significant": significant, "shape_unique": shape_unique, "shape": shape,
@@ -280,26 +281,26 @@ def run_test(d, test, cfg=CONFIG):
 
 
 def print_test(r, label):
-    print(f"\n  [{label}] тест {r['test']}: клетки {r['N']}, "
+    print(f"\n  [{label}] test {r['test']}: cells {r['N']}, "
           + ", ".join(f"{k} = {v:.4g}" for k, v in r["base"].items()))
     for q, v in r["per"].items():
-        mark = "  ← значим" if v["flag"] else ""
-        print(f"     шаблон k^{q}: a = {v['a']:+.2e}   p(Holm) = {v['padj']:.2e}{mark}")
-    print(f"     най-добър: k^{r['winner']}, значим: {r['significant']}, форма: {r['shape']}")
+        mark = "  ← significant" if v["flag"] else ""
+        print(f"     template k^{q}: a = {v['a']:+.2e}   p(Holm) = {v['padj']:.2e}{mark}")
+    print(f"     best: k^{r['winner']}, significant: {r['significant']}, shape: {r['shape']}")
 
 
 # ----------------------------------------------------------------------------
-# Синтетично поле
+# Synthetic field
 # ----------------------------------------------------------------------------
 def synth_segments(rng, n_seg, nt, n0, n1, dt, dx, hs=0.4, fp=0.35, theta0=None,
                    spread_s=4, U=(0.0, 0.0), C=0.0, q_inj=None, a_inj=0.0,
                    noise_m=0.01, k_ref=20.0):
     """
-    Генератор на отрязъци η(t, x, y) с размер (nt, n0, n1).
-    Модите лежат на решетка с двойна плътност по k (поле 2× по-голямо,
-    изрязан център), така че вълновите числа не съвпадат с решетката
-    на анализа — както при истинско море.
-    Дисперсия: ω = √(g k (1 + C k²)) + k·U + a_inj √(g k)(k/k_ref)^q_inj.
+    Generator of segments η(t, x, y) of size (nt, n0, n1).
+    Modes lie on a grid with twice the k density (field 2× larger, centre
+    cropped), so the wavenumbers do not coincide with the analysis grid —
+    as in a real sea.
+    Dispersion: ω = √(g k (1 + C k²)) + k·U + a_inj √(g k)(k/k_ref)^q_inj.
     """
     N0, N1 = 2 * n0, 2 * n1
     ka = 2 * np.pi * np.fft.fftfreq(N0, dx)
@@ -359,7 +360,7 @@ def random_U(rng):
 def run_synth_null(args):
     os.makedirs(args.out, exist_ok=True)
     rng = np.random.default_rng(args.seed)
-    print(f"хеш на конфигурацията: {config_hash()}  (seed {args.seed}, тестове {args.tests})")
+    print(f"config hash: {config_hash()}  (seed {args.seed}, tests {args.tests})")
     flags = {t: [] for t in args.tests}
     rows = []
     for i in range(args.m):
@@ -367,32 +368,32 @@ def run_synth_null(args):
         U = random_U(rng)
         row, line = {}, []
         if "B" in args.tests:
-            dB = synth_run(rng, args, U=U, C=0.0)          # без капилярност → нула за B
+            dB = synth_run(rng, args, U=U, C=0.0)          # no capillarity → null for B
             rB = run_test(dB, "B")
             row["B"] = rB
             flags["B"].append(rB["any_flag"])
             fl = [q for q, v in rB["per"].items() if v["flag"]]
-            line.append(f"B флаг {rB['any_flag']!s:5}" + (f" {['k^%d' % q for q in fl]}" if fl else ""))
+            line.append(f"B flag {rB['any_flag']!s:5}" + (f" {['k^%d' % q for q in fl]}" if fl else ""))
         rows.append(row)
         print(f"  {i + 1:3d}/{args.m}: " + "  ".join(line) + f"  ({time.time() - t0:.0f} s)", flush=True)
-        if (i + 1) % 10 == 0:                              # междинен запис
+        if (i + 1) % 10 == 0:                              # intermediate save
             with open(os.path.join(args.out, "synth_null.json"), "w", encoding="utf-8") as fh:
                 json.dump({"config_hash": config_hash(), "args": vars(args), "runs": rows}, fh,
                           indent=1, default=float)
     for name, fl in flags.items():
         fpr, pb, ok = barrier(fl)
-        print(f"тест {name}: {sum(fl)}/{len(fl)}, FPR {fpr:.3f} (цел ≤ {CONFIG['stats']['alpha']}), "
-              f"биномно p = {pb:.3f} → {'ПРЕМИНАТА' if ok else 'НЕ Е ПРЕМИНАТА → СТОП'}")
+        print(f"test {name}: {sum(fl)}/{len(fl)}, FPR {fpr:.3f} (target ≤ {CONFIG['stats']['alpha']}), "
+              f"binomial p = {pb:.3f} → {'PASSED' if ok else 'NOT PASSED → STOP'}")
     with open(os.path.join(args.out, "synth_null.json"), "w", encoding="utf-8") as fh:
         json.dump({"config_hash": config_hash(), "args": vars(args), "runs": rows}, fh,
                   indent=1, default=float)
 
 
 def _declared(r):
-    """Какво обявява скенерът: 'няма', 'k^q (различима)' или 'k^q (неопределена)'."""
+    """What the scanner declares: 'none', 'k^q distinguishable' or 'k^q undetermined'."""
     if not r["significant"]:
-        return "няма"
-    return f"k^{r['winner']}" + (" различима" if r["shape_unique"] else " неопределена")
+        return "none"
+    return f"k^{r['winner']}" + (" distinguishable" if r["shape_unique"] else " undetermined")
 
 
 def _summary_line(label, decl, n):
@@ -405,23 +406,23 @@ def _summary_line(label, decl, n):
 
 def run_synth_inject(args):
     """
-    Три отделни метрики за всяка инжекция:
-      detection_rate            — значимо отклонение (каквато и да е форма)
-      form_identification_rate  — печели вярната форма И е различима
-      false_form_rate           — обявена е РАЗЛИЧИМА, но грешна форма
+    Three separate metrics for every injection:
+      detection_rate            — significant deviation (any shape)
+      form_identification_rate  — the true shape wins AND is distinguishable
+      false_form_rate           — a DISTINGUISHABLE but wrong shape is declared
     """
     os.makedirs(args.out, exist_ok=True)
     rng = np.random.default_rng(args.seed)
-    print(f"хеш на конфигурацията: {config_hash()}  (seed {args.seed})")
+    print(f"config hash: {config_hash()}  (seed {args.seed})")
     a_cap = C_NOMINAL * CONFIG["k_ref"] ** 2 / 2
-    print(f"очакван капилярен ефект при k_ref = {CONFIG['k_ref']} rad/m: δω/ω ≈ {a_cap:.2e}\n")
+    print(f"expected capillary effect at k_ref = {CONFIG['k_ref']} rad/m: δω/ω ≈ {a_cap:.2e}\n")
     cases = []
     if "cap" in args.parts:
-        cases += [(f"капилярност ×{m:g}", 2, dict(C=C_NOMINAL * m), m) for m in args.mults]
+        cases += [(f"capillarity ×{m:g}", 2, dict(C=C_NOMINAL * m), m) for m in args.mults]
     if "wrong" in args.parts:
-        cases += [(f"грешна форма k^{q}", q, dict(C=0.0, q_inj=q, a_inj=a_cap), 1.0) for q in (1, 3)]
+        cases += [(f"wrong shape k^{q}", q, dict(C=0.0, q_inj=q, a_inj=a_cap), 1.0) for q in (1, 3)]
     table = []
-    print("тест B; разпределение на обявеното (дял от реализациите)")
+    print("test B; distribution of declared outcomes (fraction of realizations)")
     for label, q_true, kw, mult in cases:
         decl, ratios = [], []
         for _ in range(args.m):
@@ -431,14 +432,14 @@ def run_synth_inject(args):
                 ratios.append(r["per"][2]["a"] / (a_cap * mult))
         n = len(decl)
         counts = _summary_line(label, decl, n)
-        det = sum(d != "няма" for d in decl) / n
-        ident = counts.get(f"k^{q_true} различима", 0) / n
+        det = sum(d != "none" for d in decl) / n
+        ident = counts.get(f"k^{q_true} distinguishable", 0) / n
         false = sum(v for k, v in counts.items()
-                    if k.endswith("различима") and not k.startswith(f"k^{q_true} ")) / n
-        if label.startswith("капилярност ×0"):
+                    if k.endswith("distinguishable") and not k.startswith(f"k^{q_true} ")) / n
+        if q_true == 2 and mult == 0:
             ident = false = float("nan")
         print(f"     detection {det:.2f} | form_identification {ident:.2f} | false_form {false:.2f}"
-              + (f" | медиана a/a_вярно {np.median(ratios):.3f}" if ratios else ""), flush=True)
+              + (f" | median a/a_true {np.median(ratios):.3f}" if ratios else ""), flush=True)
         table.append({"case": label, "q_true": q_true, "counts": counts, "detection_rate": det,
                       "form_identification_rate": ident, "false_form_rate": false,
                       "a_ratio_median": float(np.median(ratios)) if ratios else None})
@@ -448,7 +449,7 @@ def run_synth_inject(args):
 
 
 # ----------------------------------------------------------------------------
-# Реални данни
+# Real data
 # ----------------------------------------------------------------------------
 def spectra_real(path, out):
     import xarray as xr
@@ -463,15 +464,15 @@ def spectra_real(path, out):
     n_total = Z.shape[0]
     n_seg = n_total // nt
     half = n_seg // 2
-    print(f"решетка {Z.shape[1]}×{Z.shape[2]}, стъпки {d0:.3f}/{d1:.3f} m, dt {dt:.4f} s; "
-          f"{n_seg} отрязъка по {nt} кадъра (Δf = {1 / (nt * dt):.4f} Hz)")
+    print(f"grid {Z.shape[1]}×{Z.shape[2]}, steps {d0:.3f}/{d1:.3f} m, dt {dt:.4f} s; "
+          f"{n_seg} segments of {nt} frames (Δf = {1 / (nt * dt):.4f} Hz)")
     spectra = {}
     for name, rng_ in (("search", range(0, half)), ("confirm", range(half, 2 * half))):
         cache = os.path.join(out, f"spectrum_{name}.npz")
         if os.path.exists(cache):
             c = np.load(cache)
             spectra[name] = (c["P"], c["f"], c["ka"], c["kb"])
-            print(f"  {name}: от кеша {cache}")
+            print(f"  {name}: from cache {cache}")
             continue
         acc = SpectrumAccumulator(nt, Z.shape[1], Z.shape[2], dt, d0, d1)
         for s in rng_:
@@ -480,7 +481,7 @@ def spectra_real(path, out):
             if np.isnan(z).any():
                 z = np.nan_to_num(z, nan=0.0)
             acc.add(z)
-            print(f"  {name}: отрязък {s + 1}/{n_seg} ({time.time() - t0:.0f} s)", flush=True)
+            print(f"  {name}: segment {s + 1}/{n_seg} ({time.time() - t0:.0f} s)", flush=True)
         P = acc.mean()
         np.savez_compressed(cache, P=P.astype(np.float32), f=acc.f, ka=acc.ka, kb=acc.kb)
         spectra[name] = (P, acc.f, acc.ka, acc.kb)
@@ -489,13 +490,13 @@ def spectra_real(path, out):
 
 def run_real(args):
     os.makedirs(args.out, exist_ok=True)
-    print(f"хеш на конфигурацията: {config_hash()}")
+    print(f"config hash: {config_hash()}")
     spectra = spectra_real(args.file, args.out)
     summary = {"config_hash": config_hash(), "file": os.path.basename(args.file)}
     res = {}
     for name in ("search", "confirm"):
         d = extract_ridge(*spectra[name])
-        print(f"\n=== {name.upper()}: кандидат-клетки {d['n_candidates']}, над прага {len(d['k'])}, "
+        print(f"\n=== {name.upper()}: candidate cells {d['n_candidates']}, above threshold {len(d['k'])}, "
               f"Δf = {d['df_hz']:.4f} Hz ===")
         rB = run_test(d, "B")
         print_test(rB, name)
@@ -507,18 +508,18 @@ def run_real(args):
     b_found = b_ok(sB)
     b_conf = b_found and b_ok(cB)
     b_shape = b_conf and sB["shape_unique"] and cB["shape_unique"]
-    print("\n=== РЕЗУЛТАТ (v0.5.0, само тест B; нулевият тест е синтетичен) ===")
-    print("капилярен член k^2, a > 0: " + ("намерен и потвърден" if b_conf
-                                          else "намерен, но не потвърден" if b_found else "не е намерен"))
+    print("\n=== RESULT (v0.5.x, test B only; the null test is synthetic) ===")
+    print("capillary term k^2, a > 0: " + ("found and confirmed" if b_conf
+                                          else "found but not confirmed" if b_found else "not found"))
     if b_conf:
-        print("   формата k^2 е " + ("РАЗЛИЧИМА от k^1 и k^3 и в двете половини" if b_shape
-                                     else "НЕРАЗЛИЧИМА от съседна форма → отчита се като "
-                                          "'отклонение с неопределена форма'"))
+        print("   the k^2 shape is " + ("DISTINGUISHABLE from k^1 and k^3 in both halves" if b_shape
+                                     else "NOT DISTINGUISHABLE from a neighbouring shape → reported as "
+                                          "'deviation with undetermined shape'"))
     for name in ("search", "confirm"):
         a = res[name]["B"]["per"][2]["a"]
         C_est = 2 * a / CONFIG["k_ref"] ** 2
-        print(f"[тълкуване, {name}] ℓ_c² ≈ {C_est:.2e} m² → γ ≈ {C_est * RHO * G:.4f} N/m "
-              f"(чиста вода {GAMMA_NOMINAL})")
+        print(f"[interpretation, {name}] ℓ_c² ≈ {C_est:.2e} m² → γ ≈ {C_est * RHO * G:.4f} N/m "
+              f"(clean water {GAMMA_NOMINAL})")
     summary.update({"results": res, "B_found": b_found, "B_confirmed": b_conf,
                     "B_shape_unique": b_shape})
     with open(os.path.join(args.out, "summary.json"), "w", encoding="utf-8") as fh:
@@ -526,15 +527,15 @@ def run_real(args):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Модул 0 (морски вълни) на търсачката")
+    ap = argparse.ArgumentParser(description="Module 0 (sea waves) of the residual-first scanner")
     sub = ap.add_subparsers(dest="mode", required=True)
     for name in ("synth-null", "synth-inject"):
         p = sub.add_parser(name)
-        p.add_argument("--m", type=int, default=(40 if name == "synth-null" else 10), help="брой реализации")
-        p.add_argument("--segments", type=int, default=14, help="отрязъци на реализация")
+        p.add_argument("--m", type=int, default=(40 if name == "synth-null" else 10), help="number of realizations")
+        p.add_argument("--segments", type=int, default=14, help="segments per realization")
         p.add_argument("--n0", type=int, default=271)
         p.add_argument("--n1", type=int, default=281)
-        p.add_argument("--noise", type=float, default=0.01, help="шум на стереото [m]")
+        p.add_argument("--noise", type=float, default=0.01, help="stereo noise [m]")
         p.add_argument("--seed", type=int, default=1)
         if name == "synth-null":
             p.add_argument("--tests", default="B", choices=["B"])

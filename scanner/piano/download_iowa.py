@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-download_iowa.py — сваля данните за Модул 0 (пиано) от University of Iowa MIS.
+download_iowa.py — downloads the Module 0 (piano) data from University of Iowa MIS.
 
-  data/Piano   ← Piano.mf.<нота>.aiff  (Steinway B, 2001, 16 bit / 44.1 kHz, стерео)
-  data/Violin  ← Violin.arco.ff.sul*.stereo.zip (2012, безехова камера) — нулев тест за разработка
-  data/Cello   ← Cello.arco.ff.sul*.stereo.zip  (2012, безехова камера) — окончателен нулев тест
+  data/Piano   ← Piano.mf.<note>.aiff  (Steinway B, 2001, 16 bit / 44.1 kHz, stereo)
+  data/Violin  ← Violin.arco.ff.sul*.stereo.zip (2012, anechoic chamber) — development null test
+  data/Cello   ← Cello.arco.ff.sul*.stereo.zip  (2012, anechoic chamber) — final null test
 
-Пускане от папката scanner\\piano:
+Run from the folder scanner\\piano:
   python download_iowa.py
-Вече свалените файлове се пропускат, така че може да се пуска повторно.
+Files already downloaded are skipped, so it can be run repeatedly.
 """
 import os
 import sys
@@ -37,36 +37,36 @@ def url(path):
 
 def fetch(u, dest):
     if os.path.exists(dest) and os.path.getsize(dest) > 0:
-        return "вече има"
+        return "already present"
     try:
         with urllib.request.urlopen(u, timeout=60) as r:
             data = r.read()
-        if data[:4] not in (b"FORM", b"PK\x03\x04"):      # AIFF или ZIP
-            return "не е аудио/zip (пропуснат)"
+        if data[:4] not in (b"FORM", b"PK\x03\x04"):      # AIFF or ZIP
+            return "not audio/zip (skipped)"
         with open(dest, "wb") as fh:
             fh.write(data)
-        return f"ок ({len(data) / 1e6:.1f} MB)"
+        return f"ok ({len(data) / 1e6:.1f} MB)"
     except Exception as e:
-        return f"грешка: {e}"
+        return f"error: {e}"
 
 
 def main():
     os.makedirs("data/Piano", exist_ok=True)
     
-    print("=== Пиано, динамика", DYNAMIC, "===")
+    print("=== Piano, dynamic", DYNAMIC, "===")
     ok = 0
     for midi in range(21, 109):                       # A0 … C8
         name = f"{NAMES[midi % 12]}{midi // 12 - 1}"
         fn = f"Piano.{DYNAMIC}.{name}.aiff"
         status = fetch(url(PIANO_DIR + fn), os.path.join("data/Piano", fn))
-        ok += status.startswith(("ок", "вече"))
+        ok += status.startswith(("ok", "already"))
         print(f"  {fn:22s} {status}")
-    print(f"пиано: {ok} файла")
+    print(f"piano: {ok} files")
 
     for inst, strings in STRING_SETS.items():
         folder = os.path.join("data", inst)
         os.makedirs(folder, exist_ok=True)
-        print(f"\n=== {inst} arco (нулев тест) ===")
+        print(f"\n=== {inst} arco (null test) ===")
         for st in strings:
             fn = f"{inst}.arco.ff.{st}.stereo.zip"
             dest = os.path.join(folder, fn)
@@ -75,7 +75,7 @@ def main():
                 with zipfile.ZipFile(dest) as z:
                     for m in z.namelist():
                         base = os.path.basename(m)
-                        # пропуска служебните файлове на macOS (__MACOSX, ._*)
+                        # skip macOS service files (__MACOSX, ._*)
                         if "__MACOSX" in m or base.startswith("._") or not base:
                             continue
                         if base.lower().endswith((".aif", ".aiff")):
@@ -85,7 +85,7 @@ def main():
                                     fh.write(z.read(m))
                 os.remove(dest)
         n_f = len([f for f in os.listdir(folder) if f.lower().endswith((".aif", ".aiff"))])
-        print(f"{inst}: {n_f} файла")
+        print(f"{inst}: {n_f} files")
 
 
 if __name__ == "__main__":

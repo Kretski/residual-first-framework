@@ -1,0 +1,50 @@
+{
+ "config_hash": "069ba514c71704e5",
+ "args": {
+  "mode": "synth-inject",
+  "m": 30,
+  "segments": 14,
+  "n0": 271,
+  "n1": 281,
+  "noise": 0.01,
+  "seed": 7001,
+  "out": "results\\v050_inject_wrong",
+  "mults": [
+   0.0,
+   0.25,
+   0.5,
+   1.0,
+   2.0
+  ],
+  "parts": [
+   "wrong"
+  ]
+ },
+ "table": [
+  {
+   "case": "грешна форма k^1",
+   "q_true": 1,
+   "counts": {
+    "k^1 неопределена": 18,
+    "k^1 различима": 5,
+    "няма": 5,
+    "k^2 неопределена": 2
+   },
+   "detection_rate": 0.8333333333333334,
+   "form_identification_rate": 0.16666666666666666,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  },
+  {
+   "case": "грешна форма k^3",
+   "q_true": 3,
+   "counts": {
+    "k^3 различима": 30
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 1.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  }
+ ]
+}

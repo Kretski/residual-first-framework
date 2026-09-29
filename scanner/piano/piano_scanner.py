@@ -1,34 +1,34 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-piano_scanner.py — Модул 0 (пиано) на търсачката на аномалии в остатъци
+piano_scanner.py — Module 0 (piano) of the residual-first anomaly scanner
 =========================================================================
 
-Идея:
-  Теория, която изваждаме: идеална струна, f_n = n * f0 (f0 се фитва).
-  Остатъци:                 Δf_n = f_n - n * f0_fit   [Hz]
-  Шаблони (фиксирани):      Δf_n ∝ n^p,  p ∈ {0, 2, 3, 4}
-                            (p = 1 се поглъща изцяло от f0 и не се тества)
-  Очакване при пиано:       твърда струна → f_n = n f0 √(1 + B n²)
-                            → Δf_n ≈ (f0 B / 2) n³  → трябва да спечели p = 3.
-  Нулев тест:               звук с точно кратни обертонове (синтетичен, или
-                            цигулка/виолончело със смичок, без вибрато)
-                            → търсачката трябва да каже „нищо няма".
+Idea:
+  Theory subtracted:        ideal string, f_n = n * f0 (f0 is fitted).
+  Residuals:                Δf_n = f_n - n * f0_fit   [Hz]
+  Templates (fixed):        Δf_n ∝ n^p,  p ∈ {0, 2, 3, 4}
+                            (p = 1 is fully absorbed by f0 and is not tested)
+  Expectation for a piano:  stiff string → f_n = n f0 √(1 + B n²)
+                            → Δf_n ≈ (f0 B / 2) n³  → p = 3 must win.
+  Null test:                sound with exactly harmonic partials (synthetic,
+                            or bowed violin/cello)
+                            → the scanner must report "nothing".
 
-Режими:
-  synth-null    калибровъчна бариера върху синтетични хармонични тонове
-  synth-inject  чувствителност и разпознаване на формата (правилна и грешна)
-  real          реални записи (напр. University of Iowa MIS) с разделяне
-                търсене / потвърждение и незадължителен реален нулев тест
+Modes:
+  synth-null    calibration barrier on synthetic harmonic tones
+  synth-inject  sensitivity and shape identification (correct and wrong shapes)
+  real          real recordings (e.g. University of Iowa MIS) with a
+                search / confirmation split and an optional real null test
 
-Примери:
+Examples:
   python piano_scanner.py synth-null   --out out_null
   python piano_scanner.py synth-inject --out out_inject
   python piano_scanner.py real --data Piano_mf --null-data Violin_nonvib --out out_real
 
-Зависимости: numpy, scipy; за AIFF файлове и soundfile (pip install soundfile).
-Физическото тълкуване (оценка на B) е отделено и се отпечатва САМО като
-вторична информация — търсачката не е „детектор на B".
+Dependencies: numpy, scipy; for AIFF files also soundfile (pip install soundfile).
+The physical interpretation (estimate of B) is kept separate and printed ONLY
+as secondary information — the scanner is not a "B detector".
 """
 
 import argparse
@@ -48,41 +48,41 @@ except Exception:
     pass
 
 # ----------------------------------------------------------------------------
-# ФИКСИРАНА КОНФИГУРАЦИЯ — не се променя след предварителната регистрация.
-# Хешът ѝ се записва във всеки изход, за да може да се цитира в регистрацията.
+# FIXED CONFIGURATION — not changed after pre-registration.
+# Its hash is written to every output so that it can be cited in the registration.
 # ----------------------------------------------------------------------------
 CONFIG = {
     "version": "0.4.1",
     "analysis": {
-        "skip_after_peak_s": 0.10,     # пропуск след началото на тона (преходен процес)
-        "window_s": 1.0,               # дължина на анализирания участък
-        "min_window_s": 0.3,           # по-къс участък → нотата се изключва
-        "zero_pad": 8,                 # допълване с нули при FFT
-        "max_partials": 60,            # максимален номер на обертон
-        "fit_max_n": 25,               # във фита влизат само n ≤ fit_max_n
-        "min_partials": 8,             # по-малко обертона → нотата се изключва
-        "seed_tol_rel": 0.06,          # търсене на първите обертони: ±6 %
-        "seed_max_n": 3,               # стартов обертон може да е n = 1..3
-        "track_halfwidth_rel": 0.25,   # прозорец при проследяване: ±0.25 интервал
-        "snr_db": 20.0,                # праг за връх над медианния фон
-        "max_consecutive_misses": 3,   # спиране след толкова пропуснати поред
-        "f_max_hz": 12000.0,           # горна граница на честотата
-        "weights": "snr",              # тегла във фита: σ_n ∝ 1/SNR
-        "onset_rel": 0.1,              # начало на тона: 10 % от максимума
-        "freq_method": "phase_demod",  # честота чрез фазова демодулация (устойчиво на вибрато)
-        "ref_max_n": 6,                # общата фаза φ(t) — от 3-те най-силни обертона с n ≤ 6
-        "phase_halfband_rel": 0.4,     # лента около обертона: ±0.4·f0
-        "phase_max_rms": 1.0,          # обертон с по-разхвърляна фаза [rad] отпада
+        "skip_after_peak_s": 0.10,     # skip after tone onset (transient)
+        "window_s": 1.0,               # length of the analysed segment
+        "min_window_s": 0.3,           # shorter segment → note excluded
+        "zero_pad": 8,                 # zero padding factor for the FFT
+        "max_partials": 60,            # highest partial number searched
+        "fit_max_n": 25,               # only n ≤ fit_max_n enter the fit
+        "min_partials": 8,             # fewer usable partials → note excluded
+        "seed_tol_rel": 0.06,          # search for the first partials: ±6 %
+        "seed_max_n": 3,               # the starting partial may be n = 1..3
+        "track_halfwidth_rel": 0.25,   # tracking window: ±0.25 partial spacing
+        "snr_db": 20.0,                # peak threshold above the median floor
+        "max_consecutive_misses": 3,   # stop after this many misses in a row
+        "f_max_hz": 12000.0,           # upper frequency limit
+        "weights": "snr",              # fit weights: σ_n ∝ 1/SNR
+        "onset_rel": 0.1,              # tone onset: 10 % of the maximum
+        "freq_method": "phase_demod",  # frequencies by phase demodulation (vibrato-robust)
+        "ref_max_n": 6,                # common phase φ(t) from the 3 strongest partials with n ≤ 6
+        "phase_halfband_rel": 0.4,     # band around each partial: ±0.4·f0
+        "phase_max_rms": 1.0,          # partial with noisier phase [rad] is dropped
     },
     "templates": [0, 2, 3, 4],
     "stats": {
-        "alpha_note": 0.01,            # праг на ниво нота (след Holm по шаблоните)
-        "min_effect_cents": 0.1,       # минимален размер: |отклонение при n = 10| ≥ 0.1 цента
-        "barrier_test_alpha": 0.05,    # бариера: СТОП, ако броят фалшиви аларми е
-                                       # значимо над α (едностранен биномен тест)
-        "group_alpha": 0.001,          # праг за структура в групата за търсене
-        "confirm_alpha": 0.01,         # праг в групата за потвърждение
-        "shape_majority": 0.6,         # формата трябва да печели в ≥ 60 % от нотите
+        "alpha_note": 0.01,            # per-note threshold (after Holm over templates)
+        "min_effect_cents": 0.1,       # minimum effect: |deviation at n = 10| ≥ 0.1 cent
+        "barrier_test_alpha": 0.05,    # barrier: STOP if the false-alarm count is
+                                       # significantly above α (one-sided binomial test)
+        "group_alpha": 0.001,          # threshold for structure in the search group
+        "confirm_alpha": 0.01,         # threshold in the confirmation group
+        "shape_majority": 0.6,         # the shape must win in ≥ 60 % of the notes
     },
     "groups": {"rule": "midi_parity", "search": "even", "confirm": "odd"},
     "primary_dynamic": "mf",
@@ -95,7 +95,7 @@ def config_hash(cfg=CONFIG):
 
 
 # ----------------------------------------------------------------------------
-# Имена на файлове и ноти
+# File names and notes
 # ----------------------------------------------------------------------------
 NOTE_INDEX = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
 NOTE_RE = re.compile(r"(?<![A-Za-z])([A-G])(b|#)?(-?\d)(?!\d)")
@@ -112,7 +112,7 @@ def midi_to_freq(midi):
 
 
 def parse_filename(path):
-    """Връща (midi, име на нотата, динамика) или None."""
+    """Returns (midi, note name, dynamic) or None."""
     base = os.path.basename(path)
     tokens = re.split(r"[.\s_\-]+", base)
     dyn = next((t for t in tokens if t in DYNAMICS), None)
@@ -125,7 +125,7 @@ def parse_filename(path):
 
 
 def load_audio(path):
-    """Моно float сигнал и честота на дискретизация."""
+    """Mono float signal and sampling rate."""
     try:
         import soundfile as sf
         x, sr = sf.read(path, always_2d=True)
@@ -138,7 +138,7 @@ def load_audio(path):
             if x.ndim == 2:
                 x = x.mean(axis=1)
         else:
-            raise RuntimeError("За AIFF файлове е нужен soundfile: pip install soundfile")
+            raise RuntimeError("AIFF files need soundfile: pip install soundfile")
     x = np.asarray(x, dtype=float)
     peak = np.max(np.abs(x))
     if peak > 0:
@@ -147,12 +147,12 @@ def load_audio(path):
 
 
 # ----------------------------------------------------------------------------
-# Спектър и проследяване на обертоновете
+# Spectrum and partial tracking
 # ----------------------------------------------------------------------------
 def analysis_segment(x, sr, a):
-    """Участъкът започва skip_after_peak_s след НАЧАЛОТО на тона (първото
-    надвишаване на onset_rel от максимума на обвивката). При удар (пиано)
-    началото практически съвпада с максимума; при смичок — не."""
+    """The segment starts skip_after_peak_s after the tone ONSET (first
+    crossing of onset_rel of the envelope maximum). For a struck string (piano)
+    the onset practically coincides with the maximum; for a bowed tone it does not."""
     k = max(1, int(0.01 * sr))
     env = np.convolve(np.abs(x), np.ones(k) / k, mode="same")
     i_on = int(np.argmax(env >= a["onset_rel"] * env.max()))
@@ -175,7 +175,7 @@ def find_peak(mag, df, lo, hi, floor_lo, floor_hi, snr_db):
     if i0 < 1 or i1 >= len(mag) - 1 or i1 - i0 < 3:
         return None
     k = i0 + int(np.argmax(mag[i0:i1 + 1]))
-    if k == i0 or k == i1:                         # на ръба → не е истински връх
+    if k == i0 or k == i1:                         # at the edge → not a true peak
         return None
     j0, j1 = max(1, int(floor_lo / df)), min(len(mag) - 1, int(floor_hi / df))
     floor = np.median(mag[j0:j1 + 1]) + 1e-300
@@ -189,23 +189,23 @@ def find_peak(mag, df, lo, hi, floor_lo, floor_hi, snr_db):
 
 
 def _band(X, f, f_c, halfband):
-    """Изолира лента ±halfband около f_c (гладка маска) → комплексен сигнал."""
+    """Isolates a band ±halfband around f_c (smooth mask) → complex signal."""
     u = (f - f_c) / halfband
     mask = np.where(np.abs(u) < 1, 0.5 * (1 + np.cos(np.pi * u)), 0.0)
-    mask[f < 0] = 0.0                                   # аналитичен сигнал
+    mask[f < 0] = 0.0                                   # analytic signal
     return np.fft.ifft(X * mask) * 2
 
 
 def refine_phase_demod(seg, sr, found, a):
     """
-    Честоти на обертоновете чрез фазова демодулация.
-    1) От най-силните ниски обертони (n ≤ ref_max_n) се измерва общата фаза
-       φ(t) = средно на ψ_k(t)/k — тя съдържа вибратото и дрейфа на тона.
-    2) За всеки обертон остатъчната фаза θ_n(t) = arg[y_n · e^{-i n φ(t)}]
-       се фитва с права (еднакви времеви тегла за всички n).
-       f_n = n·f_ref + наклон/2π.
-    При точно хармоничен звук θ_n е константа за всяко n, дори с вибрато.
-    Обертон с rms на θ_n над phase_max_rms (шум / изгубена фаза) отпада.
+    Partial frequencies by phase demodulation.
+    1) The common phase φ(t) = mean of ψ_k(t)/k is measured from the strongest
+       low partials (n ≤ ref_max_n); it contains the vibrato and pitch drift.
+    2) For each partial the residual phase θ_n(t) = arg[y_n · e^{-i n φ(t)}]
+       is fitted with a straight line (identical time weights for all n).
+       f_n = n·f_ref + slope/2π.
+    For an exactly harmonic sound θ_n is constant for every n, even with vibrato.
+    A partial whose θ_n rms exceeds phase_max_rms (noise / lost phase) is dropped.
     """
     N = len(seg)
     X = np.fft.fft(seg)
@@ -240,8 +240,8 @@ def refine_phase_demod(seg, sr, found, a):
 
 def track_partials(seg, sr, f_nom, a):
     """
-    Проследява обертоновете без да предполага модел на отклонението:
-    следващият се търси около линейна екстраполация на последните два намерени.
+    Tracks partials without assuming a model of the deviation: the next partial
+    is searched around a linear extrapolation from the last two found.
     """
     mag, df = spectrum(seg, sr, a["zero_pad"])
     f_max = min(a["f_max_hz"], 0.45 * sr)
@@ -278,7 +278,7 @@ def track_partials(seg, sr, f_nom, a):
 
 
 # ----------------------------------------------------------------------------
-# Остатъци, шаблони и статистика
+# Residuals, templates and statistics
 # ----------------------------------------------------------------------------
 def holm(pvals):
     p = np.asarray(pvals, dtype=float)
@@ -294,9 +294,9 @@ def holm(pvals):
 
 def fit_templates(n, f, templates, w=None):
     """
-    Базов модел f = f0·n; за всеки шаблон: f = f0·n + a·n^p и F-тест.
-    w = тегла 1/σ_n. Грешката по честота на връх е ∝ 1/SNR (проверено на
-    синтетични данни), затова w = SNR на върха.
+    Baseline f = f0·n; for each template: f = f0·n + a·n^p and an F-test.
+    w = weights 1/σ_n. The peak-frequency error is ∝ 1/SNR (verified on
+    synthetic data), therefore w = peak SNR.
     """
     n = np.asarray(n, float)
     f = np.asarray(f, float)
@@ -304,7 +304,7 @@ def fit_templates(n, f, templates, w=None):
     w = np.ones(N) if w is None else np.asarray(w, float)
     w = w / np.median(w)
     nmax = n.max()
-    x = n / nmax                                       # мащабиране за стабилност
+    x = n / nmax                                       # scaling for numerical stability
     fw = f * w
     c0, *_ = np.linalg.lstsq((x * w)[:, None], fw, rcond=None)
     rss0 = float(np.sum((fw - x * w * c0[0]) ** 2))
@@ -333,12 +333,12 @@ def analyze_signal(x, sr, f_nom, cfg=CONFIG):
     a = cfg["analysis"]
     seg = analysis_segment(x, sr, a)
     if seg is None:
-        return None, "кратък сигнал"
+        return None, "signal too short"
     partials = track_partials(seg, sr, f_nom, a)
     n_all = len(partials)
     partials = [p for p in partials if p[0] <= a["fit_max_n"]]
     if len(partials) < a["min_partials"]:
-        return None, f"малко обертонове ({len(partials)})"
+        return None, f"too few partials ({len(partials)})"
     n = [p[0] for p in partials]
     f = [p[1] for p in partials]
     snr = [p[2] for p in partials]
@@ -346,7 +346,7 @@ def analyze_signal(x, sr, f_nom, cfg=CONFIG):
     alpha = cfg["stats"]["alpha_note"]
     w = fit["winner"]
     for p, v in fit["per"].items():
-        # размер на ефекта: отклонение на 10-ия обертон спрямо 10·f0, в цента
+        # effect size: deviation of the 10th partial relative to 10·f0, in cents
         rel = v["a"] * 10.0 ** p / (10.0 * v["f0"])
         v["cents10"] = float(1200 * np.log2(max(1e-12, 1 + rel)))
     min_c = cfg["stats"]["min_effect_cents"]
@@ -358,22 +358,22 @@ def analyze_signal(x, sr, f_nom, cfg=CONFIG):
         "significant": flag[w],
         "flags": flag,
         "per": fit["per"], "n": n, "f": f, "resid": fit["resid"],
-        # вторично тълкуване (отделен модул): твърда струна, Δf ≈ (f0 B/2) n³
+        # secondary interpretation (separate module): stiff string, Δf ≈ (f0 B/2) n³
         "B_est": 2.0 * fit["per"][3]["a"] / fit["per"][3]["f0"] if 3 in fit["per"] else np.nan,
     }
     return res, "ok"
 
 
 # ----------------------------------------------------------------------------
-# Синтетични тонове
+# Synthetic tones
 # ----------------------------------------------------------------------------
 def synth_note(f0, rng, sr=44100, dur=1.3, model="harmonic", B=0.0,
                p=3, cents_at_10=0.0, noise_db=-60.0, jitter_cents=0.0):
     """
     model = 'harmonic' : f_n = n f0
-            'stiff'    : f_n = n f0 √(1 + B n²)         (точна твърда струна)
-            'power'    : f_n = n f0 + a n^p, където отклонението при n = 10
-                         е cents_at_10 цента
+            'stiff'    : f_n = n f0 √(1 + B n²)         (exact stiff string)
+            'power'    : f_n = n f0 + a n^p, where the deviation at n = 10
+                         equals cents_at_10 cents
     """
     nmax = min(80, int(0.45 * sr / f0))
     n = np.arange(1, nmax + 1, dtype=float)
@@ -408,15 +408,15 @@ def random_f0s(rng, m, lo=27.5, hi=1100.0):
 
 
 def detune(rng, f0, cents=10.0):
-    """Номиналната честота се различава от истинската (както при реално пиано)."""
+    """The nominal frequency differs from the true one (as for a real piano)."""
     return f0 * 2 ** (rng.normal(0, cents) / 1200.0)
 
 
 # ----------------------------------------------------------------------------
-# Групов анализ
+# Group analysis
 # ----------------------------------------------------------------------------
 def barrier(results, cfg=CONFIG):
-    """Калибровъчна бариера. Връща (FPR, биномно p, преминала ли е)."""
+    """Calibration barrier. Returns (FPR, binomial p, passed)."""
     M = len(results)
     k = int(sum(r["significant"] for r in results))
     if M == 0:
@@ -451,19 +451,19 @@ def group_summary(results, cfg=CONFIG):
 
 def print_group(title, g, cfg=CONFIG):
     print(f"\n=== {title} ===")
-    print(f"ноти в анализа: {g['M']}")
+    print(f"notes analysed: {g['M']}")
     if g["M"] == 0:
         return
     for p, v in g["per_template"].items():
-        print(f"  шаблон n^{p}: значими ноти {v['k']:3d}/{g['M']}   биномно p = {v['binom_p']:.2e}")
-    print(f"  значими ноти общо: {g['n_significant']}")
-    print(f"  групово p (Бонферони по шаблоните): {g['group_p']:.2e}")
-    shape = "неопределена" if g["shape"] is None else f"n^{g['shape']}"
-    print(f"  форма: {shape} (дял сред значимите: {g['shape_share']:.0%})")
+        print(f"  template n^{p}: significant notes {v['k']:3d}/{g['M']}   binomial p = {v['binom_p']:.2e}")
+    print(f"  significant notes in total: {g['n_significant']}")
+    print(f"  group p (Bonferroni over templates): {g['group_p']:.2e}")
+    shape = "undetermined" if g["shape"] is None else f"n^{g['shape']}"
+    print(f"  shape: {shape} (share among significant notes: {g['shape_share']:.0%})")
 
 
 # ----------------------------------------------------------------------------
-# Изход
+# Output
 # ----------------------------------------------------------------------------
 def ensure_out(out):
     os.makedirs(out, exist_ok=True)
@@ -497,7 +497,7 @@ def save_plots(out, rows, k):
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except ImportError:
-        print("(matplotlib липсва — графиките се пропускат)")
+        print("(matplotlib not available — plots skipped)")
         return
     for meta, r in rows[:k]:
         n = np.array(r["n"], float)
@@ -505,12 +505,12 @@ def save_plots(out, rows, k):
         v = r["per"][w]
         model = v["f0"] * n + v["a"] * n ** w - r["f0_fit"] * n
         fig, ax = plt.subplots(figsize=(6, 4))
-        ax.plot(n, r["resid"], "o", label="остатъци Δf_n")
-        ax.plot(n, model, "-", label=f"най-добър шаблон n^{w}")
+        ax.plot(n, r["resid"], "o", label="residuals Δf_n")
+        ax.plot(n, model, "-", label=f"best template n^{w}")
         ax.axhline(0, color="k", lw=0.5)
-        ax.set_xlabel("номер на обертона n")
+        ax.set_xlabel("partial number n")
         ax.set_ylabel("Δf_n = f_n − n·f0 [Hz]")
-        ax.set_title(f"{meta.get('label', '')}  (значимо: {r['significant']})")
+        ax.set_title(f"{meta.get('label', '')}  (significant: {r['significant']})")
         ax.legend()
         fig.tight_layout()
         fig.savefig(os.path.join(out, f"resid_{meta.get('label', 'note')}.png"), dpi=120)
@@ -518,7 +518,7 @@ def save_plots(out, rows, k):
 
 
 # ----------------------------------------------------------------------------
-# Режими
+# Modes
 # ----------------------------------------------------------------------------
 def run_synth_null(args):
     ensure_out(args.out)
@@ -534,13 +534,13 @@ def run_synth_null(args):
         rows.append(({"label": f"null{i:04d}", "f_nom": f"{f0:.3f}"}, r))
     results = [r for _, r in rows]
     fpr, pb, passed = barrier(results)
-    print(f"хеш на конфигурацията: {config_hash()}")
-    print(f"синтетичен нулев тест: {len(results)} ноти (изключени {skipped})")
+    print(f"config hash: {config_hash()}")
+    print(f"synthetic null test: {len(results)} notes (excluded {skipped})")
     for p in CONFIG["templates"]:
-        print(f"  FPR шаблон n^{p}: {np.mean([r['flags'][p] for r in results]):.3f}")
-    print(f"FPR на ниво нота (Holm): {fpr:.3f}  (очаквано ≤ {CONFIG['stats']['alpha_note']}), "
-          f"биномно p = {pb:.3f}")
-    print("БАРИЕРА: ПРЕМИНАТА" if passed else "БАРИЕРА: НЕ Е ПРЕМИНАТА → СТОП")
+        print(f"  FPR template n^{p}: {np.mean([r['flags'][p] for r in results]):.3f}")
+    print(f"per-note FPR (Holm): {fpr:.3f}  (expected ≤ {CONFIG['stats']['alpha_note']}), "
+          f"binomial p = {pb:.3f}")
+    print("BARRIER: PASSED" if passed else "BARRIER: NOT PASSED → STOP")
     write_notes_csv(os.path.join(args.out, "notes_synth_null.csv"), rows)
     with open(os.path.join(args.out, "summary.json"), "w", encoding="utf-8") as fh:
         json.dump({"config_hash": config_hash(), "fpr": fpr, "passed": passed,
@@ -553,9 +553,9 @@ def run_synth_inject(args):
     rng = np.random.default_rng(args.seed)
     templates = CONFIG["templates"]
     table = []
-    print(f"хеш на конфигурацията: {config_hash()}")
-    print("\nИнжекции с форма n^p (амплитуда = отклонение при n = 10, в цента)")
-    print("вярна форма | цента | открити | правилна форма сред откритите")
+    print(f"config hash: {config_hash()}")
+    print("\nInjections with shape n^p (amplitude = deviation at n = 10, in cents)")
+    print("true shape | cents | detected | correct shape among detected")
     for p_true in templates:
         for c in args.cents:
             det = correct = total = 0
@@ -574,8 +574,8 @@ def run_synth_inject(args):
             table.append({"model": "power", "p": p_true, "cents": c, "N": total,
                           "detect": dr, "correct_shape": cr})
             print(f"   n^{p_true}      | {c:5.1f} | {dr:6.2f}  | {cr:6.2f}")
-    print("\nТочна твърда струна f_n = n f0 √(1+B n²) — трябва да печели n^3")
-    print("      B     | открити | правилна форма (n^3) | медиана B_est / B")
+    print("\nExact stiff string f_n = n f0 √(1+B n²) — n^3 must win")
+    print("      B     | detected | correct shape (n^3) | median B_est / B")
     for B in args.B:
         det = correct = total = 0
         ratios = []
@@ -633,10 +633,10 @@ def analyze_files(files, label_prefix=""):
 
 def run_real(args):
     ensure_out(args.out)
-    print(f"хеш на конфигурацията: {config_hash()}")
+    print(f"config hash: {config_hash()}")
     summary = {"config_hash": config_hash()}
 
-    # 1) Реален нулев тест (калибровъчна бариера)
+    # 1) Real null test (calibration barrier)
     if args.null_data:
         nfiles = collect_files(args.null_data, "all")
         nrows, nskip = analyze_files(nfiles, "null_")
@@ -645,47 +645,47 @@ def run_real(args):
         from collections import Counter
         reasons = Counter(why.split(" (")[0] for _, why in nskip)
         if reasons:
-            print("  причини за изключване:", dict(reasons))
-        print(f"\nреален нулев тест: {len(nres)} ноти (изключени {len(nskip)})")
-        print(f"FPR на ниво нота: {fpr:.3f}  (очаквано ≤ {CONFIG['stats']['alpha_note']}), "
-              f"биномно p = {pb:.3f}")
+            print("  exclusion reasons:", dict(reasons))
+        print(f"\nreal null test: {len(nres)} notes (excluded {len(nskip)})")
+        print(f"per-note FPR: {fpr:.3f}  (expected ≤ {CONFIG['stats']['alpha_note']}), "
+              f"binomial p = {pb:.3f}")
         write_notes_csv(os.path.join(args.out, "notes_null.csv"), nrows)
         summary["null"] = {"M": len(nres), "fpr": fpr, "binom_p": pb}
         if not passed:
-            print("БАРИЕРА: НЕ Е ПРЕМИНАТА → СТОП. Анализът на пианото не се пуска.")
+            print("BARRIER: NOT PASSED → STOP. The piano analysis is not run.")
             summary["stopped"] = True
             with open(os.path.join(args.out, "summary.json"), "w", encoding="utf-8") as fh:
                 json.dump(summary, fh, indent=2, default=float)
             return 2
-        print("БАРИЕРА: ПРЕМИНАТА")
+        print("BARRIER: PASSED")
         if args.null_only:
-            print("(--null-only: пианото не се анализира)")
+            print("(--null-only: the piano is not analysed)")
             with open(os.path.join(args.out, "summary.json"), "w", encoding="utf-8") as fh:
                 json.dump(summary, fh, indent=2, default=float)
             return 0
     else:
-        print("\n(няма реален нулев тест — синтетичната бариера трябва да е минала)")
+        print("\n(no real null test — the synthetic barrier must have passed)")
 
     if args.null_only:
-        print("--null-only изисква --null-data")
+        print("--null-only requires --null-data")
         return 1
     if not args.data:
-        print("липсва --data")
+        print("--data is missing")
         return 1
 
-    # 2) Пиано: разделяне по фиксирано правило
+    # 2) Piano: split by a fixed rule
     dyn = args.dynamic or CONFIG["primary_dynamic"]
     files = collect_files(args.data, dyn)
     rows, skipped = analyze_files(files)
     for meta, _ in rows:
         meta["group"] = "search" if meta["midi"] % 2 == 0 else "confirm"
     for name, why in skipped:
-        print(f"  изключена: {name} ({why})")
+        print(f"  excluded: {name} ({why})")
     search = [r for m, r in rows if m["group"] == "search"]
     confirm = [r for m, r in rows if m["group"] == "confirm"]
     gs, gc = group_summary(search), group_summary(confirm)
-    print_group("ГРУПА ЗА ТЪРСЕНЕ (четни MIDI)", gs)
-    print_group("ГРУПА ЗА ПОТВЪРЖДЕНИЕ (нечетни MIDI)", gc)
+    print_group("SEARCH GROUP (even MIDI)", gs)
+    print_group("CONFIRMATION GROUP (odd MIDI)", gc)
 
     st = CONFIG["stats"]
     found = gs["M"] > 0 and gs["group_p"] < st["group_alpha"] and gs["shape"] is not None
@@ -694,18 +694,18 @@ def run_real(args):
         s = gs["shape"]
         confirmed = (gc["M"] > 0 and gc["shape"] == s
                      and gc["per_template"][s]["binom_p"] < st["confirm_alpha"])
-    print("\n=== РЕЗУЛТАТ ===")
+    print("\n=== RESULT ===")
     if not found:
-        print("в групата за търсене няма значима структура с ясна форма")
+        print("no significant structure with a clear shape in the search group")
     else:
-        print(f"търсене: структура с форма n^{gs['shape']}")
-        print("потвърждение: " + ("ДА — същата форма е значима" if confirmed else "НЕ"))
+        print(f"search: structure with shape n^{gs['shape']}")
+        print("confirmation: " + ("YES — the same shape is significant" if confirmed else "NO"))
 
-    # 3) Вторично тълкуване (отделен модул): коефициент на нехармоничност
+    # 3) Secondary interpretation (separate module): inharmonicity coefficient
     B = [r["B_est"] for r in search + confirm if r["significant"] and r["winner"] == 3]
     if B:
-        print(f"\n[тълкуване] B при твърда струна: медиана {np.median(B):.2e}, "
-              f"диапазон {np.min(B):.1e} … {np.max(B):.1e} ({len(B)} ноти)")
+        print(f"\n[interpretation] stiff-string B: median {np.median(B):.2e}, "
+              f"range {np.min(B):.1e} … {np.max(B):.1e} ({len(B)} notes)")
 
     write_notes_csv(os.path.join(args.out, "notes_piano.csv"), rows)
     if args.plots:
@@ -719,17 +719,17 @@ def run_real(args):
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Модул 0 (пиано) на търсачката на остатъци")
+    ap = argparse.ArgumentParser(description="Module 0 (piano) of the residual-first scanner")
     sub = ap.add_subparsers(dest="mode", required=True)
 
-    a = sub.add_parser("synth-null", help="калибровъчна бариера върху синтетични тонове")
+    a = sub.add_parser("synth-null", help="calibration barrier on synthetic tones")
     a.add_argument("--m", type=int, default=300)
     a.add_argument("--noise-db", type=float, default=-60.0)
-    a.add_argument("--jitter", type=float, default=0.0, help="случайно разместване [цента]")
+    a.add_argument("--jitter", type=float, default=0.0, help="random detuning [cents]")
     a.add_argument("--seed", type=int, default=1)
     a.add_argument("--out", default="out_synth_null")
 
-    b = sub.add_parser("synth-inject", help="чувствителност и разпознаване на формата")
+    b = sub.add_parser("synth-inject", help="sensitivity and shape identification")
     b.add_argument("--m", type=int, default=60)
     b.add_argument("--cents", type=float, nargs="+", default=[0.5, 1, 2, 5, 20])
     b.add_argument("--B", type=float, nargs="+", default=[1e-5, 1e-4, 4e-4, 1e-3])
@@ -738,13 +738,13 @@ def main():
     b.add_argument("--seed", type=int, default=2)
     b.add_argument("--out", default="out_synth_inject")
 
-    c = sub.add_parser("real", help="реални записи")
-    c.add_argument("--data", help="папка с нотите на пианото")
+    c = sub.add_parser("real", help="real recordings")
+    c.add_argument("--data", help="folder with the piano notes")
     c.add_argument("--null-only", action="store_true",
-                   help="само нулевият тест; пианото не се анализира")
-    c.add_argument("--null-data", help="папка с хармоничен инструмент (нулев тест)")
+                   help="null test only; the piano is not analysed")
+    c.add_argument("--null-data", help="folder with a harmonic instrument (null test)")
     c.add_argument("--dynamic", choices=list(DYNAMICS) + ["all"])
-    c.add_argument("--plots", type=int, default=0, help="брой графики на остатъци")
+    c.add_argument("--plots", type=int, default=0, help="number of residual plots")
     c.add_argument("--out", default="out_real")
 
     args = ap.parse_args()

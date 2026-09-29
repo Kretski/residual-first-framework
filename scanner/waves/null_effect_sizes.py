@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-null_effect_sizes.py — разпределение на |a| (размер на ефекта при k_ref) в
-НУЛЕВИТЕ синтетични реализации, по тест и шаблон. Служи за калибриране на
-минималния размер на ефекта (систематичния праг на метода).
+null_effect_sizes.py — distribution of |a| (effect size at k_ref) in the
+NULL synthetic realizations, per test and template. Used to calibrate the
+minimum effect size (the systematic floor of the method).
 
   python null_effect_sizes.py results\\synth_null_A200\\synth_null.json results\\synth_null\\synth_null.json
 """
@@ -29,7 +29,7 @@ for path in sys.argv[1:]:
                 vals.setdefault(key, []).append(abs(v["a"]))
                 stat_flags.setdefault(key, []).append(v["padj"] < 0.01)
 
-print("тест шаблон |   N | |a| медиана   90 %     95 %     99 %     макс  | статистически значими (без праг на ефекта)")
+print("test template |   N | |a| median   90 %     95 %     99 %     max   | statistically significant (without effect-size floor)")
 for (test, q), a in sorted(vals.items()):
     a = np.array(a)
     qs = np.percentile(a, [50, 90, 95, 99])

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-inspect_nc.py — показва описанието на NetCDF файл (измерения, променливи,
-единици, атрибути), БЕЗ да зарежда данните в паметта и без анализ.
+inspect_nc.py — shows the description of a NetCDF file (dimensions, variables,
+units, attributes) WITHOUT loading the data into memory and without analysis.
 
   python inspect_nc.py data\\Surfaces_20111004_113800_short.nc
 """
@@ -17,13 +17,13 @@ except Exception:
     pass
 
 path = sys.argv[1]
-print("размер на файла:", round(os.path.getsize(path) / 1e9, 2), "GB\n")
-ds = xr.open_dataset(path)          # мързеливо отваряне: данните не се четат
+print("file size:", round(os.path.getsize(path) / 1e9, 2), "GB\n")
+ds = xr.open_dataset(path)          # lazy open: the data are not read
 print(ds)
-print("\n--- атрибути на файла ---")
+print("\n--- file attributes ---")
 for k, v in ds.attrs.items():
     print(f"{k}: {v}")
-print("\n--- променливи ---")
+print("\n--- variables ---")
 for name, var in ds.variables.items():
     units = var.attrs.get("units", "")
     long = var.attrs.get("long_name", "")

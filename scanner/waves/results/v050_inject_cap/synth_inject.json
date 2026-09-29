@@ -1,0 +1,86 @@
+{
+ "config_hash": "069ba514c71704e5",
+ "args": {
+  "mode": "synth-inject",
+  "m": 10,
+  "segments": 14,
+  "n0": 271,
+  "n1": 281,
+  "noise": 0.01,
+  "seed": 6001,
+  "out": "results\\v050_inject_cap",
+  "mults": [
+   0.0,
+   0.25,
+   0.5,
+   1.0,
+   2.0
+  ],
+  "parts": [
+   "cap"
+  ]
+ },
+ "table": [
+  {
+   "case": "капилярност ×0",
+   "q_true": 2,
+   "counts": {
+    "няма": 10
+   },
+   "detection_rate": 0.0,
+   "form_identification_rate": NaN,
+   "false_form_rate": NaN,
+   "a_ratio_median": null
+  },
+  {
+   "case": "капилярност ×0.25",
+   "q_true": 2,
+   "counts": {
+    "няма": 8,
+    "k^1 неопределена": 2
+   },
+   "detection_rate": 0.2,
+   "form_identification_rate": NaN,
+   "false_form_rate": NaN,
+   "a_ratio_median": 0.9310411903453661
+  },
+  {
+   "case": "капилярност ×0.5",
+   "q_true": 2,
+   "counts": {
+    "k^2 неопределена": 3,
+    "k^2 различима": 3,
+    "няма": 4
+   },
+   "detection_rate": 0.6,
+   "form_identification_rate": NaN,
+   "false_form_rate": NaN,
+   "a_ratio_median": 0.9642688741277724
+  },
+  {
+   "case": "капилярност ×1",
+   "q_true": 2,
+   "counts": {
+    "k^2 различима": 6,
+    "k^2 неопределена": 2,
+    "k^3 различима": 1,
+    "k^3 неопределена": 1
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 0.6,
+   "false_form_rate": 0.1,
+   "a_ratio_median": 0.9771144844171911
+  },
+  {
+   "case": "капилярност ×2",
+   "q_true": 2,
+   "counts": {
+    "k^2 различима": 10
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 1.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": 0.9842070850203289
+  }
+ ]
+}
