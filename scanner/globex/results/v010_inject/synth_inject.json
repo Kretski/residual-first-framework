@@ -1,0 +1,173 @@
+{
+ "config_hash": "4b2d81580df7981b",
+ "args": {
+  "mode": "synth-inject",
+  "m": 30,
+  "duration": 2070.0,
+  "seed": 12001,
+  "out": "results\\v010_inject",
+  "mults": [
+   0.0,
+   0.25,
+   0.5,
+   1.0,
+   2.0
+  ],
+  "parts": [
+   "scale",
+   "wrong",
+   "syst"
+  ]
+ },
+ "table": [
+  {
+   "case": "dispersion \u00d70",
+   "counts": {
+    "none": 30
+   },
+   "detection_rate": 0.0,
+   "form_identification_rate": 0.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  },
+  {
+   "case": "dispersion \u00d70.25",
+   "counts": {
+    "k^2- distinguishable": 28,
+    "k^2- undetermined": 1,
+    "k^3- distinguishable": 1
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 0.9333333333333333,
+   "false_form_rate": 0.03333333333333333,
+   "a_ratio_median": 0.9291449823381176
+  },
+  {
+   "case": "dispersion \u00d70.5",
+   "counts": {
+    "k^2- distinguishable": 30
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 1.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": 0.9664915151159683
+  },
+  {
+   "case": "dispersion \u00d71",
+   "counts": {
+    "k^2- distinguishable": 30
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 1.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": 0.981972303202283
+  },
+  {
+   "case": "dispersion \u00d72",
+   "counts": {
+    "k^3- undetermined": 25,
+    "k^3- distinguishable": 5
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 0.0,
+   "false_form_rate": 0.16666666666666666,
+   "a_ratio_median": 0.972669072094215
+  },
+  {
+   "case": "wrong shape (kh)^1",
+   "counts": {
+    "k^1- distinguishable": 30
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 1.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  },
+  {
+   "case": "wrong shape (kh)^3",
+   "counts": {
+    "k^3- distinguishable": 30
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 1.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  },
+  {
+   "case": "null + reflection R=0.03",
+   "counts": {
+    "none": 30
+   },
+   "detection_rate": 0.0,
+   "form_identification_rate": NaN,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  },
+  {
+   "case": "null + reflection R=0.1",
+   "counts": {
+    "k^1+ undetermined": 8,
+    "none": 12,
+    "k^2+ undetermined": 7,
+    "k^3+ undetermined": 3
+   },
+   "detection_rate": 0.6,
+   "form_identification_rate": NaN,
+   "false_form_rate": 0.6,
+   "a_ratio_median": null
+  },
+  {
+   "case": "null + bound harmonics \u00d71",
+   "counts": {
+    "none": 30
+   },
+   "detection_rate": 0.0,
+   "form_identification_rate": NaN,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  },
+  {
+   "case": "null + bound harmonics \u00d73",
+   "counts": {
+    "none": 30
+   },
+   "detection_rate": 0.0,
+   "form_identification_rate": NaN,
+   "false_form_rate": 0.0,
+   "a_ratio_median": null
+  },
+  {
+   "case": "dispersion \u00d71 + reflection R=0.03",
+   "counts": {
+    "k^2- undetermined": 24,
+    "k^2- distinguishable": 5,
+    "k^1- undetermined": 1
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 0.16666666666666666,
+   "false_form_rate": 0.0,
+   "a_ratio_median": 0.9870250755639801
+  },
+  {
+   "case": "dispersion \u00d71 + reflection R=0.1",
+   "counts": {
+    "k^2- undetermined": 28,
+    "k^3- undetermined": 2
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 0.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": 0.902336910907409
+  },
+  {
+   "case": "dispersion \u00d71 + bound \u00d73",
+   "counts": {
+    "k^2- distinguishable": 30
+   },
+   "detection_rate": 1.0,
+   "form_identification_rate": 1.0,
+   "false_form_rate": 0.0,
+   "a_ratio_median": 0.9815124683112261
+  }
+ ]
+}
