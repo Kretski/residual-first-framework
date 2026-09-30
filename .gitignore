@@ -7,3 +7,4 @@ epta_cache/
 scanner/waves/data/
 scanner/globex/data/
 scanner/piano/data/
+scanner/waves/results/**/*.npz
