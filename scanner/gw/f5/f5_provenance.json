@@ -1,0 +1,427 @@
+{
+  "records": {
+    "GWTC-2.1-confident": {
+      "requested": "6513631",
+      "resolved_id": 6513631,
+      "version": "v2",
+      "n_files": 164
+    },
+    "GWTC-3-confident": {
+      "requested": "8177023",
+      "resolved_id": 22685054,
+      "version": null,
+      "n_files": 76
+    },
+    "GWTC-4.0": {
+      "requested": "17602505",
+      "resolved_id": 17602505,
+      "version": null,
+      "n_files": 90
+    }
+  },
+  "label_rules": {
+    "discovery": {
+      "XPHM": [
+        "C01:IMRPhenomXPHM"
+      ],
+      "EOB": [
+        "C01:SEOBNRv4PHM"
+      ]
+    },
+    "confirmation": {
+      "XPHM": [
+        "C00:IMRPhenomXPHM-SpinTaylor",
+        "C00:IMRPhenomXPHM"
+      ],
+      "EOB": [
+        "C00:SEOBNRv5PHM"
+      ]
+    }
+  },
+  "needed_parameters": [
+    "mass_1",
+    "mass_2",
+    "luminosity_distance",
+    "geocent_time",
+    "a_1",
+    "a_2",
+    "tilt_1",
+    "tilt_2",
+    "phi_12",
+    "phi_jl",
+    "theta_jn",
+    "psi",
+    "ra",
+    "dec",
+    "phase",
+    "log_likelihood"
+  ],
+  "files": {
+    "GW150914": {
+      "key": "IGWN-GWTC2p1-v2-GW150914_095045_PEDataRelease_mixed_cosmo.h5",
+      "size": 134283070,
+      "checksum": "md5:7afda649d1f4e62a3753bfd8a95b8aaa",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW150914_095045_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW151226": {
+      "key": "IGWN-GWTC2p1-v2-GW151226_033853_PEDataRelease_mixed_cosmo.h5",
+      "size": 225713479,
+      "checksum": "md5:28f68210c10684ce766afc2687c30fa5",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW151226_033853_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW170104": {
+      "key": "IGWN-GWTC2p1-v2-GW170104_101158_PEDataRelease_mixed_cosmo.h5",
+      "size": 87040953,
+      "checksum": "md5:30db930b5e63c0e2551cde163ccf58c5",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW170104_101158_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW170608": {
+      "key": "IGWN-GWTC2p1-v2-GW170608_020116_PEDataRelease_mixed_cosmo.h5",
+      "size": 202728926,
+      "checksum": "md5:cb9d5df65a1630222e699c66dfc5a828",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW170608_020116_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW170809": {
+      "key": "IGWN-GWTC2p1-v2-GW170809_082821_PEDataRelease_mixed_cosmo.h5",
+      "size": 112432447,
+      "checksum": "md5:6fe785fc205228b19a31f076e463fda9",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW170809_082821_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW170814": {
+      "key": "IGWN-GWTC2p1-v2-GW170814_103043_PEDataRelease_mixed_cosmo.h5",
+      "size": 159158978,
+      "checksum": "md5:45cd35355f073ea856c8de54609d4402",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW170814_103043_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW170818": {
+      "key": "IGWN-GWTC2p1-v2-GW170818_022509_PEDataRelease_mixed_cosmo.h5",
+      "size": 107619894,
+      "checksum": "md5:a3679d650bda0823125534314e7b0c96",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW170818_022509_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW170823": {
+      "key": "IGWN-GWTC2p1-v2-GW170823_131358_PEDataRelease_mixed_cosmo.h5",
+      "size": 47114332,
+      "checksum": "md5:c068d01b146c8a3684f3f7c5d8cbbb65",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW170823_131358_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190408_181802": {
+      "key": "IGWN-GWTC2p1-v2-GW190408_181802_PEDataRelease_mixed_cosmo.h5",
+      "size": 65869304,
+      "checksum": "md5:97275174105fffda160fdca45d2b949a",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190408_181802_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190412": {
+      "key": "IGWN-GWTC2p1-v2-GW190412_053044_PEDataRelease_mixed_cosmo.h5",
+      "size": 189113078,
+      "checksum": "md5:a4dfba44c7eec4e9b9fe27522760a0d4",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190412_053044_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190503_185404": {
+      "key": "IGWN-GWTC2p1-v2-GW190503_185404_PEDataRelease_mixed_cosmo.h5",
+      "size": 83139260,
+      "checksum": "md5:990e0ecb81282628299c4ff5e3c27e61",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190503_185404_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190512_180714": {
+      "key": "IGWN-GWTC2p1-v2-GW190512_180714_PEDataRelease_mixed_cosmo.h5",
+      "size": 91372590,
+      "checksum": "md5:ecf704ab08980be777358120f094a919",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190512_180714_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190513_205428": {
+      "key": "IGWN-GWTC2p1-v2-GW190513_205428_PEDataRelease_mixed_cosmo.h5",
+      "size": 61687267,
+      "checksum": "md5:e67b5dd8751329a40aad3ed042a8936e",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190513_205428_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190519_153544": {
+      "key": "IGWN-GWTC2p1-v2-GW190519_153544_PEDataRelease_mixed_cosmo.h5",
+      "size": 54066987,
+      "checksum": "md5:11bd2027d08efa5f5070327f54451053",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190519_153544_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190521": {
+      "key": "IGWN-GWTC2p1-v2-GW190521_030229_PEDataRelease_mixed_cosmo.h5",
+      "size": 98869272,
+      "checksum": "md5:1deb959cc9a8e0ac46e349e9a69446ae",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190521_030229_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190521_074359": {
+      "key": "IGWN-GWTC2p1-v2-GW190521_074359_PEDataRelease_mixed_cosmo.h5",
+      "size": 93393261,
+      "checksum": "md5:74c545179919d63bfa1d483e93e655fc",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190521_074359_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190602_175927": {
+      "key": "IGWN-GWTC2p1-v2-GW190602_175927_PEDataRelease_mixed_cosmo.h5",
+      "size": 72966533,
+      "checksum": "md5:432e02c88129a4555f972abd8a5455c2",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190602_175927_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190620_030421": {
+      "key": "IGWN-GWTC2p1-v2-GW190620_030421_PEDataRelease_mixed_cosmo.h5",
+      "size": 36306568,
+      "checksum": "md5:1ecd1dc4bfa7ea19b8c3f77049bb6dc9",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190620_030421_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190630_185205": {
+      "key": "IGWN-GWTC2p1-v2-GW190630_185205_PEDataRelease_mixed_cosmo.h5",
+      "size": 85534183,
+      "checksum": "md5:3dc9f338052ea2fc81568acdaecc6424",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190630_185205_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190706_222641": {
+      "key": "IGWN-GWTC2p1-v2-GW190706_222641_PEDataRelease_mixed_cosmo.h5",
+      "size": 28213767,
+      "checksum": "md5:b74f257eea293c3002ab8137a2054d5c",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190706_222641_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190707_093326": {
+      "key": "IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_mixed_cosmo.h5",
+      "size": 178346855,
+      "checksum": "md5:b290486b7ef4d452f97f1fddc2cc54d0",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190707_093326_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190708_232457": {
+      "key": "IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_mixed_cosmo.h5",
+      "size": 57037548,
+      "checksum": "md5:b4e5eaa8c8f4d156cd54ef9995dad189",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190708_232457_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190728_064510": {
+      "key": "IGWN-GWTC2p1-v2-GW190728_064510_PEDataRelease_mixed_cosmo.h5",
+      "size": 27468984,
+      "checksum": "md5:25b5972795159977d430d84caade68ce",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190728_064510_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190828_063405": {
+      "key": "IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_mixed_cosmo.h5",
+      "size": 225016368,
+      "checksum": "md5:b5b4653f110877e1b2a90958b1a8785d",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190828_063405_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190910_112807": {
+      "key": "IGWN-GWTC2p1-v2-GW190910_112807_PEDataRelease_mixed_cosmo.h5",
+      "size": 59877724,
+      "checksum": "md5:af2f4d27a7bb65f3f142a814a42141a0",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190910_112807_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190915_235702": {
+      "key": "IGWN-GWTC2p1-v2-GW190915_235702_PEDataRelease_mixed_cosmo.h5",
+      "size": 67663403,
+      "checksum": "md5:ae30876755187acd8310ca754eb46052",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190915_235702_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW190924_021846": {
+      "key": "IGWN-GWTC2p1-v2-GW190924_021846_PEDataRelease_mixed_cosmo.h5",
+      "size": 64845102,
+      "checksum": "md5:5ce4685a4b6a6401aff9933e68a66f4a",
+      "url": "https://zenodo.org/api/records/6513631/files/IGWN-GWTC2p1-v2-GW190924_021846_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW191109_010717": {
+      "key": "IGWN-GWTC3p0-v3-GW191109_010717_PEDataRelease_mixed_cosmo.h5",
+      "size": 112306363,
+      "checksum": "md5:135aaf81c862a9b557d36c502ae98787",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW191109_010717_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW191129_134029": {
+      "key": "IGWN-GWTC3p0-v3-GW191129_134029_PEDataRelease_mixed_cosmo.h5",
+      "size": 85754609,
+      "checksum": "md5:d4d285611553610d92983753d49cb7ad",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW191129_134029_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW191204_171526": {
+      "key": "IGWN-GWTC3p0-v3-GW191204_171526_PEDataRelease_mixed_cosmo.h5",
+      "size": 108465133,
+      "checksum": "md5:b106c3246ba670e4dfef80954cf15fe5",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW191204_171526_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW191216_213338": {
+      "key": "IGWN-GWTC3p0-v3-GW191216_213338_PEDataRelease_mixed_cosmo.h5",
+      "size": 213092814,
+      "checksum": "md5:2b7f651434e935131fcf550b105e7d28",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW191216_213338_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW191222_033537": {
+      "key": "IGWN-GWTC3p0-v3-GW191222_033537_PEDataRelease_mixed_cosmo.h5",
+      "size": 31533881,
+      "checksum": "md5:ecadeee6cb2570f55b85a8df339ad000",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW191222_033537_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW200112_155838": {
+      "key": "IGWN-GWTC3p0-v3-GW200112_155838_PEDataRelease_mixed_cosmo.h5",
+      "size": 63124778,
+      "checksum": "md5:b14500cda4ea053697ca1dd46d092ed9",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW200112_155838_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW200129_065458": {
+      "key": "IGWN-GWTC3p0-v3-GW200129_065458_PEDataRelease_mixed_cosmo.h5",
+      "size": 97030632,
+      "checksum": "md5:da1c24a061f34a2db3628e3f607fcc72",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW200129_065458_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW200224_222234": {
+      "key": "IGWN-GWTC3p0-v3-GW200224_222234_PEDataRelease_mixed_cosmo.h5",
+      "size": 96494710,
+      "checksum": "md5:f795c983255fe52bfc2bcc2b34eeb150",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW200224_222234_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW200225_060421": {
+      "key": "IGWN-GWTC3p0-v3-GW200225_060421_PEDataRelease_mixed_cosmo.h5",
+      "size": 85687760,
+      "checksum": "md5:c310ea773fe82e9e494258e769bbc304",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW200225_060421_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW200311_115853": {
+      "key": "IGWN-GWTC3p0-v3-GW200311_115853_PEDataRelease_mixed_cosmo.h5",
+      "size": 124800963,
+      "checksum": "md5:69e7dbaefd644ab6220e673255562355",
+      "url": "https://zenodo.org/api/records/22685054/files/IGWN-GWTC3p0-v3-GW200311_115853_PEDataRelease_mixed_cosmo.h5/content"
+    },
+    "GW230601_224134": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230601_224134-combined_PEDataRelease.hdf5",
+      "size": 208421000,
+      "checksum": "md5:c784bcc7b70a00937306dc19d9244ae3",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230601_224134-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230627_015337": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230627_015337-combined_PEDataRelease.hdf5",
+      "size": 297074280,
+      "checksum": "md5:f60b1ad03a45e208eb537c100c153708",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230627_015337-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230628_231200": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230628_231200-combined_PEDataRelease.hdf5",
+      "size": 159650500,
+      "checksum": "md5:34e6cd5a50ef8908a3a3c1ee3e1c6260",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230628_231200-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230731_215307": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230731_215307-combined_PEDataRelease.hdf5",
+      "size": 131872232,
+      "checksum": "md5:1bdeaa27fc4a97c61b111498c5f6fb6f",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230731_215307-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230811_032116": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230811_032116-combined_PEDataRelease.hdf5",
+      "size": 209489644,
+      "checksum": "md5:bc8068a0ed1c278f6e1b0fefb3aa6173",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230811_032116-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230814_230901": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230814_230901-combined_PEDataRelease.hdf5",
+      "size": 140070632,
+      "checksum": "md5:ed07745b88c75f203a8c0c493295837a",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230814_230901-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230914_111401": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230914_111401-combined_PEDataRelease.hdf5",
+      "size": 310927088,
+      "checksum": "md5:51230a054c17048c9bed334f77e01645",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230914_111401-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230919_215712": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230919_215712-combined_PEDataRelease.hdf5",
+      "size": 129729168,
+      "checksum": "md5:c453ef03e93eade57b5166c7a43acb52",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230919_215712-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230922_020344": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230922_020344-combined_PEDataRelease.hdf5",
+      "size": 193557020,
+      "checksum": "md5:dcbffeb42fc9784c5c3d7a908e62da67",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230922_020344-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230922_040658": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230922_040658-combined_PEDataRelease.hdf5",
+      "size": 132867268,
+      "checksum": "md5:5372e3092a3583084347d971bcdc0f10",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230922_040658-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230924_124453": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230924_124453-combined_PEDataRelease.hdf5",
+      "size": 164493052,
+      "checksum": "md5:d1340a66c775f8df610d55824dcd88c6",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230924_124453-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230927_043729": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230927_043729-combined_PEDataRelease.hdf5",
+      "size": 187177772,
+      "checksum": "md5:662887c1358e9782b16dc24e7127a170",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230927_043729-combined_PEDataRelease.hdf5/content"
+    },
+    "GW230927_153832": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW230927_153832-combined_PEDataRelease.hdf5",
+      "size": 207474404,
+      "checksum": "md5:802c1c28b6258427f7f311a870d0cf1c",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW230927_153832-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231020_142947": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231020_142947-combined_PEDataRelease.hdf5",
+      "size": 144649280,
+      "checksum": "md5:f1b5bb36c0a550c75622c828a753c9f1",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231020_142947-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231028_153006": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231028_153006-combined_PEDataRelease.hdf5",
+      "size": 312029656,
+      "checksum": "md5:bd34b41211d2a29b0c490733ca6d0beb",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231028_153006-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231102_071736": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231102_071736-combined_PEDataRelease.hdf5",
+      "size": 210699480,
+      "checksum": "md5:68e9ff2eb83aa971bdf25311d22b2754",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231102_071736-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231108_125142": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231108_125142-combined_PEDataRelease.hdf5",
+      "size": 127498936,
+      "checksum": "md5:b44a212a68a19efe97d41fd51742bfb0",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231108_125142-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231123_135430": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231123_135430-combined_PEDataRelease.hdf5",
+      "size": 306951852,
+      "checksum": "md5:2b78d0979bd861cbd333682c7d717c30",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231123_135430-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231206_233134": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231206_233134-combined_PEDataRelease.hdf5",
+      "size": 131615660,
+      "checksum": "md5:0c77f39e47b8a67bcc86ee7290fe4ec9",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231206_233134-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231206_233901": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231206_233901-combined_PEDataRelease.hdf5",
+      "size": 189649148,
+      "checksum": "md5:326d94a167fea38582079d0547aac8a1",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231206_233901-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231224_024321": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231224_024321-combined_PEDataRelease.hdf5",
+      "size": 286001984,
+      "checksum": "md5:322662b0b284a1a578dba7d890c56005",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231224_024321-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231226_101520": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231226_101520-combined_PEDataRelease.hdf5",
+      "size": 596091584,
+      "checksum": "md5:0bb90cbcd4dc24c37a8c683efd4f5e47",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231226_101520-combined_PEDataRelease.hdf5/content"
+    },
+    "GW231231_154016": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW231231_154016-combined_PEDataRelease.hdf5",
+      "size": 56185840,
+      "checksum": "md5:657e53215c12711f1b1931c7221259ee",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW231231_154016-combined_PEDataRelease.hdf5/content"
+    },
+    "GW240104_164932": {
+      "key": "IGWN-GWTC4p0-38214bd95_724-GW240104_164932-combined_PEDataRelease.hdf5",
+      "size": 83999452,
+      "checksum": "md5:7fd1eaff7232658722348973f3793bc3",
+      "url": "https://zenodo.org/api/records/17602505/files/IGWN-GWTC4p0-38214bd95_724-GW240104_164932-combined_PEDataRelease.hdf5/content"
+    }
+  }
+}

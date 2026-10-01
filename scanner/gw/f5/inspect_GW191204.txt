@@ -1,0 +1,132 @@
+top-level keys: C01:IMRPhenomXPHM, C01:Mixed, C01:SEOBNRv4PHM, history, version
+
+=== C01:IMRPhenomXPHM ===
+  groups: approximant, calibration_envelope, config_file, description, injection_data, meta_data, posterior_samples, priors, psds, version
+  approximant: IMRPhenomXPHM
+  posterior samples: 130603, parameters: 141
+  has log_likelihood: True
+  key parameters present: mass_1, mass_2, chirp_mass, mass_ratio, luminosity_distance, redshift, geocent_time, a_1, a_2, tilt_1, tilt_2, phi_12, phi_jl, theta_jn, psi, ra, dec, phase, network_matched_filter_snr
+  psds: H1 (16384, 2), L1 (16384, 2)
+  calibration_envelope: 
+  config entries: 101
+    reference-frequency = 20
+    minimum-frequency = { 'H1': 20, 'L1': 20,  }
+    maximum-frequency = { 'H1': 1792, 'L1': 1792,  }
+    sampling-frequency = 4096
+    duration = 8
+    waveform-approximant = IMRPhenomXPHM
+    frequency-domain-source-model = lal_binary_black_hole
+    calibration-model = CubicSpline
+    spline-calibration-nodes = 10
+    distance-marginalization = True
+    phase-marginalization = False
+    time-marginalization = True
+
+=== C01:Mixed ===
+  groups: meta_data, posterior_samples
+  posterior samples: 17547, parameters: 59
+  has log_likelihood: True
+  key parameters present: mass_1, mass_2, chirp_mass, mass_ratio, luminosity_distance, redshift, geocent_time, a_1, a_2, tilt_1, tilt_2, phi_12, phi_jl, theta_jn, psi, ra, dec, phase
+  key parameters missing: network_matched_filter_snr
+  psds: NOT PRESENT
+  calibration_envelope: NOT PRESENT
+  config_file: NOT PRESENT
+
+=== C01:SEOBNRv4PHM ===
+  groups: approximant, calibration_envelope, config_file, description, injection_data, meta_data, posterior_samples, priors, psds, skymap, version
+  approximant: SEOBNRv4PHM
+  posterior samples: 8866, parameters: 63
+  has log_likelihood: True
+  key parameters present: mass_1, mass_2, chirp_mass, mass_ratio, luminosity_distance, redshift, geocent_time, a_1, a_2, tilt_1, tilt_2, phi_12, phi_jl, theta_jn, psi, ra, dec, phase
+  key parameters missing: network_matched_filter_snr
+  psds: H1 (131072, 2), L1 (131072, 2)
+  calibration_envelope: 
+  config entries: 87
+  (non-standard or full config listing)
+    H1-psd = /home/daniel.williams/events/O3/event_repos/S191204a/C01_offline/psds/8192/H1-psd.dat
+    H1-spcal-envelope = /home/daniel.williams/events/O3/event_repos/S191204a/C01_offline/calibration/H1.dat
+    L1-psd = /home/daniel.williams/events/O3/event_repos/S191204a/C01_offline/psds/8192/L1-psd.dat
+    L1-spcal-envelope = /home/daniel.williams/events/O3/event_repos/S191204a/C01_offline/calibration/L1.dat
+    a_spin1-max = 0.99
+    a_spin2-max = 0.99
+    accounting_group = ligo.prod.o3.cbc.pe.lalinference
+    accounting_group_user = daniel.williams
+    adapt-temps = 
+    amporder = 1
+    analyse-all-time = False
+    annotate = 
+    approx = SEOBNRv4PHM
+    bits = ['Bit 0', 'Bit 1', 'Bit 2']
+    channels = {'H1': 'H1:DCS-CALIB_STRAIN_CLEAN_SUB60HZ_C01','L1': 'L1:DCS-CALIB_STRAIN_CLEAN_SUB60HZ_C01', 'V1': 'V1:Hrec_hoft_16384Hz'}
+    chirpmass-max = 9.9
+    chirpmass-min = 9.5
+    coherence-test = False
+    coherencetest = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_coherence_test
+    combinePTMCMCh5script = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/cbcBayesCombinePTMCMCh5s
+    comp-max = 1000
+    comp-min = 1
+    computeroqweights = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_compute_roq_weights
+    contour = 50 90
+    datafind = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/gw_data_find
+    deltaLogP = 7.5
+    distance-max = 10000
+    enable-multiresolution = 
+    enable-spline-calibration = 
+    engine = 
+    events = all
+    fhigh = { 'H1': 3584, 'L1': 3584,  }
+    flow = { 'H1': 20, 'L1': 20,  }
+    fmin-template = 13.333333333333334
+    fref = 20
+    gps-time-file = 
+    gracedb = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/gracedb
+    ifos = ['H1', 'L1']
+    ignore-gracedb-psd = True
+    ignore-state-vector = True
+    lalinferencebambi = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_bambi
+    lalinferencedatadump = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_datadump
+    lalinferencemcmc = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_mcmc
+    lalinferencenest = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_nest
+    lalsuite-install = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy/
+    ligo-skymap-from-samples = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/ligo-skymap-from-samples
+    ligo-skymap-plot = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/ligo-skymap-plot
+    ligolw_print = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/ligolw_print
+    machine-count = 8
+    machine-memory = 4000
+    max-psd-length = 10000
+    maxmcmc = 5000
+    maxpts = 2000
+    mergeMCMCscript = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/cbcBayesMCMC2pos
+    mergeNSscript = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_nest2pos
+    minimum_realizations_number = 8
+    mpi_task_count = 8
+    mpirun = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/mpirun
+    mpiwrapper = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/lalinference_mpi_wrapper
+    neff = 1000
+    nlive = 2048
+    nparallel = 4
+    ntemps = 8
+    osg = False
+    padding = 16
+    pos_to_sim_inspiral = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/cbcBayesPosToSimInspiral
+    ppanalysis = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/cbcBayesPPAnalysis
+    processareas = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/process_areas
+    progress = 
+    q-min = 0.05
+    resultspage = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/cbcBayesPostProc
+    resume = 
+    roq = False
+    segfind = /home/daniel.williams/.conda/envs/igwn-py38-20210107-cupy//bin/ligolw_segment_query
+    seglen = 8
+    singularity = False
+    skyres = 0.5
+    spcal-nodes = 10
+    srate = 8192
+    state-vector-channel = {'H1': 'H1:GDS-CALIB_STATE_VECTOR_C01', 'L1': 'L1:GDS-CALIB_STATE_VECTOR_C01', 'V1': 'V1:DQ_ANALYSIS_STATE_VECTOR'}
+    threshold-snr = 3
+    timeslides = False
+    tolerance = 0.1
+    types = {'H1': 'H1_HOFT_CLEAN_SUB60HZ_C01', 'L1': 'L1_HOFT_CLEAN_SUB60HZ_C01', 'V1': 'V1Online'}
+    upload-to-gracedb = False
+    url-type = file
+    webdir = /home/pe.o3/public_html/LVC/o3b-catalog//S191204a/Prod12

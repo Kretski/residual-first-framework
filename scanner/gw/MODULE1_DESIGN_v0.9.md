@@ -1,6 +1,7 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.1 — not frozen.** (v0.9.1: §2 coefficient and sign fixed by F4.) Nothing in this document has been run on
+**Status: DRAFT v0.9.2 — not frozen.** (v0.9.1: §2 coefficient and sign fixed by F4;
+v0.9.2: event list frozen, F5 results and the resulting rules in §3 and §5.) Nothing in this document has been run on
 real gravitational-wave events. Version 1.0 will be frozen (commit, tag and hash)
 only after the feasibility checks in §12 are complete. The first run after the
 freeze is the calibration suite (§7–§9), never the real events.
@@ -73,9 +74,21 @@ every injection amplitude.
 - **Confirmation cohort:** GWTC-4.0 (O4a), fixed in advance. Later data (e.g. O4b)
   are not added after results are seen; they may form a separate, later blind extension.
 - **Selection rule (applied from catalog tables only, before any residual is computed):**
-  binary black holes (both component masses above 3 M☉, catalog median values) with
-  median network matched-filter SNR ≥ 12. The resulting event list, with GWOSC
-  identifiers and file checksums, is committed before the first run.
+  GWOSC catalogs GWTC-2.1-confident (includes the O1/O2 events reanalysed with
+  IMRPhenomXPHM and SEOBNRv4PHM) and GWTC-3-confident for discovery, GWTC-4.0 for
+  confirmation; mass_2_source (catalog median, source frame) > 3 M☉;
+  network_matched_filter_snr (catalog PE median) ≥ 12.
+- **Frozen list (tag `v1-module1-eventlist`, `scanner/gw/event_selection/`):**
+  discovery 37 events, confirmation 24 events; raw catalog snapshots with SHA-256 and
+  access time. 43 GWTC-4.0 candidates without public PE are excluded (no reference
+  point); see `NOTES.md`.
+- **F5 eligibility (`scanner/gw/f5/`):**
+  discovery 32 BOTH_OK, 4 SINGLE_MODEL (GW151226, GW190521, GW190602_175927,
+  GW190828_063405: no SEOBNRv4PHM in the public release), 1 excluded
+  (GW191204_171526: no calibration envelope in the public file, for either model);
+  confirmation 24 BOTH_OK. **The primary catalog test uses the 32 + 24 BOTH_OK events;**
+  SINGLE_MODEL events are analysed separately with IMRPhenomXPHM only and are not
+  part of the primary test.
 
 ## 4. Data and preprocessing (fixed)
 
@@ -94,9 +107,25 @@ every injection amplitude.
   contains model mismatch).
 - Discovery cohort: IMRPhenomXPHM and SEOBNRv4PHM (the effective-one-body model
   released with GWTC-2.1/3 PE). Confirmation cohort: IMRPhenomXPHM and SEOBNRv5PHM.
-  **Availability of these PE sample sets per event is verified in F5;** the
-  pairing is fixed in v1.0.
-- Reference point: the maximum-likelihood sample of each model's PE release.
+  Availability verified in F5 (see §3).
+- Labels: discovery `C01:IMRPhenomXPHM`, `C01:SEOBNRv4PHM`; confirmation
+  `C00:IMRPhenomXPHM-SpinTaylor`, `C00:SEOBNRv5PHM` (all 24 confirmation events use
+  exactly these). `Mixed` labels are never used.
+- Waveform settings are taken **per event and per label** from the PE configuration:
+  reference frequency (20 Hz for most events, 10 Hz e.g. for GW231123_135430),
+  analysis band, waveform starting frequency (e.g. `waveform: 10.0`, or LALInference
+  `fmin-template`), sampling rate, segment duration, and the waveform-argument
+  dictionary (e.g. `PhenomXPrecVersion: 320` for XPHM-SpinTaylor). A waveform
+  generated without these settings is not the waveform of the PE analysis and its
+  residual would contain the difference.
+- Reference point: the maximum-likelihood sample of each model's PE release, followed
+  by a local re-optimisation of the extrinsic parameters only (coalescence time,
+  phase, distance) with the released PSDs. Reason: bilby analyses marginalise over
+  time and distance, so the stored log-likelihood is marginalised and the time and
+  distance of a sample are draws, not maxima; LALInference analyses have few samples.
+  Intrinsic parameters are not changed.
+- Calibration envelope: from the label itself; if absent, from the XPHM label of the
+  same event (same detectors and strain); if absent in both, the event is excluded.
 - The same event is always analysed with both models by the same scanner; the model
   is never chosen according to the result.
 
@@ -181,8 +210,11 @@ Every result, including failures, is reported.
 - **F3** Numerical derivatives: step sizes and stability for all parameters.
 - **F4** DONE (see §2): coefficient (4π³/3), sign convention, λ_eff = λ_A,
   Λ = A₄(ħc)²; numerical agreement 0.9983 with LALSimulation.
-- **F5** Verify, per event, the availability of PE samples for both models and of
-  the released PSDs and calibration envelopes.
+- **F5** DONE (see §3 and §5): all 61 PE files downloaded and MD5-verified (8.7 GB);
+  content checked per label (samples with log-likelihood, parameters, PSDs,
+  calibration envelopes, configuration). Two checker defects found and fixed before
+  any residual: remote reading hit Zenodo rate limits (replaced by verified local
+  files), and configuration keys occur with '_' or '-' (both accepted).
 - **F6** Rough budget DONE: tangent basis per event 0.4 / 3.3 / 72 s
   (XPHM / v5PHM / v4PHM); the full calibration suite is feasible on a laptop.
   Final numbers of injections are fixed in v1.0. Compute budget: estimate the total cost of §7–§9 and fix the numbers of
