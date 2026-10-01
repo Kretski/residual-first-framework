@@ -1,0 +1,15 @@
+lal 7.7.1, lalsimulation 6.2.1
+α = 4.0, log10 λ_eff = -3.5 (λ_eff = 3.162e-04 m), D_L = 400.0 Mpc, band (25.0, 400.0) Hz
+
+sign(A) = +1: δΨ span 3.069 rad; fit c2 = -3.847e-20, c3 = +4.797081e-08 rad/Hz³, rms residual 6.98e-16 rad; pure-f³ fit c3 = +4.797081e-08
+sign(A) = -1: δΨ span 3.069 rad; fit c2 = +3.847e-20, c3 = -4.797081e-08 rad/Hz³, rms residual 6.98e-16 rad; pure-f³ fit c3 = -4.797081e-08
+
+If λ_eff = λ_A:  Λ = (λ_A/2π)² = 2.5330e-09 m²,  A₄ = Λ/(ħc)² = 6.5053e+04 eV⁻²
+
+ratio c3_LAL / c3_pred  (≈ +1 identifies the convention):
+  Planck15: z = 0.08500, I₄ = 1.23632e+25 m
+     sign +1:  (A) +0.9983    (B) +0.3328
+     sign -1:  (A) -0.9983    (B) -0.3328
+  Planck18: z = 0.08492, I₄ = 1.23631e+25 m
+     sign +1:  (A) +0.9983    (B) +0.3328
+     sign -1:  (A) -0.9983    (B) -0.3328

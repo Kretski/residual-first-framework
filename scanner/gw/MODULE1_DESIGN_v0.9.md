@@ -1,6 +1,6 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9 — not frozen.** Nothing in this document has been run on
+**Status: DRAFT v0.9.1 — not frozen.** (v0.9.1: §2 coefficient and sign fixed by F4.) Nothing in this document has been run on
 real gravitational-wave events. Version 1.0 will be frozen (commit, tag and hash)
 only after the feasibility checks in §12 are complete. The first run after the
 freeze is the calibration suite (§7–§9), never the real events.
@@ -37,22 +37,30 @@ Model: ω² = c²k²(1 + Λk²), the α = 4 member of the modified-dispersion cl
 E² = p²c² + A_α p^α c^α used by LVK.
 
 For a compact-binary signal the dispersion adds a frequency-domain phase
+(verified by F4, see below):
 
-    δΨ(f) = s · C · Λ · K(z) · f³,
+    δΨ(f) = sign(Λ) · (4π³/3) · |Λ| · I₄(z) · f³ / c³ ,
+    I₄(z) = (c / H₀) ∫₀^z (1 + z')² / E(z') dz' ,
 
-with sign s and constant C fixed by the derivation in §12 (F4). K(z) is the
-propagation factor of the α = 4 class (the LVK/Mirshekari–Yunes–Will distance
-measure D_α for α = 4), computed with the cosmology used by the respective catalog.
+in the LALSimulation Fourier convention (positive Λ gives a positive f³
+coefficient). The factor 1/3 is the 1/(α − 1) of the Mirshekari–Yunes–Will form.
+Conversion to the LVK parameterization:
 
-**Open item (must be closed before v1.0):** the constant C and the sign convention.
-They are derived analytically and verified numerically against the LALSimulation
-implementation of the LVK parameterization (F4). This also settles the open
-normalization question of the Λ model (factor 2 between H = ½gkk + Λk⁴ and
-H = gkk + Λk⁴) and the relation Λ ↔ A₄.
+    Λ = A₄ (ħc)² = (λ_A / 2π)² ,    Λ [m²] = A₄ [eV⁻²] × 3.894·10⁻¹⁴ .
+
+**F4 result (lal 7.7.1, lalsimulation 6.2.1, IMRPhenomXPHM, D_L = 400 Mpc,
+λ_eff = 10⁻³·⁵ m):** the LALSimulation dispersion term is a pure f³ phase
+(fitted f² coefficient ~10⁻²⁰, residual 7·10⁻¹⁶ rad), changes sign with sign(A),
+and equals the expression above to a ratio of 0.9983 (Planck15 and Planck18 give
+the same z to 10⁻³); the expression without the 1/3 factor is off by a factor of 3.
+LALSimulation's λ_eff equals λ_A. The residual 0.17 % is attributed to the
+cosmology used internally by LALSimulation and is negligible here; it is recorded.
+In Module 1, Λ is always the coefficient defined through ω² = c²k²(1 + Λk²); any
+comparison with other normalizations of the Λ model goes through this relation.
 
 To first order in δΨ the residual after subtracting the GR waveform is
 
-    r(f) ≈ i δΨ(f) h_GR(f) = Λ · T₃(f),   T_p(f) = i · s C K(z) · f^p · h_GR(f).
+    r(f) ≈ i δΨ(f) h_GR(f) = Λ · T₃(f),   T_p(f) = i · (4π³/3) · I₄(z) / c³ · f^p · h_GR(f).
 
 **Primary template:** p = 3. **False-shape controls:** p = 2 and p = 4.
 p = 0 and p = 1 are fully degenerate with coalescence phase and time and are not tested.
@@ -165,15 +173,19 @@ Every result, including failures, is reported.
 
 ## 12. Feasibility checks before v1.0
 
-- **F1** Install and pin versions: lalsuite, pyseobnr, gwpy (and any PE-file readers).
-- **F2** Generate one waveform per model for a typical event; measure the time.
+- **F1** DONE: lalsuite (pip) with lal 7.7.1 / lalsimulation 6.2.1, pyseobnr 0.3.7,
+  gwpy 4.0.2, Python 3.11 in WSL (`requirements_gw2.txt`, `environment_gw2.yml`).
+  The conda-forge lal/lalsimulation builds showed a SWIG type mismatch.
+- **F2** DONE: one waveform: IMRPhenomXPHM 0.014 s, SEOBNRv5PHM 0.1 s (first call
+  ~9 s), SEOBNRv4PHM 2.3 s.
 - **F3** Numerical derivatives: step sizes and stability for all parameters.
-- **F4** Derive C and the sign in §2; verify numerically against the LALSimulation
-  implementation of the LVK dispersion parameterization; close the Λ normalization
-  question and the Λ ↔ A₄ conversion.
+- **F4** DONE (see §2): coefficient (4π³/3), sign convention, λ_eff = λ_A,
+  Λ = A₄(ħc)²; numerical agreement 0.9983 with LALSimulation.
 - **F5** Verify, per event, the availability of PE samples for both models and of
   the released PSDs and calibration envelopes.
-- **F6** Compute budget: estimate the total cost of §7–§9 and fix the numbers of
+- **F6** Rough budget DONE: tangent basis per event 0.4 / 3.3 / 72 s
+  (XPHM / v5PHM / v4PHM); the full calibration suite is feasible on a laptop.
+  Final numbers of injections are fixed in v1.0. Compute budget: estimate the total cost of §7–§9 and fix the numbers of
   off-source injections and ladder realizations; if needed, run the large
   calibration suite with IMRPhenomXPHM only and a smaller pre-fixed control suite
   with the effective-one-body model.
