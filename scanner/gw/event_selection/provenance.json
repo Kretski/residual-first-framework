@@ -1,0 +1,45 @@
+{
+  "rule": {
+    "bbh_field": "mass_2_source",
+    "bbh_min_msun": 3.0,
+    "snr_field": "network_matched_filter_snr",
+    "snr_min": 12.0,
+    "snr_inclusive": true
+  },
+  "cohorts": {
+    "discovery": [
+      "GWTC-2.1-confident",
+      "GWTC-3-confident"
+    ],
+    "confirmation": [
+      "GWTC-4.0"
+    ]
+  },
+  "catalogs": [
+    {
+      "catalog": "GWTC-2.1-confident",
+      "url": "https://gwosc.org/eventapi/json/GWTC-2.1-confident/",
+      "accessed_utc": "2026-10-01T01:07:50Z",
+      "sha256": "93f8e0fd6aba115f81dc953d30adc66d048aba23682271ed9218283233d5f659",
+      "bytes": 102977,
+      "n_events": 54
+    },
+    {
+      "catalog": "GWTC-3-confident",
+      "url": "https://gwosc.org/eventapi/json/GWTC-3-confident/",
+      "accessed_utc": "2026-10-01T01:07:51Z",
+      "sha256": "e892790dd548e4b41248c771bbe658f9edc8b41cedbfbe0c0ebea7a55f3ccdb7",
+      "bytes": 66630,
+      "n_events": 35
+    },
+    {
+      "catalog": "GWTC-4.0",
+      "url": "https://gwosc.org/eventapi/json/GWTC-4.0/",
+      "accessed_utc": "2026-10-01T01:07:52Z",
+      "sha256": "8d16fe7c53e6f23eda875f9f99c736579c8d4edb36932f9d5736414b777cb913",
+      "bytes": 243131,
+      "n_events": 129
+    }
+  ],
+  "duplicates_across_catalogs": {}
+}

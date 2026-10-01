@@ -1,0 +1,219 @@
+cohort,catalog,commonName,version,GPS,mass_1_source,mass_2_source,network_matched_filter_snr,luminosity_distance,redshift,jsonurl,status,reason
+discovery,GWTC-2.1-confident,GW150914,4,1126259462.4,34.6,30.0,26.0,470.0,0.1,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW150914/v4,SELECTED,
+discovery,GWTC-2.1-confident,GW151012,4,1128678900.4,24.8,13.6,9.3,1000.0,0.2,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW151012/v4,EXCLUDED,network_matched_filter_snr = 9.3 < 12.0
+discovery,GWTC-2.1-confident,GW151226,3,1135136350.6,14.2,7.5,12.7,460.0,0.1,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW151226/v3,SELECTED,
+discovery,GWTC-2.1-confident,GW170104,3,1167559936.6,28.7,20.8,13.8,1110.0,0.22,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW170104/v3,SELECTED,
+discovery,GWTC-2.1-confident,GW170608,4,1180922494.5,10.6,7.8,15.3,340.0,0.07,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW170608/v4,SELECTED,
+discovery,GWTC-2.1-confident,GW170729,2,1185389807.3,54.7,30.2,10.7,2490.0,0.44,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW170729/v2,EXCLUDED,network_matched_filter_snr = 10.7 < 12.0
+discovery,GWTC-2.1-confident,GW170809,2,1186302519.8,34.1,24.2,12.8,1070.0,0.21,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW170809/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW170814,4,1186741861.5,30.9,24.9,17.7,610.0,0.13,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW170814/v4,SELECTED,
+discovery,GWTC-2.1-confident,GW170818,2,1187058327.1,34.8,27.6,12.0,1080.0,0.21,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW170818/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW170823,2,1187529256.5,38.3,29.0,12.2,1970.0,0.36,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW170823/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190403_051519,1,1238303737.2,85.0,20.0,7.6,8280.0,1.18,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190403_051519/v1,EXCLUDED,network_matched_filter_snr = 7.6 < 12.0
+discovery,GWTC-2.1-confident,GW190408_181802,2,1238782700.2,24.8,18.5,14.6,1540.0,0.29,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190408_181802/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190412,4,1239082262.1,27.7,9.0,19.8,720.0,0.15,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190412/v4,SELECTED,
+discovery,GWTC-2.1-confident,GW190413_052954,2,1239168612.5,33.7,24.2,9.0,3320.0,0.56,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190413_052954/v2,EXCLUDED,network_matched_filter_snr = 9.0 < 12.0
+discovery,GWTC-2.1-confident,GW190413_134308,2,1239198206.7,51.3,30.4,10.6,3800.0,0.62,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190413_134308/v2,EXCLUDED,network_matched_filter_snr = 10.6 < 12.0
+discovery,GWTC-2.1-confident,GW190421_213856,2,1239917954.2,42.0,32.0,10.7,2590.0,0.45,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190421_213856/v2,EXCLUDED,network_matched_filter_snr = 10.7 < 12.0
+discovery,GWTC-2.1-confident,GW190425,3,1240215503.0,2.1,1.3,12.4,150.0,0.03,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190425/v3,EXCLUDED,mass_2_source = 1.3 <= 3.0 (not BBH)
+discovery,GWTC-2.1-confident,GW190426_190642,1,1240340820.6,105.5,76.0,8.7,4580.0,0.73,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190426_190642/v1,EXCLUDED,network_matched_filter_snr = 8.7 < 12.0
+discovery,GWTC-2.1-confident,GW190503_185404,2,1240944862.2,41.3,28.3,12.2,1520.0,0.29,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190503_185404/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190512_180714,2,1241719652.4,23.2,12.5,12.7,1460.0,0.28,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190512_180714/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190513_205428,2,1241816086.7,36.0,18.3,12.5,2210.0,0.4,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190513_205428/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190514_065416,2,1241852074.8,40.9,28.4,8.0,3890.0,0.64,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190514_065416/v2,EXCLUDED,network_matched_filter_snr = 8.0 < 12.0
+discovery,GWTC-2.1-confident,GW190517_055101,2,1242107479.8,39.2,24.0,10.8,1790.0,0.33,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190517_055101/v2,EXCLUDED,network_matched_filter_snr = 10.8 < 12.0
+discovery,GWTC-2.1-confident,GW190519_153544,2,1242315362.3,65.1,40.8,15.9,2600.0,0.45,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190519_153544/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190521,4,1242442967.4,98.4,57.2,14.3,3310.0,0.56,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190521/v4,SELECTED,
+discovery,GWTC-2.1-confident,GW190521_074359,2,1242459857.4,43.4,33.4,25.9,1080.0,0.21,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190521_074359/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190527_092055,2,1242984073.7,35.6,22.2,8.0,2520.0,0.44,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190527_092055/v2,EXCLUDED,network_matched_filter_snr = 8.0 < 12.0
+discovery,GWTC-2.1-confident,GW190602_175927,2,1243533585.0,71.8,44.8,13.2,2840.0,0.49,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190602_175927/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190620_030421,2,1245035079.3,58.0,35.0,12.1,2910.0,0.5,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190620_030421/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190630_185205,2,1245955943.1,35.1,24.0,16.4,870.0,0.18,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190630_185205/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190701_203306,2,1246048404.5,54.1,40.5,11.2,2090.0,0.38,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190701_203306/v2,EXCLUDED,network_matched_filter_snr = 11.2 < 12.0
+discovery,GWTC-2.1-confident,GW190706_222641,2,1246487219.3,74.0,39.4,13.4,3630.0,0.6,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190706_222641/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190707_093326,2,1246527224.1,12.1,7.9,13.1,850.0,0.17,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190707_093326/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190708_232457,2,1246663515.3,19.8,11.6,13.4,930.0,0.19,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190708_232457/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190719_215514,2,1247608532.9,36.6,19.9,7.9,3730.0,0.61,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190719_215514/v2,EXCLUDED,network_matched_filter_snr = 7.9 < 12.0
+discovery,GWTC-2.1-confident,GW190720_000836,2,1247616534.7,14.2,7.5,10.9,770.0,0.16,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190720_000836/v2,EXCLUDED,network_matched_filter_snr = 10.9 < 12.0
+discovery,GWTC-2.1-confident,GW190725_174728,1,1248112066.4,11.8,6.3,9.1,1030.0,0.2,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190725_174728/v1,EXCLUDED,network_matched_filter_snr = 9.1 < 12.0
+discovery,GWTC-2.1-confident,GW190727_060333,2,1248242631.9,38.9,30.2,11.7,3070.0,0.52,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190727_060333/v2,EXCLUDED,network_matched_filter_snr = 11.7 < 12.0
+discovery,GWTC-2.1-confident,GW190728_064510,2,1248331528.5,12.5,8.0,13.1,880.0,0.18,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190728_064510/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190731_140936,2,1248617394.6,41.8,29.0,8.8,3330.0,0.56,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190731_140936/v2,EXCLUDED,network_matched_filter_snr = 8.8 < 12.0
+discovery,GWTC-2.1-confident,GW190803_022701,2,1248834439.8,37.7,27.6,9.3,3190.0,0.54,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190803_022701/v2,EXCLUDED,network_matched_filter_snr = 9.3 < 12.0
+discovery,GWTC-2.1-confident,GW190805_211137,1,1249074715.3,46.2,30.6,8.1,6130.0,0.92,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190805_211137/v1,EXCLUDED,network_matched_filter_snr = 8.1 < 12.0
+discovery,GWTC-2.1-confident,GW190814,3,1249852257.0,23.3,2.6,25.3,230.0,0.05,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190814/v3,EXCLUDED,mass_2_source = 2.6 <= 3.0 (not BBH)
+discovery,GWTC-2.1-confident,GW190828_063405,2,1251009263.7,31.9,25.8,16.5,2070.0,0.38,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190828_063405/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190828_065509,2,1251010527.8,23.7,10.4,10.2,1540.0,0.29,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190828_065509/v2,EXCLUDED,network_matched_filter_snr = 10.2 < 12.0
+discovery,GWTC-2.1-confident,GW190910_112807,2,1252150105.3,43.8,34.2,14.5,1520.0,0.29,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190910_112807/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190915_235702,2,1252627040.6,32.6,24.5,13.1,1750.0,0.32,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190915_235702/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190916_200658,1,1252699636.9,43.8,23.3,8.1,4940.0,0.77,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190916_200658/v1,EXCLUDED,network_matched_filter_snr = 8.1 < 12.0
+discovery,GWTC-2.1-confident,GW190917_114630,1,1252756008.0,9.7,2.1,8.3,720.0,0.15,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190917_114630/v1,EXCLUDED,mass_2_source = 2.1 <= 3.0 (not BBH)
+discovery,GWTC-2.1-confident,GW190924_021846,2,1253326744.8,8.8,5.1,12.0,550.0,0.11,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190924_021846/v2,SELECTED,
+discovery,GWTC-2.1-confident,GW190925_232845,1,1253489343.1,20.8,15.5,9.7,930.0,0.19,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190925_232845/v1,EXCLUDED,network_matched_filter_snr = 9.7 < 12.0
+discovery,GWTC-2.1-confident,GW190926_050336,1,1253509434.0,41.1,20.4,8.1,3280.0,0.55,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190926_050336/v1,EXCLUDED,network_matched_filter_snr = 8.1 < 12.0
+discovery,GWTC-2.1-confident,GW190929_012149,2,1253755327.4,66.3,26.8,9.7,3130.0,0.53,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190929_012149/v2,EXCLUDED,network_matched_filter_snr = 9.7 < 12.0
+discovery,GWTC-2.1-confident,GW190930_133541,2,1253885759.2,14.2,6.9,9.7,770.0,0.16,https://gwosc.org/eventapi/json/GWTC-2.1-confident/GW190930_133541/v2,EXCLUDED,network_matched_filter_snr = 9.7 < 12.0
+discovery,GWTC-3-confident,GW191103_012549,1,1256779567.5,11.8,7.9,8.9,990.0,0.2,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191103_012549/v1,EXCLUDED,network_matched_filter_snr = 8.9 < 12.0
+discovery,GWTC-3-confident,GW191105_143521,1,1256999739.9,10.7,7.7,9.7,1150.0,0.23,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191105_143521/v1,EXCLUDED,network_matched_filter_snr = 9.7 < 12.0
+discovery,GWTC-3-confident,GW191109_010717,1,1257296855.2,65.0,47.0,17.3,1290.0,0.25,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191109_010717/v1,SELECTED,
+discovery,GWTC-3-confident,GW191113_071753,1,1257664691.8,29.0,5.9,7.9,1370.0,0.26,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191113_071753/v1,EXCLUDED,network_matched_filter_snr = 7.9 < 12.0
+discovery,GWTC-3-confident,GW191126_115259,1,1258804397.6,12.1,8.3,8.3,1620.0,0.3,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191126_115259/v1,EXCLUDED,network_matched_filter_snr = 8.3 < 12.0
+discovery,GWTC-3-confident,GW191127_050227,1,1258866165.5,53.0,24.0,9.2,3400.0,0.57,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191127_050227/v1,EXCLUDED,network_matched_filter_snr = 9.2 < 12.0
+discovery,GWTC-3-confident,GW191129_134029,1,1259070047.1,10.7,6.7,13.1,790.0,0.16,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191129_134029/v1,SELECTED,
+discovery,GWTC-3-confident,GW191204_110529,1,1259492747.5,27.3,19.2,8.9,1900.0,0.34,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191204_110529/v1,EXCLUDED,network_matched_filter_snr = 8.9 < 12.0
+discovery,GWTC-3-confident,GW191204_171526,1,1259514944.0,11.7,8.4,17.4,640.0,0.13,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191204_171526/v1,SELECTED,
+discovery,GWTC-3-confident,GW191215_223052,1,1260484270.3,24.9,18.1,11.2,1930.0,0.35,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191215_223052/v1,EXCLUDED,network_matched_filter_snr = 11.2 < 12.0
+discovery,GWTC-3-confident,GW191216_213338,1,1260567236.4,12.1,7.7,18.6,340.0,0.07,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191216_213338/v1,SELECTED,
+discovery,GWTC-3-confident,GW191219_163120,1,1260808298.4,31.1,1.17,9.1,550.0,0.11,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191219_163120/v1,EXCLUDED,mass_2_source = 1.17 <= 3.0 (not BBH)
+discovery,GWTC-3-confident,GW191222_033537,1,1261020955.1,45.1,34.7,12.5,3000.0,0.51,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191222_033537/v1,SELECTED,
+discovery,GWTC-3-confident,GW191230_180458,1,1261764316.4,49.4,37.0,10.4,4300.0,0.69,https://gwosc.org/eventapi/json/GWTC-3-confident/GW191230_180458/v1,EXCLUDED,network_matched_filter_snr = 10.4 < 12.0
+discovery,GWTC-3-confident,GW200112_155838,1,1262879936.0,35.6,28.3,19.8,1250.0,0.24,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200112_155838/v1,SELECTED,
+discovery,GWTC-3-confident,GW200115_042309,2,1263097407.7,5.9,1.44,11.3,290.0,0.06,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200115_042309/v2,EXCLUDED,mass_2_source = 1.44 <= 3.0 (not BBH)
+discovery,GWTC-3-confident,GW200128_022011,1,1264213229.9,42.2,32.6,10.6,3400.0,0.56,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200128_022011/v1,EXCLUDED,network_matched_filter_snr = 10.6 < 12.0
+discovery,GWTC-3-confident,GW200129_065458,1,1264316116.4,34.5,29.0,26.8,890.0,0.18,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200129_065458/v1,SELECTED,
+discovery,GWTC-3-confident,GW200202_154313,1,1264693411.5,10.1,7.3,10.8,410.0,0.09,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200202_154313/v1,EXCLUDED,network_matched_filter_snr = 10.8 < 12.0
+discovery,GWTC-3-confident,GW200208_130117,1,1265202095.9,37.7,27.4,10.8,2230.0,0.4,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200208_130117/v1,EXCLUDED,network_matched_filter_snr = 10.8 < 12.0
+discovery,GWTC-3-confident,GW200208_222617,1,1265235995.9,51.0,12.3,7.4,4100.0,0.66,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200208_222617/v1,EXCLUDED,network_matched_filter_snr = 7.4 < 12.0
+discovery,GWTC-3-confident,GW200209_085452,1,1265273710.1,35.6,27.1,9.6,3400.0,0.57,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200209_085452/v1,EXCLUDED,network_matched_filter_snr = 9.6 < 12.0
+discovery,GWTC-3-confident,GW200210_092254,1,1265361792.9,24.1,2.83,8.4,940.0,0.19,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200210_092254/v1,EXCLUDED,mass_2_source = 2.83 <= 3.0 (not BBH)
+discovery,GWTC-3-confident,GW200216_220804,1,1265926102.8,51.0,30.0,8.1,3800.0,0.63,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200216_220804/v1,EXCLUDED,network_matched_filter_snr = 8.1 < 12.0
+discovery,GWTC-3-confident,GW200219_094415,1,1266140673.1,37.5,27.9,10.7,3400.0,0.57,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200219_094415/v1,EXCLUDED,network_matched_filter_snr = 10.7 < 12.0
+discovery,GWTC-3-confident,GW200220_061928,1,1266214786.7,87.0,61.0,7.2,6000.0,0.9,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200220_061928/v1,EXCLUDED,network_matched_filter_snr = 7.2 < 12.0
+discovery,GWTC-3-confident,GW200220_124850,1,1266238148.1,38.9,27.9,8.5,4000.0,0.66,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200220_124850/v1,EXCLUDED,network_matched_filter_snr = 8.5 < 12.0
+discovery,GWTC-3-confident,GW200224_222234,1,1266618172.4,40.0,32.7,20.0,1710.0,0.32,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200224_222234/v1,SELECTED,
+discovery,GWTC-3-confident,GW200225_060421,1,1266645879.3,19.3,14.0,12.5,1150.0,0.22,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200225_060421/v1,SELECTED,
+discovery,GWTC-3-confident,GW200302_015811,1,1267149509.5,37.8,20.0,10.8,1480.0,0.28,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200302_015811/v1,EXCLUDED,network_matched_filter_snr = 10.8 < 12.0
+discovery,GWTC-3-confident,GW200306_093714,1,1267522652.1,28.3,14.8,7.8,2100.0,0.38,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200306_093714/v1,EXCLUDED,network_matched_filter_snr = 7.8 < 12.0
+discovery,GWTC-3-confident,GW200308_173609,1,1267724187.7,60.0,24.0,4.7,7100.0,1.04,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200308_173609/v1,EXCLUDED,network_matched_filter_snr = 4.7 < 12.0
+discovery,GWTC-3-confident,GW200311_115853,1,1267963151.3,34.2,27.7,17.8,1170.0,0.23,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200311_115853/v1,SELECTED,
+discovery,GWTC-3-confident,GW200316_215756,1,1268431094.1,13.1,7.8,10.3,1120.0,0.22,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200316_215756/v1,EXCLUDED,network_matched_filter_snr = 10.3 < 12.0
+discovery,GWTC-3-confident,GW200322_091133,1,1268903511.3,38.0,11.3,4.5,3500.0,0.59,https://gwosc.org/eventapi/json/GWTC-3-confident/GW200322_091133/v1,EXCLUDED,network_matched_filter_snr = 4.5 < 12.0
+confirmation,GWTC-4.0,GW230518_125908,1,1368449966.2,8.17,1.45,14.1,236.0,0.05,https://gwosc.org/eventapi/json/GWTC-4.0/GW230518_125908/v1,EXCLUDED,mass_2_source = 1.45 <= 3.0 (not BBH)
+confirmation,GWTC-4.0,GW230529_181500,2,1369419318.7,3.66,1.42,11.8,203.0,0.04,https://gwosc.org/eventapi/json/GWTC-4.0/GW230529_181500/v2,EXCLUDED,mass_2_source = 1.42 <= 3.0 (not BBH)
+confirmation,GWTC-4.0,GW230531_141100,1,1369577478.3,,,8.0,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230531_141100/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230601_224134,1,1369694512.1,64.0,44.0,13.4,3700.0,0.6,https://gwosc.org/eventapi/json/GWTC-4.0/GW230601_224134/v1,SELECTED,
+confirmation,GWTC-4.0,GW230603_174756,1,1369849694.9,,,8.0,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230603_174756/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230605_065343,1,1369983241.5,17.4,11.0,11.4,1060.0,0.21,https://gwosc.org/eventapi/json/GWTC-4.0/GW230605_065343/v1,EXCLUDED,network_matched_filter_snr = 11.4 < 12.0
+confirmation,GWTC-4.0,GW230606_004305,1,1370047403.8,37.6,25.7,11.1,2800.0,0.48,https://gwosc.org/eventapi/json/GWTC-4.0/GW230606_004305/v1,EXCLUDED,network_matched_filter_snr = 11.1 < 12.0
+confirmation,GWTC-4.0,GW230606_024545,1,1370054763.5,,,7.5,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230606_024545/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230608_205047,1,1370292665.2,48.0,31.0,10.2,3500.0,0.58,https://gwosc.org/eventapi/json/GWTC-4.0/GW230608_205047/v1,EXCLUDED,network_matched_filter_snr = 10.2 < 12.0
+confirmation,GWTC-4.0,GW230609_010824,1,1370308122.4,,,8.0,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230609_010824/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230609_064958,1,1370328616.3,35.4,25.2,10.6,3400.0,0.56,https://gwosc.org/eventapi/json/GWTC-4.0/GW230609_064958/v1,EXCLUDED,network_matched_filter_snr = 10.6 < 12.0
+confirmation,GWTC-4.0,GW230615_160825,1,1370880524.0,,,8.9,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230615_160825/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230618_102550,1,1371119168.0,,,7.8,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230618_102550/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230624_113103,1,1371641481.7,27.1,16.1,11.4,1930.0,0.35,https://gwosc.org/eventapi/json/GWTC-4.0/GW230624_113103/v1,EXCLUDED,network_matched_filter_snr = 11.4 < 12.0
+confirmation,GWTC-4.0,GW230624_214944,1,1371678602.5,,,10.6,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230624_214944/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230625_211655,1,1371763033.0,,,8.1,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230625_211655/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230627_015337,1,1371866035.8,8.4,5.74,28.7,305.0,0.07,https://gwosc.org/eventapi/json/GWTC-4.0/GW230627_015337/v1,SELECTED,
+confirmation,GWTC-4.0,GW230628_231200,1,1372029138.4,32.5,27.0,16.4,2260.0,0.4,https://gwosc.org/eventapi/json/GWTC-4.0/GW230628_231200/v1,SELECTED,
+confirmation,GWTC-4.0,GW230630_070659,1,1372144037.0,,,9.8,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230630_070659/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230630_125806,1,1372165104.9,51.0,33.0,9.0,5400.0,0.83,https://gwosc.org/eventapi/json/GWTC-4.0/GW230630_125806/v1,EXCLUDED,network_matched_filter_snr = 9.0 < 12.0
+confirmation,GWTC-4.0,GW230630_234532,1,1372203950.4,10.0,6.6,9.9,1090.0,0.21,https://gwosc.org/eventapi/json/GWTC-4.0/GW230630_234532/v1,EXCLUDED,network_matched_filter_snr = 9.9 < 12.0
+confirmation,GWTC-4.0,GW230702_162025,1,1372350043.9,,,9.2,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230702_162025/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230702_185453,1,1372359311.7,40.0,18.0,10.1,2500.0,0.44,https://gwosc.org/eventapi/json/GWTC-4.0/GW230702_185453/v1,EXCLUDED,network_matched_filter_snr = 10.1 < 12.0
+confirmation,GWTC-4.0,GW230704_021211,1,1372471949.2,32.6,20.0,9.4,2700.0,0.47,https://gwosc.org/eventapi/json/GWTC-4.0/GW230704_021211/v1,EXCLUDED,network_matched_filter_snr = 9.4 < 12.0
+confirmation,GWTC-4.0,GW230704_212616,1,1372541194.7,89.0,50.0,8.7,7300.0,1.06,https://gwosc.org/eventapi/json/GWTC-4.0/GW230704_212616/v1,EXCLUDED,network_matched_filter_snr = 8.7 < 12.0
+confirmation,GWTC-4.0,GW230706_104333,1,1372675431.2,16.3,11.5,9.2,1910.0,0.35,https://gwosc.org/eventapi/json/GWTC-4.0/GW230706_104333/v1,EXCLUDED,network_matched_filter_snr = 9.2 < 12.0
+confirmation,GWTC-4.0,GW230707_124047,1,1372768865.3,46.1,36.3,11.9,4400.0,0.71,https://gwosc.org/eventapi/json/GWTC-4.0/GW230707_124047/v1,EXCLUDED,network_matched_filter_snr = 11.9 < 12.0
+confirmation,GWTC-4.0,GW230708_053705,1,1372829843.1,29.1,22.7,8.9,3300.0,0.55,https://gwosc.org/eventapi/json/GWTC-4.0/GW230708_053705/v1,EXCLUDED,network_matched_filter_snr = 8.9 < 12.0
+confirmation,GWTC-4.0,GW230708_071859,1,1372835957.4,,,9.1,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230708_071859/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230708_230935,1,1372892993.5,64.0,40.0,10.0,3500.0,0.59,https://gwosc.org/eventapi/json/GWTC-4.0/GW230708_230935/v1,EXCLUDED,network_matched_filter_snr = 10.0 < 12.0
+confirmation,GWTC-4.0,GW230709_063445,1,1372919703.1,,,7.9,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230709_063445/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230709_122727,1,1372940865.2,45.0,30.0,10.2,4700.0,0.74,https://gwosc.org/eventapi/json/GWTC-4.0/GW230709_122727/v1,EXCLUDED,network_matched_filter_snr = 10.2 < 12.0
+confirmation,GWTC-4.0,GW230712_090405,1,1373187863.9,32.0,12.5,9.5,2000.0,0.37,https://gwosc.org/eventapi/json/GWTC-4.0/GW230712_090405/v1,EXCLUDED,network_matched_filter_snr = 9.5 < 12.0
+confirmation,GWTC-4.0,GW230717_102139,1,1373624517.1,,,8.3,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230717_102139/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230721_222634,1,1374013612.8,,,7.9,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230721_222634/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230723_084820,1,1374137318.4,,,8.4,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230723_084820/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230723_101834,1,1374142732.4,16.6,10.6,10.1,1610.0,0.3,https://gwosc.org/eventapi/json/GWTC-4.0/GW230723_101834/v1,EXCLUDED,network_matched_filter_snr = 10.1 < 12.0
+confirmation,GWTC-4.0,GW230726_002940,1,1374366598.1,35.6,27.9,10.5,2100.0,0.37,https://gwosc.org/eventapi/json/GWTC-4.0/GW230726_002940/v1,EXCLUDED,network_matched_filter_snr = 10.5 < 12.0
+confirmation,GWTC-4.0,GW230728_083628,1,1374568606.9,,,13.1,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230728_083628/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230729_082317,1,1374654215.2,12.3,7.6,9.5,1640.0,0.31,https://gwosc.org/eventapi/json/GWTC-4.0/GW230729_082317/v1,EXCLUDED,network_matched_filter_snr = 9.5 < 12.0
+confirmation,GWTC-4.0,GW230731_215307,1,1374875605.9,10.3,7.9,12.2,1100.0,0.22,https://gwosc.org/eventapi/json/GWTC-4.0/GW230731_215307/v1,SELECTED,
+confirmation,GWTC-4.0,GW230803_033412,1,1375068870.4,44.0,29.0,9.4,5000.0,0.78,https://gwosc.org/eventapi/json/GWTC-4.0/GW230803_033412/v1,EXCLUDED,network_matched_filter_snr = 9.4 < 12.0
+confirmation,GWTC-4.0,GW230805_034249,1,1375242188.0,32.2,22.6,9.5,3500.0,0.58,https://gwosc.org/eventapi/json/GWTC-4.0/GW230805_034249/v1,EXCLUDED,network_matched_filter_snr = 9.5 < 12.0
+confirmation,GWTC-4.0,GW230806_204041,1,1375389659.9,51.0,35.0,9.4,5500.0,0.84,https://gwosc.org/eventapi/json/GWTC-4.0/GW230806_204041/v1,EXCLUDED,network_matched_filter_snr = 9.4 < 12.0
+confirmation,GWTC-4.0,GW230807_205045,1,1375476663.4,,,8.7,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230807_205045/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230811_032116,1,1375759294.3,35.4,22.3,13.6,2100.0,0.38,https://gwosc.org/eventapi/json/GWTC-4.0/GW230811_032116/v1,SELECTED,
+confirmation,GWTC-4.0,GW230814_061920,1,1376029178.5,69.0,42.0,11.2,4000.0,0.64,https://gwosc.org/eventapi/json/GWTC-4.0/GW230814_061920/v1,EXCLUDED,network_matched_filter_snr = 11.2 < 12.0
+confirmation,GWTC-4.0,GW230814_230901,1,1376089759.8,33.7,28.2,43.0,290.0,0.06,https://gwosc.org/eventapi/json/GWTC-4.0/GW230814_230901/v1,SELECTED,
+confirmation,GWTC-4.0,GW230817_212349,1,1376342647.1,,,7.8,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230817_212349/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230819_171910,1,1376500768.4,70.0,35.0,9.9,4100.0,0.66,https://gwosc.org/eventapi/json/GWTC-4.0/GW230819_171910/v1,EXCLUDED,network_matched_filter_snr = 9.9 < 12.0
+confirmation,GWTC-4.0,GW230820_212515,1,1376601934.0,62.0,34.0,9.3,4000.0,0.65,https://gwosc.org/eventapi/json/GWTC-4.0/GW230820_212515/v1,EXCLUDED,network_matched_filter_snr = 9.3 < 12.0
+confirmation,GWTC-4.0,GW230822_230337,1,1376780635.5,,,8.3,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230822_230337/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230823_142524,1,1376835942.6,,,8.8,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230823_142524/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230824_033047,1,1376883065.7,53.0,36.0,11.1,4700.0,0.74,https://gwosc.org/eventapi/json/GWTC-4.0/GW230824_033047/v1,EXCLUDED,network_matched_filter_snr = 11.1 < 12.0
+confirmation,GWTC-4.0,GW230824_135331,1,1376920429.9,,,9.7,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230824_135331/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230825_041334,1,1376972032.5,44.0,27.2,8.8,4900.0,0.76,https://gwosc.org/eventapi/json/GWTC-4.0/GW230825_041334/v1,EXCLUDED,network_matched_filter_snr = 8.8 < 12.0
+confirmation,GWTC-4.0,GW230830_064744,1,1377413282.2,,,8.5,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230830_064744/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230831_015414,1,1377482072.1,42.0,30.0,8.6,4900.0,0.77,https://gwosc.org/eventapi/json/GWTC-4.0/GW230831_015414/v1,EXCLUDED,network_matched_filter_snr = 8.6 < 12.0
+confirmation,GWTC-4.0,GW230831_134621,1,1377524799.7,,,8.8,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230831_134621/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230902_122814,1,1377692912.9,,,8.1,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230902_122814/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230902_172430,1,1377710688.8,,,8.5,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230902_172430/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230902_224555,1,1377729973.7,,,7.5,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230902_224555/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230904_051013,1,1377839431.1,10.6,7.1,10.5,1030.0,0.2,https://gwosc.org/eventapi/json/GWTC-4.0/GW230904_051013/v1,EXCLUDED,network_matched_filter_snr = 10.5 < 12.0
+confirmation,GWTC-4.0,GW230904_152545,1,1377876363.2,,,9.2,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230904_152545/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230911_195324,1,1378497222.2,33.9,21.6,11.1,1350.0,0.26,https://gwosc.org/eventapi/json/GWTC-4.0/GW230911_195324/v1,EXCLUDED,network_matched_filter_snr = 11.1 < 12.0
+confirmation,GWTC-4.0,GW230914_111401,1,1378725259.7,60.0,37.0,17.2,2700.0,0.47,https://gwosc.org/eventapi/json/GWTC-4.0/GW230914_111401/v1,SELECTED,
+confirmation,GWTC-4.0,GW230919_215712,1,1379195850.0,27.3,21.4,16.8,1330.0,0.25,https://gwosc.org/eventapi/json/GWTC-4.0/GW230919_215712/v1,SELECTED,
+confirmation,GWTC-4.0,GW230920_064709,1,1379227647.3,,,9.5,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230920_064709/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230920_071124,1,1379229102.7,32.4,23.8,11.1,2900.0,0.49,https://gwosc.org/eventapi/json/GWTC-4.0/GW230920_071124/v1,EXCLUDED,network_matched_filter_snr = 11.1 < 12.0
+confirmation,GWTC-4.0,GW230922_020344,1,1379383442.9,39.3,29.2,13.4,1640.0,0.31,https://gwosc.org/eventapi/json/GWTC-4.0/GW230922_020344/v1,SELECTED,
+confirmation,GWTC-4.0,GW230922_040658,1,1379390836.1,76.0,51.0,12.5,6500.0,0.96,https://gwosc.org/eventapi/json/GWTC-4.0/GW230922_040658/v1,SELECTED,
+confirmation,GWTC-4.0,GW230924_124453,1,1379594711.8,28.8,23.2,13.5,2400.0,0.42,https://gwosc.org/eventapi/json/GWTC-4.0/GW230924_124453/v1,SELECTED,
+confirmation,GWTC-4.0,GW230925_143957,1,1379688015.5,,,8.0,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW230925_143957/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW230927_043729,1,1379824667.1,35.0,27.1,12.1,3200.0,0.55,https://gwosc.org/eventapi/json/GWTC-4.0/GW230927_043729/v1,SELECTED,
+confirmation,GWTC-4.0,GW230927_153832,1,1379864330.9,21.7,16.6,20.3,1190.0,0.23,https://gwosc.org/eventapi/json/GWTC-4.0/GW230927_153832/v1,SELECTED,
+confirmation,GWTC-4.0,GW230928_215827,1,1379973525.1,54.0,29.0,10.5,4900.0,0.77,https://gwosc.org/eventapi/json/GWTC-4.0/GW230928_215827/v1,EXCLUDED,network_matched_filter_snr = 10.5 < 12.0
+confirmation,GWTC-4.0,GW230930_110730,1,1380107268.4,34.5,24.4,9.0,4900.0,0.76,https://gwosc.org/eventapi/json/GWTC-4.0/GW230930_110730/v1,EXCLUDED,network_matched_filter_snr = 9.0 < 12.0
+confirmation,GWTC-4.0,GW231001_140220,1,1380204158.7,76.0,41.0,11.5,4400.0,0.7,https://gwosc.org/eventapi/json/GWTC-4.0/GW231001_140220/v1,EXCLUDED,network_matched_filter_snr = 11.5 < 12.0
+confirmation,GWTC-4.0,GW231002_143916,1,1380292774.7,,,9.4,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231002_143916/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231004_232346,1,1380497044.3,64.0,35.0,8.9,4400.0,0.7,https://gwosc.org/eventapi/json/GWTC-4.0/GW231004_232346/v1,EXCLUDED,network_matched_filter_snr = 8.9 < 12.0
+confirmation,GWTC-4.0,GW231005_021030,1,1380507049.0,84.0,50.0,10.4,6300.0,0.93,https://gwosc.org/eventapi/json/GWTC-4.0/GW231005_021030/v1,EXCLUDED,network_matched_filter_snr = 10.4 < 12.0
+confirmation,GWTC-4.0,GW231005_091549,1,1380532567.5,28.8,21.2,11.0,3800.0,0.62,https://gwosc.org/eventapi/json/GWTC-4.0/GW231005_091549/v1,EXCLUDED,network_matched_filter_snr = 11.0 < 12.0
+confirmation,GWTC-4.0,GW231005_144455,1,1380552313.4,,,7.3,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231005_144455/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231008_142521,1,1380810339.8,45.0,25.6,9.3,3000.0,0.51,https://gwosc.org/eventapi/json/GWTC-4.0/GW231008_142521/v1,EXCLUDED,network_matched_filter_snr = 9.3 < 12.0
+confirmation,GWTC-4.0,GW231013_135504,1,1381240522.4,,,8.4,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231013_135504/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231014_040532,1,1381291551.0,20.6,14.7,9.0,2300.0,0.42,https://gwosc.org/eventapi/json/GWTC-4.0/GW231014_040532/v1,EXCLUDED,network_matched_filter_snr = 9.0 < 12.0
+confirmation,GWTC-4.0,GW231018_233037,1,1381707055.0,11.6,7.3,9.1,1540.0,0.29,https://gwosc.org/eventapi/json/GWTC-4.0/GW231018_233037/v1,EXCLUDED,network_matched_filter_snr = 9.1 < 12.0
+confirmation,GWTC-4.0,GW231020_142947,1,1381847405.6,12.0,7.4,12.0,1230.0,0.24,https://gwosc.org/eventapi/json/GWTC-4.0/GW231020_142947/v1,SELECTED,
+confirmation,GWTC-4.0,GW231026_130704,1,1382360842.2,,,8.3,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231026_130704/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231028_153006,1,1382542224.3,94.0,59.0,22.4,4200.0,0.68,https://gwosc.org/eventapi/json/GWTC-4.0/GW231028_153006/v1,SELECTED,
+confirmation,GWTC-4.0,GW231029_111508,1,1382613326.8,65.0,42.0,10.8,3100.0,0.53,https://gwosc.org/eventapi/json/GWTC-4.0/GW231029_111508/v1,EXCLUDED,network_matched_filter_snr = 10.8 < 12.0
+confirmation,GWTC-4.0,GW231102_052214,1,1382937752.4,,,7.9,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231102_052214/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231102_071736,1,1382944674.4,61.0,42.0,15.6,3800.0,0.63,https://gwosc.org/eventapi/json/GWTC-4.0/GW231102_071736/v1,SELECTED,
+confirmation,GWTC-4.0,GW231102_232433,1,1383002691.5,,,7.6,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231102_232433/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231104_133418,1,1383140076.9,12.2,8.6,11.8,1470.0,0.28,https://gwosc.org/eventapi/json/GWTC-4.0/GW231104_133418/v1,EXCLUDED,network_matched_filter_snr = 11.8 < 12.0
+confirmation,GWTC-4.0,GW231108_125142,1,1383483120.5,23.2,17.4,12.6,2050.0,0.37,https://gwosc.org/eventapi/json/GWTC-4.0/GW231108_125142/v1,SELECTED,
+confirmation,GWTC-4.0,GW231110_040320,1,1383624218.2,19.4,12.6,11.5,1890.0,0.35,https://gwosc.org/eventapi/json/GWTC-4.0/GW231110_040320/v1,EXCLUDED,network_matched_filter_snr = 11.5 < 12.0
+confirmation,GWTC-4.0,GW231113_122623,1,1383913601.9,39.8,26.4,8.6,3400.0,0.56,https://gwosc.org/eventapi/json/GWTC-4.0/GW231113_122623/v1,EXCLUDED,network_matched_filter_snr = 8.6 < 12.0
+confirmation,GWTC-4.0,GW231113_150041,1,1383922859.4,,,8.7,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231113_150041/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231113_200417,1,1383941075.9,11.6,7.4,10.5,1160.0,0.23,https://gwosc.org/eventapi/json/GWTC-4.0/GW231113_200417/v1,EXCLUDED,network_matched_filter_snr = 10.5 < 12.0
+confirmation,GWTC-4.0,GW231114_043211,1,1383971549.2,22.8,8.2,10.0,1390.0,0.26,https://gwosc.org/eventapi/json/GWTC-4.0/GW231114_043211/v1,EXCLUDED,network_matched_filter_snr = 10.0 < 12.0
+confirmation,GWTC-4.0,GW231118_005626,1,1384304204.8,20.0,10.8,10.7,2190.0,0.39,https://gwosc.org/eventapi/json/GWTC-4.0/GW231118_005626/v1,EXCLUDED,network_matched_filter_snr = 10.7 < 12.0
+confirmation,GWTC-4.0,GW231118_071402,1,1384326860.2,43.0,29.0,9.2,4300.0,0.69,https://gwosc.org/eventapi/json/GWTC-4.0/GW231118_071402/v1,EXCLUDED,network_matched_filter_snr = 9.2 < 12.0
+confirmation,GWTC-4.0,GW231118_090602,1,1384333580.0,12.9,7.4,11.0,1360.0,0.26,https://gwosc.org/eventapi/json/GWTC-4.0/GW231118_090602/v1,EXCLUDED,network_matched_filter_snr = 11.0 < 12.0
+confirmation,GWTC-4.0,GW231119_075248,1,1384415586.1,49.0,33.0,8.3,6700.0,0.99,https://gwosc.org/eventapi/json/GWTC-4.0/GW231119_075248/v1,EXCLUDED,network_matched_filter_snr = 8.3 < 12.0
+confirmation,GWTC-4.0,GW231120_022103,1,1384482081.0,,,10.0,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231120_022103/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231123_135430,2,1384782888.7,137.0,101.0,21.8,2200.0,0.4,https://gwosc.org/eventapi/json/GWTC-4.0/GW231123_135430/v2,SELECTED,
+confirmation,GWTC-4.0,GW231126_010928,1,1384996186.3,,,9.1,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231126_010928/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231127_165300,1,1385139198.9,45.0,28.0,9.9,4500.0,0.71,https://gwosc.org/eventapi/json/GWTC-4.0/GW231127_165300/v1,EXCLUDED,network_matched_filter_snr = 9.9 < 12.0
+confirmation,GWTC-4.0,GW231129_081745,1,1385281083.6,45.0,23.8,9.4,3800.0,0.62,https://gwosc.org/eventapi/json/GWTC-4.0/GW231129_081745/v1,EXCLUDED,network_matched_filter_snr = 9.4 < 12.0
+confirmation,GWTC-4.0,GW231204_090648,1,1385716026.9,,,8.4,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231204_090648/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231206_010629,1,1385860007.2,,,9.7,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231206_010629/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231206_233134,1,1385940712.5,35.6,28.2,12.8,3200.0,0.54,https://gwosc.org/eventapi/json/GWTC-4.0/GW231206_233134/v1,SELECTED,
+confirmation,GWTC-4.0,GW231206_233901,1,1385941159.5,37.6,28.5,21.9,1490.0,0.28,https://gwosc.org/eventapi/json/GWTC-4.0/GW231206_233901/v1,SELECTED,
+confirmation,GWTC-4.0,GW231213_111417,1,1386501275.9,35.6,27.2,10.4,4000.0,0.65,https://gwosc.org/eventapi/json/GWTC-4.0/GW231213_111417/v1,EXCLUDED,network_matched_filter_snr = 10.4 < 12.0
+confirmation,GWTC-4.0,GW231220_173406,1,1387128864.2,,,7.9,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231220_173406/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231221_135041,1,1387201859.3,47.0,29.0,10.0,4600.0,0.72,https://gwosc.org/eventapi/json/GWTC-4.0/GW231221_135041/v1,EXCLUDED,network_matched_filter_snr = 10.0 < 12.0
+confirmation,GWTC-4.0,GW231223_032836,1,1387337334.1,46.0,31.0,10.2,4200.0,0.67,https://gwosc.org/eventapi/json/GWTC-4.0/GW231223_032836/v1,EXCLUDED,network_matched_filter_snr = 10.2 < 12.0
+confirmation,GWTC-4.0,GW231223_075055,1,1387353073.3,11.9,6.8,9.4,970.0,0.19,https://gwosc.org/eventapi/json/GWTC-4.0/GW231223_075055/v1,EXCLUDED,network_matched_filter_snr = 9.4 < 12.0
+confirmation,GWTC-4.0,GW231223_202619,1,1387398397.0,11.1,8.3,10.0,890.0,0.18,https://gwosc.org/eventapi/json/GWTC-4.0/GW231223_202619/v1,EXCLUDED,network_matched_filter_snr = 10.0 < 12.0
+confirmation,GWTC-4.0,GW231224_024321,1,1387421020.0,9.3,7.31,14.0,950.0,0.19,https://gwosc.org/eventapi/json/GWTC-4.0/GW231224_024321/v1,SELECTED,
+confirmation,GWTC-4.0,GW231226_101520,1,1387620938.3,40.2,35.1,34.7,1180.0,0.23,https://gwosc.org/eventapi/json/GWTC-4.0/GW231226_101520/v1,SELECTED,
+confirmation,GWTC-4.0,GW231230_170116,1,1387990895.0,53.0,35.0,8.2,5700.0,0.87,https://gwosc.org/eventapi/json/GWTC-4.0/GW231230_170116/v1,EXCLUDED,network_matched_filter_snr = 8.2 < 12.0
+confirmation,GWTC-4.0,GW231231_120147,1,1388059325.6,,,11.3,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW231231_120147/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW231231_154016,1,1388072434.7,22.5,17.2,13.4,1070.0,0.21,https://gwosc.org/eventapi/json/GWTC-4.0/GW231231_154016/v1,SELECTED,
+confirmation,GWTC-4.0,GW240104_164932,1,1388422190.6,42.3,32.2,14.8,1910.0,0.35,https://gwosc.org/eventapi/json/GWTC-4.0/GW240104_164932/v1,SELECTED,
+confirmation,GWTC-4.0,GW240105_151143,1,1388502721.2,,,25.9,,,https://gwosc.org/eventapi/json/GWTC-4.0/GW240105_151143/v1,EXCLUDED,missing mass_2_source
+confirmation,GWTC-4.0,GW240107_013215,1,1388626353.7,59.0,33.0,9.6,5800.0,0.88,https://gwosc.org/eventapi/json/GWTC-4.0/GW240107_013215/v1,EXCLUDED,network_matched_filter_snr = 9.6 < 12.0
+confirmation,GWTC-4.0,GW240109_050431,1,1388811889.8,28.7,18.1,10.4,1500.0,0.28,https://gwosc.org/eventapi/json/GWTC-4.0/GW240109_050431/v1,EXCLUDED,network_matched_filter_snr = 10.4 < 12.0
