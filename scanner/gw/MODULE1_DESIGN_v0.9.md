@@ -1,7 +1,8 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.2 — not frozen.** (v0.9.1: §2 coefficient and sign fixed by F4;
-v0.9.2: event list frozen, F5 results and the resulting rules in §3 and §5.) Nothing in this document has been run on
+**Status: DRAFT v0.9.3 — not frozen.** (v0.9.1: §2 coefficient checked by F4;
+v0.9.2: event list frozen, F5 results and rules in §3 and §5; v0.9.3: §2 CORRECTED to the
+group-velocity phase used by LVK from GWTC-4.0 on — the v0.9.1 conclusion was wrong.) Nothing in this document has been run on
 real gravitational-wave events. Version 1.0 will be frozen (commit, tag and hash)
 only after the feasibility checks in §12 are complete. The first run after the
 freeze is the calibration suite (§7–§9), never the real events.
@@ -37,31 +38,35 @@ and are validated in §7–§9 in any case.
 Model: ω² = c²k²(1 + Λk²), the α = 4 member of the modified-dispersion class
 E² = p²c² + A_α p^α c^α used by LVK.
 
-For a compact-binary signal the dispersion adds a frequency-domain phase
-(verified by F4, see below):
+For a compact-binary signal the dispersion adds a frequency-domain phase. Two
+prescriptions exist (GWTC-4.0 Tests of GR II, arXiv:2603.19020, §3.1):
 
-    δΨ(f) = sign(Λ) · (4π³/3) · |Λ| · I₄(z) · f³ / c³ ,
-    I₄(z) = (c / H₀) ∫₀^z (1 + z')² / E(z') dz' ,
+- particle velocity (LVK up to GWTC-3; Mirshekari–Yunes–Will; implemented in
+  LALSimulation's LIV option):  δΨ = +(4π³/3) Λ I₄(z) f³ / c³
+- **group velocity (LVK from GWTC-4.0; consistent with the WKB treatment, Ezquiaga
+  et al. 2022): δΨ = −4π³ Λ I₄(z) f³ / c³**
 
-in the LALSimulation Fourier convention (positive Λ gives a positive f³
-coefficient). The factor 1/3 is the 1/(α − 1) of the Mirshekari–Yunes–Will form.
-Conversion to the LVK parameterization:
+with I₄(z) = (c/H₀) ∫₀^z (1 + z')² / E(z') dz' and the same Fourier convention
+(h̃ = h̃_GR e^{iδΨ}). The ratio is (1 − α) = −3: the particle velocity pc²/E =
+c(1 − A₄p²c²/2) and the group velocity dE/dp = c(1 + 3A₄p²c²/2) differ in sign and
+by a factor 3. **Module 1 uses the group-velocity form.** Injections must add this
+phase explicitly; LALSimulation's built-in LIV option must NOT be used (it implements
+the particle-velocity form).
 
-    Λ = A₄ (ħc)² = (λ_A / 2π)² ,    Λ [m²] = A₄ [eV⁻²] × 3.894·10⁻¹⁴ .
+Conversion: Λ = A₄ (ħc)² = (λ_A / 2π)², Λ [m²] = A₄ [eV⁻²] × 3.894·10⁻¹⁴.
+LVK GWTC-4.0 combined bound (83 events, group velocity, Table 5): A₄ ∈ [−620, +190]
+eV⁻² (90%), i.e. Λ ∈ [−2.4·10⁻¹¹, +7.4·10⁻¹²] m².
 
-**F4 result (lal 7.7.1, lalsimulation 6.2.1, IMRPhenomXPHM, D_L = 400 Mpc,
-λ_eff = 10⁻³·⁵ m):** the LALSimulation dispersion term is a pure f³ phase
-(fitted f² coefficient ~10⁻²⁰, residual 7·10⁻¹⁶ rad), changes sign with sign(A),
-and equals the expression above to a ratio of 0.9983 (Planck15 and Planck18 give
-the same z to 10⁻³); the expression without the 1/3 factor is off by a factor of 3.
-LALSimulation's λ_eff equals λ_A. The residual 0.17 % is attributed to the
-cosmology used internally by LALSimulation and is negligible here; it is recorded.
-In Module 1, Λ is always the coefficient defined through ω² = c²k²(1 + Λk²); any
-comparison with other normalizations of the Λ model goes through this relation.
+**F4 record (corrected):** F4 verified numerically that LALSimulation's LIV term is a
+pure f³ phase equal to +(4π³/3) Λ I₄ f³/c³ (ratio 0.9983). v0.9.1 concluded from this
+that the expression without the 1/3 factor was "wrong by a factor 3"; that conclusion
+was incorrect — the 1/3 belongs to the particle-velocity prescription, and the
+group-velocity form without it (and with the opposite sign) is the physically
+appropriate one. In Module 1, Λ is always defined through ω² = c²k²(1 + Λk²).
 
 To first order in δΨ the residual after subtracting the GR waveform is
 
-    r(f) ≈ i δΨ(f) h_GR(f) = Λ · T₃(f),   T_p(f) = i · (4π³/3) · I₄(z) / c³ · f^p · h_GR(f).
+    r(f) ≈ i δΨ(f) h_GR(f) = Λ · T₃(f),   T_p(f) = −i · 4π³ · I₄(z) / c³ · f^p · h_GR(f).
 
 **Primary template:** p = 3. **False-shape controls:** p = 2 and p = 4.
 p = 0 and p = 1 are fully degenerate with coalescence phase and time and are not tested.
@@ -208,8 +213,9 @@ Every result, including failures, is reported.
 - **F2** DONE: one waveform: IMRPhenomXPHM 0.014 s, SEOBNRv5PHM 0.1 s (first call
   ~9 s), SEOBNRv4PHM 2.3 s.
 - **F3** Numerical derivatives: step sizes and stability for all parameters.
-- **F4** DONE (see §2): coefficient (4π³/3), sign convention, λ_eff = λ_A,
-  Λ = A₄(ħc)²; numerical agreement 0.9983 with LALSimulation.
+- **F4** DONE, corrected in v0.9.3 (see §2): LALSimulation implements the
+  particle-velocity phase (+4π³/3, agreement 0.9983); Module 1 uses the group-velocity
+  phase (−4π³) as LVK do from GWTC-4.0; λ_eff = λ_A; Λ = A₄(ħc)².
 - **F5** DONE (see §3 and §5): all 61 PE files downloaded and MD5-verified (8.7 GB);
   content checked per label (samples with log-likelihood, parameters, PSDs,
   calibration envelopes, configuration). Two checker defects found and fixed before
