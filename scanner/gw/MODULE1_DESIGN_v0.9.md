@@ -1,6 +1,10 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.6 — not frozen.** (v0.9.6: residual chain verified on all
+**Status: DRAFT v0.9.7 — not frozen.** (v0.9.7: §6 CORRECTED — detector-calibration
+directions are no longer projected out freely; they enter as a constrained noise
+covariance (generalized least squares). The v0.9.6 estimator could not see any f³
+effect; found by a synthetic test of the estimator core before any real residual.)
+Previous: **DRAFT v0.9.6.** (v0.9.6: residual chain verified on all
 events; reference-fit quality gate; extrinsic refinement window; EOB generation rules.)
 Previous: **DRAFT v0.9.5.** (v0.9.5: strain data, missing-data rule,
 per-detector consistency check, primary counts after the detector rule.)
@@ -182,28 +186,61 @@ every injection amplitude.
 
 ## 6. Orthogonalization and estimator
 
-For each event, detector network and model:
+For each event, detector network and model. Implementation of the linear algebra:
+`scanner/gw/module1_estimator_core.py` (no lalsuite dependency; synthetic self-test
+in its `__main__`).
 
-1. Tangent subspace from the posterior (F3): finite-difference derivatives were
-   found unstable (near-degenerate parameter directions; numerical noise of the EOB
-   and XPHM-SpinTaylor models). Instead, two DISJOINT random sets A and B of n = 800
-   posterior samples of the label (fixed seed 20261001; all samples if fewer) give
-   waveforms h(θ_i); the differences Δ_i = h(θ_i) − h_ref, whitened with the released
-   PSD, are decomposed by SVD, and the principal components explaining 99% of the
-   variance (rule frac ≥ 0.99) form the subspace. The analytic coalescence-time
-   direction −2πif·h_ref and the detector-calibration directions (amplitude and
-   phase spline nodes) are always added. **Set A defines the primary subspace;**
-   set B is used only for the subspace systematic (§7).
-2. T_p^⊥ = T_p − P_A T_p, the part of the template that cannot be
-   reproduced by a change of standard GR parameters or of the calibration.
-3. Per-event estimate: Λ̂_i = ⟨r, T₃^⊥⟩ / ⟨T₃^⊥, T₃^⊥⟩, with Fisher uncertainty
-   σ_i = ⟨T₃^⊥, T₃^⊥⟩^(−1/2); the empirical σ_i from §7 replaces it if they differ.
-4. The same for p = 2 and p = 4 (control amplitudes).
-5. Reported per event as diagnostics (no thresholds): the survival s = ‖T₃^⊥‖/‖T₃‖
-   (it sets the estimator noise, σ ∝ 1/s), the cosine between T₃^⊥ from sets A and B
-   (it controls the leakage of reference-point imperfections), and |s_A − s_B|/s_B.
-   For a pure f³ signal the estimate is unbiased for any subspace, since
-   ⟨T₃, T₃^⊥⟩ = ‖T₃^⊥‖².
+1. **Free nuisance subspace (projected out exactly).** Directions that the GR fit can
+   absorb without any prior bound:
+   - tangent subspace from the posterior (F3): finite-difference derivatives were
+     found unstable (near-degenerate parameter directions; numerical noise of the EOB
+     and XPHM-SpinTaylor models). Instead, two DISJOINT random sets A and B of n = 800
+     posterior samples of the label (fixed seed 20261001; all samples if fewer) give
+     waveforms h(θ_i); the differences Δ_i = h(θ_i) − h_ref, whitened with the
+     released PSD, are decomposed by SVD, and the principal components explaining 99%
+     of the variance (rule frac ≥ 0.99) are kept;
+   - the analytic coalescence-time direction −2πif·h_ref;
+   - the overall amplitude and phase directions h_ref and i·h_ref.
+
+   Q_A is an orthonormal basis of these directions for set A. **Set A defines the
+   primary subspace;** set B is used only for the subspace systematic (§7).
+2. **Detector calibration (constrained, NOT projected out).** Calibration errors are
+   unknown but bounded by the envelope released with the PE results. For every
+   detector, amplitude and phase perturbations at the spline nodes of that detector's
+   envelope give directions J_k (amplitude node k: b_k(f)·h_ref; phase node k:
+   i·b_k(f)·h_ref, with b_k the spline basis function of node k), each scaled by the
+   envelope standard deviation at that node, so the envelope's frequency dependence
+   enters through J. The envelope median is applied to the reference waveform; the
+   spread enters the noise covariance
+   C = I + J₁J₁ᵀ,  J₁ = (I − Q_A Q_Aᵀ) J,
+   applied through the Woodbury identity C⁻¹v = v − J₁(I + J₁ᵀJ₁)⁻¹J₁ᵀv.
+3. T_p^⊥ = (I − Q_A Q_Aᵀ) T_p, r^⊥ = (I − Q_A Q_Aᵀ) r.
+4. Per-event estimate (generalized least squares):
+   Λ̂_i = ⟨T₃^⊥, C⁻¹ r^⊥⟩ / ⟨T₃^⊥, C⁻¹ T₃^⊥⟩,  σ_i = ⟨T₃^⊥, C⁻¹ T₃^⊥⟩^(−1/2);
+   the empirical σ_i from §7 replaces σ_i if they differ. Per-detector estimates
+   (§10) use the same formula with the detector's own vectors.
+5. The same for p = 2 and p = 4 (control amplitudes).
+6. Reported per event as diagnostics (no thresholds): the survival
+   s = ⟨T₃^⊥, C⁻¹ T₃^⊥⟩^(1/2) / ‖T₃‖ (it sets the estimator noise, σ ∝ 1/s), the cosine
+   between T₃^⊥ from sets A and B (it controls the leakage of reference-point
+   imperfections), and |s_A − s_B|/s_B. For r = Λ T₃ + noise the estimate is unbiased
+   for any free subspace, since (I − Q_A Q_Aᵀ) T₃ = T₃^⊥. Unbiased in expectation does
+   not mean usable: when s → 0, σ grows without bound and a single estimate carries no
+   information.
+
+**Why calibration is not projected out (v0.9.7 correction).** v0.9.6 added the
+calibration spline directions to the free subspace. A calibration phase error and
+the f³ dispersion phase are both smooth functions of frequency over the band, so ten
+unconstrained spline nodes per detector can reproduce almost all of T₃. The synthetic
+test of the estimator core showed it: with free calibration the surviving fraction
+of f³ was 0.000 and an injected signal was recovered at about 15% in a single
+realisation, i.e. the test could not have seen any effect. In the toy self-test of
+`module1_estimator_core.py` (flat envelope 5% / 3°, 200 realisations): free
+calibration s = 0.003, σ/Λ_inj = 83; constrained calibration s = 0.036, σ/Λ_inj = 7,
+with the empirical scatter equal to the analytic σ in both cases; null (Λ = 0,
+calibration drawn from the envelope, 300 realisations) mean z = −0.001, std z = 0.987.
+These toy numbers only demonstrate the mechanism; the survival with the real,
+frequency-dependent envelopes is measured on the real geometry before v1.0 (§12).
 
 ## 7. Null calibration (real detector noise)
 
@@ -240,6 +277,9 @@ GR injections multiplied by calibration perturbations drawn from the published
 LVK calibration-uncertainty models (O1–O3; O4), without dispersion. Criterion:
 calibration-only injections must not produce a catalog-level f³ signal with a
 consistent sign and the K(z) dependence of the Λ hypothesis.
+Since v0.9.7 the estimator models the calibration spread through C (§6); these
+injections test that model with real envelopes and real noise, including the
+part of the calibration error that the spline-node model does not describe.
 
 ## 10. Catalog-level tests
 
@@ -306,6 +346,12 @@ Every result, including failures, is reported.
 - **Version policy for extensions:** later data (O4b, GWTC-5.0) are analysed only with
   the code at the v1.0 tag, unchanged; any change makes a new version with its own
   registration before the new data are looked at.
+- **Estimator core** DONE (v0.9.7, `module1_estimator_core.py`): synthetic test
+  found that freely projected calibration directions absorb the f³ template (see §6);
+  corrected to generalized least squares with the envelope as covariance. TO DO before
+  v1.0: the same test on the real geometry (reference waveforms, PSDs, PE samples and
+  calibration envelopes of 2–3 events, Gaussian noise from the released PSD), which
+  measures the real survival s and therefore the reachable sensitivity.
 - **F6** Rough budget DONE: tangent basis per event 0.4 / 3.3 / 72 s
   (XPHM / v5PHM / v4PHM); the full calibration suite is feasible on a laptop.
   Final numbers of injections are fixed in v1.0. Compute budget: estimate the total cost of §7–§9 and fix the numbers of
