@@ -1,27 +1,40 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-f4_coefficient.py — Module 1 feasibility check F4 (no GW data involved).
+convention_check.py (also: residual-first-framework scanner/gw/f4_coefficient.py)
+— dispersion-phase convention check (no GW data involved).
 
-Goal: fix the constant and the sign of the dispersion phase for the Λ model
-        ω² = c²k²(1 + Λk²)   ⇔   E² = p²c² + A₄ p⁴c⁴,   Λ = A₄ (ħc)² = (λ_A / 2π)²
-by comparing an analytic prediction with the LALSimulation implementation of
-the LVK modified-dispersion (LIV) parameterization.
+Model:  ω² = c²k²(1 + Λk²)  ⇔  E² = p²c² + A₄p⁴c⁴,  Λ = A₄(ħc)² = (λ_A/2π)²,  Λ in m².
+
+Two phase prescriptions exist for the α = 4 modified dispersion
+(LVK, GWTC-4.0 Tests of GR II, arXiv:2603.19020, §3.1):
+  (P) particle velocity  — LVK up to GWTC-3, Mirshekari–Yunes–Will, and the LIV
+      option of LALSimulation:   δΨ = +(4π³/3) Λ I₄(z) f³ / c³
+  (G) group velocity     — LVK from GWTC-4.0, consistent with WKB
+      (Ezquiaga et al. 2022):     δΨ = −4π³ Λ I₄(z) f³ / c³
+The two differ by (1 − α) = −3 in size AND sign.
+I₄(z) = (c/H₀) ∫₀^z (1+z')² / E(z') dz'.
+
+What this script checks: which prescription LALSimulation's built-in LIV term
+implements. Expected: ratio c3_LAL / c3_pred ≈ +1 for (P) and ≈ −1/3 for (G).
+Agreement with (P) is a SOFTWARE/CONVENTION verification only; it does not make
+(P) the physical choice. Analyses of the Λ model use (G), and injections must
+add the (G) phase explicitly instead of using the built-in LIV term.
 
 Method:
-  1. Generate IMRPhenomXPHM in the frequency domain without and with the
-     dispersion term (α = 4, given λ_eff and sign of A).
+  1. IMRPhenomXPHM in the frequency domain without and with the LIV term
+     (α = 4, given λ_eff and sign of A).
   2. δΨ(f) = unwrap(arg(h_LIV / h_GR)) over the signal band.
-  3. Fit δΨ = c0 + c1 f + c2 f² + c3 f³ (c0, c1 absorb phase/time conventions).
-  4. Compare c3 with the analytic candidates
-        (A) δΨ = (4π³/3) Λ I₄(z) f³ / c³        [Mirshekari–Yunes–Will form]
-        (B) δΨ = 4π³ Λ I₄(z) f³ / c³            [same without the 1/(α−1) factor]
-     where I₄(z) = (c/H₀) ∫₀^z (1+z')² / E(z') dz',
-     z obtained from the luminosity distance with Planck15 and Planck18.
-  The candidate and cosmology whose ratio c3_LAL / c3_pred ≈ 1 (with the right
-  sign) is the convention to be frozen in MODULE1_DESIGN v1.0.
+  3. Fit δΨ = c0 + c1 f + c2 f² + c3 f³ (c0, c1 absorb phase/time conventions);
+     a pure f³ term gives c2 ≈ 0.
+  4. Compare c3 with (P) and (G); z from the luminosity distance with Planck15
+     and Planck18.
 
-  python f4_coefficient.py
+Result obtained (lal 7.7.1, lalsimulation 6.2.1): pure f³ phase (c2 ~ 1e-20,
+residual 7e-16 rad), sign follows sign(A), ratio to (P) = 0.9983, i.e. ratio to
+(G) = −0.333; LALSimulation's λ_eff equals λ_A.
+
+  python convention_check.py
 """
 import sys
 
@@ -126,15 +139,16 @@ def main():
     except ImportError:
         print("astropy not available; cannot compute I₄(z)")
         return
-    print("\nratio c3_LAL / c3_pred  (≈ +1 identifies the convention):")
+    print("\nratio c3_LAL / c3_pred:  expected ≈ +1 for (P) particle velocity, ≈ −1/3 for (G) group velocity")
     for cname, cosmo in (("Planck15", Planck15), ("Planck18", Planck18)):
         z = float(z_at_value(cosmo.luminosity_distance, DIST_MPC * u.Mpc))
         i4 = I4(z, cosmo)
-        predA = (4 * np.pi ** 3 / 3) * Lambda * i4 / C ** 3
-        predB = 4 * np.pi ** 3 * Lambda * i4 / C ** 3
+        predP = (4 * np.pi ** 3 / 3) * Lambda * i4 / C ** 3      # particle velocity
+        predG = -4 * np.pi ** 3 * Lambda * i4 / C ** 3           # group velocity
         print(f"  {cname}: z = {z:.5f}, I₄ = {i4:.5e} m")
         for sign in (+1, -1):
-            print(f"     sign {sign:+d}:  (A) {results[sign] / predA:+.4f}    (B) {results[sign] / predB:+.4f}")
+            print(f"     sign {sign:+d}:  (P) {results[sign] / predP:+.4f}    (G) {results[sign] / predG:+.4f}")
+    print("\nLALSimulation implements (P). The Λ-model analyses use (G); add that phase explicitly for injections.")
 
 
 if __name__ == "__main__":
