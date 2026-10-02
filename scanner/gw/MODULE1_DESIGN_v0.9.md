@@ -1,6 +1,7 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.3 — not frozen.** (v0.9.1: §2 coefficient checked by F4;
+**Status: DRAFT v0.9.4 — not frozen.** (v0.9.4: tangent subspace from posterior
+samples (F3), subspace systematic in the calibration, exclusions following LVK.) (v0.9.1: §2 coefficient checked by F4;
 v0.9.2: event list frozen, F5 results and rules in §3 and §5; v0.9.3: §2 CORRECTED to the
 group-velocity phase used by LVK from GWTC-4.0 on — the v0.9.1 conclusion was wrong.) Nothing in this document has been run on
 real gravitational-wave events. Version 1.0 will be frozen (commit, tag and hash)
@@ -91,9 +92,18 @@ every injection amplitude.
   discovery 32 BOTH_OK, 4 SINGLE_MODEL (GW151226, GW190521, GW190602_175927,
   GW190828_063405: no SEOBNRv4PHM in the public release), 1 excluded
   (GW191204_171526: no calibration envelope in the public file, for either model);
-  confirmation 24 BOTH_OK. **The primary catalog test uses the 32 + 24 BOTH_OK events;**
-  SINGLE_MODEL events are analysed separately with IMRPhenomXPHM only and are not
-  part of the primary test.
+  confirmation 24 BOTH_OK.
+- **Further exclusions from the primary test (decided in v0.9.4, before any residual):**
+  - GW231123_135430: strong waveform-model systematics; LVK exclude it from their
+    combined dispersion bound (arXiv:2603.19020, Appendix D: IMRPhenomXPHM and
+    NRSur7dq4 disagree strongly). It also showed the least stable T₃⊥ in F3.
+  - Events recorded by fewer than two detectors (GW230814_230901), as in the LVK
+    selection, so that the primary sample is comparable with the LVK one. The
+    detector list of every event is taken from its PE file (F5 output) and the rule
+    is applied mechanically to both cohorts.
+- **Primary catalog test: 32 discovery + 22 confirmation events** (subject to the
+  detector rule above). SINGLE_MODEL events and the two excluded events are analysed
+  separately with the same pipeline and reported, but are not part of the primary test.
 
 ## 4. Data and preprocessing (fixed)
 
@@ -138,16 +148,26 @@ every injection amplitude.
 
 For each event, detector network and model:
 
-1. Tangent basis: numerical derivatives ∂h/∂θ_j at the reference point for all
-   parameters sampled in PE (coalescence time and phase, masses, spins, distance,
-   inclination, polarization, sky position), plus the detector-calibration
-   directions (amplitude and phase spline nodes) as nuisance directions.
-2. T_p^⊥ = T_p − P_tangent T_p, the part of the template that cannot be
+1. Tangent subspace from the posterior (F3): finite-difference derivatives were
+   found unstable (near-degenerate parameter directions; numerical noise of the EOB
+   and XPHM-SpinTaylor models). Instead, two DISJOINT random sets A and B of n = 800
+   posterior samples of the label (fixed seed 20261001; all samples if fewer) give
+   waveforms h(θ_i); the differences Δ_i = h(θ_i) − h_ref, whitened with the released
+   PSD, are decomposed by SVD, and the principal components explaining 99% of the
+   variance (rule frac ≥ 0.99) form the subspace. The analytic coalescence-time
+   direction −2πif·h_ref and the detector-calibration directions (amplitude and
+   phase spline nodes) are always added. **Set A defines the primary subspace;**
+   set B is used only for the subspace systematic (§7).
+2. T_p^⊥ = T_p − P_A T_p, the part of the template that cannot be
    reproduced by a change of standard GR parameters or of the calibration.
 3. Per-event estimate: Λ̂_i = ⟨r, T₃^⊥⟩ / ⟨T₃^⊥, T₃^⊥⟩, with Fisher uncertainty
    σ_i = ⟨T₃^⊥, T₃^⊥⟩^(−1/2); the empirical σ_i from §7 replaces it if they differ.
 4. The same for p = 2 and p = 4 (control amplitudes).
-5. The fraction of T₃ that survives orthogonalization, ‖T₃^⊥‖/‖T₃‖, is reported per event.
+5. Reported per event as diagnostics (no thresholds): the survival s = ‖T₃^⊥‖/‖T₃‖
+   (it sets the estimator noise, σ ∝ 1/s), the cosine between T₃^⊥ from sets A and B
+   (it controls the leakage of reference-point imperfections), and |s_A − s_B|/s_B.
+   For a pure f³ signal the estimate is unbiased for any subspace, since
+   ⟨T₃, T₃^⊥⟩ = ‖T₃^⊥‖².
 
 ## 7. Null calibration (real detector noise)
 
@@ -157,6 +177,13 @@ vetoed times), with the event's own GR reference waveform injected. The full
 pipeline is run and the distribution of Λ̂ under Λ = 0 is recorded: bias, scatter,
 empirical σ_i, and the per-event and catalog-level false-positive rates. The number
 of off-source injections per event is fixed in v1.0 from the compute budget (F6).
+
+**Subspace systematic.** Every null and ladder injection is analysed twice, with the
+set-A and the set-B subspace. The difference Λ̂_A − Λ̂_B over the null suite measures
+the cost of the subspace choice in the units of the estimate. Rule (fixed now): if the
+median |Λ̂_A − Λ̂_B| over the null suite of an event exceeds 0.5 σ_i, the event is
+moved from the primary test to the separately reported set; otherwise the RMS of
+Λ̂_A − Λ̂_B is added in quadrature to σ_i.
 
 ## 8. Injection ladder
 
@@ -212,7 +239,13 @@ Every result, including failures, is reported.
   The conda-forge lal/lalsimulation builds showed a SWIG type mismatch.
 - **F2** DONE: one waveform: IMRPhenomXPHM 0.014 s, SEOBNRv5PHM 0.1 s (first call
   ~9 s), SEOBNRv4PHM 2.3 s.
-- **F3** Numerical derivatives: step sizes and stability for all parameters.
+- **F3** DONE (`scanner/gw/f3*`): finite-difference derivatives unstable even with
+  per-parameter step choice (XPHM-SpinTaylor and EOB numerical noise; nearly
+  degenerate directions). Posterior-sample PCA (n = 200/400/800 per set, 4 events ×
+  2 models): survival of f³ 0.07–0.53; the A/B direction agreement is best for
+  frac ≥ 0.99 (cos up to 0.999) and improves with n for XPHM; higher thresholds pick
+  up model noise (up to ~380 components for SEOBNRv5PHM, GW231123). Rule frac ≥ 0.99,
+  n = 800, fixed seed adopted; residual instability handled as a measured systematic.
 - **F4** DONE, corrected in v0.9.3 (see §2): LALSimulation implements the
   particle-velocity phase (+4π³/3, agreement 0.9983); Module 1 uses the group-velocity
   phase (−4π³) as LVK do from GWTC-4.0; λ_eff = λ_A; Λ = A₄(ħc)².
