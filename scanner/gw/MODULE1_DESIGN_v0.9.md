@@ -1,6 +1,10 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.4 — not frozen.** (v0.9.4: tangent subspace from posterior
+**Status: DRAFT v0.9.6 — not frozen.** (v0.9.6: residual chain verified on all
+events; reference-fit quality gate; extrinsic refinement window; EOB generation rules.)
+Previous: **DRAFT v0.9.5.** (v0.9.5: strain data, missing-data rule,
+per-detector consistency check, primary counts after the detector rule.)
+Previous: **DRAFT v0.9.4.** (v0.9.4: tangent subspace from posterior
 samples (F3), subspace systematic in the calibration, exclusions following LVK.) (v0.9.1: §2 coefficient checked by F4;
 v0.9.2: event list frozen, F5 results and rules in §3 and §5; v0.9.3: §2 CORRECTED to the
 group-velocity phase used by LVK from GWTC-4.0 on — the v0.9.1 conclusion was wrong.) Nothing in this document has been run on
@@ -101,8 +105,12 @@ every injection amplitude.
     selection, so that the primary sample is comparable with the LVK one. The
     detector list of every event is taken from its PE file (F5 output) and the rule
     is applied mechanically to both cohorts.
-- **Primary catalog test: 32 discovery + 22 confirmation events** (subject to the
-  detector rule above). SINGLE_MODEL events and the two excluded events are analysed
+- **Primary catalog test: 31 discovery + 20 confirmation events** (v0.9.6: GW200225_060421
+  removed by the reference-fit gate of §5).
+- Earlier count in v0.9.5: **32 discovery + 20 confirmation events.** The detector rule
+  removes three confirmation events whose PE used a single detector
+  (GW230814_230901: L1; GW231231_154016: H1; GW240104_164932: H1); none of the
+  three is in the LVK tests-of-GR selection either. SINGLE_MODEL events and the two excluded events are analysed
   separately with the same pipeline and reported, but are not part of the primary test.
 
 ## 4. Data and preprocessing (fixed)
@@ -112,6 +120,17 @@ every injection amplitude.
 - Noise power spectral densities: those released with the PE results, not re-estimated.
 - Events with glitch subtraction: the LVK-released cleaned frames are used, as in PE.
 - Inner product: ⟨a, b⟩ = Σ_detectors 4 Re ∫ a*(f) b(f) / S_n(f) df over the PE band.
+- Strain files (`scanner/gw/strain_manifest.csv`, SHA-256 per file): GWOSC 4096 s
+  files at 4096 Hz for every detector used in the event's PE (134 files, 16.7 GB).
+  One file provides both the on-source segment and the off-source segments of the
+  null suite.
+- Missing-data rule: if the standard GWOSC file is unavailable for a detector, the
+  event-specific file of the catalog release is used; if none exists, the event is
+  analysed with the remaining detectors and the detector rule of §3 applies.
+  Applied once: GW170608 H1 (not in the bulk archive because H1 was not in nominal
+  observing mode) is taken from the GWTC-1-confident v3 event release (4096 s,
+  centred on the event). Its null suite uses off-source segments of the same file,
+  and its null distribution is reported separately.
 - Any deviation from these rules for a specific event is decided and recorded before
   its residual is computed.
 
@@ -141,6 +160,23 @@ every injection amplitude.
   Intrinsic parameters are not changed.
 - Calibration envelope: from the label itself; if absent, from the XPHM label of the
   same event (same detectors and strain); if absent in both, the event is excluded.
+- **Extrinsic refinement (verified, `residual_check.py`):** a common time shift within
+  ±100 ms (step 0.05 ms) and a common complex amplitude for the network. Bilby-based
+  labels need |Δt| < 1 ms; LALInference-based labels (SEOBNRv4PHM) need event-dependent
+  shifts up to 39 ms and arbitrary phases, i.e. their stored reference times are not at
+  the likelihood maximum; after refinement both models fit equally well.
+- **EOB generation:** time-domain waveforms are cropped to the analysis segment
+  (merger 2 s before its end) with the same 0.4 s taper as the data; if the model
+  refuses the PE sampling rate (ringdown above Nyquist), it is generated at 2× or 4×
+  the rate and only the PE frequency grid up to f_high is used. Our TD→FD path agrees
+  with IMRPhenomXPHM at the same parameters (match 0.993, Δt −0.4 ms, GW150914).
+- **Reference-fit quality gate (fixed before any Λ estimate):** an event–model pair
+  whose refined reference gives SNR_mf / catalog SNR outside 0.8–1.2 is moved to the
+  separately analysed set for that model; since the primary test needs both models, the
+  event leaves the primary test. Result over all 116 pairs (`residual_check.csv`):
+  0 errors, 2 pairs outside: GW200225_060421 SEOBNRv4PHM (0.66; our EOB waveform matches
+  XPHM only at 0.884 at that point) and GW231123_135430 SEOBNRv5PHM (0.71; event already
+  excluded, the same waveform systematics LVK report in their Appendix D).
 - The same event is always analysed with both models by the same scanner; the model
   is never chosen according to the result.
 
@@ -177,6 +213,8 @@ vetoed times), with the event's own GR reference waveform injected. The full
 pipeline is run and the distribution of Λ̂ under Λ = 0 is recorded: bias, scatter,
 empirical σ_i, and the per-event and catalog-level false-positive rates. The number
 of off-source injections per event is fixed in v1.0 from the compute budget (F6).
+Off-source segments are taken on both sides of the event, skipping invalid data (gaps,
+file edges); at least 4 valid segments are required per detector.
 
 **Subspace systematic.** Every null and ladder injection is analysed twice, with the
 set-A and the set-B subspace. The difference Λ̂_A − Λ̂_B over the null suite measures
@@ -215,6 +253,12 @@ consistent sign and the K(z) dependence of the Λ hypothesis.
   systematics, noise, SNR distribution and uncertainties. The observed catalog
   statistic is compared with the permutation distribution.
 - **Waveform robustness:** the result must be consistent between the two models.
+- **Per-detector consistency:** Λ̂ is also estimated separately for each detector
+  (same reference waveform, the detector's own projection and PSD). A propagation
+  effect is the same in all detectors (same Λ, same source distance); detector
+  calibration errors, glitches and noise are not. Statistic per event: χ² of the
+  per-detector estimates about their weighted mean; its null distribution comes from
+  the null suite.
 
 ## 11. Decision rules (fixed in v1.0)
 
@@ -227,8 +271,9 @@ consistent sign and the K(z) dependence of the Λ hypothesis.
 4. **All controls pass:**
    - no significant f³ → bound on Λ (reported with the conversion to A₄ from §2);
    - significant f³ → **candidate only**, which must pass the confirmation cohort,
-     the waveform and calibration controls and the permutation test; a p-value
-     alone is not called a discovery.
+     the waveform and calibration controls, the permutation test and the
+     per-detector consistency test (catalog-level χ² not in the upper 1% tail of its
+     null distribution); a p-value alone is not called a discovery.
 
 Every result, including failures, is reported.
 
@@ -254,6 +299,13 @@ Every result, including failures, is reported.
   calibration envelopes, configuration). Two checker defects found and fixed before
   any residual: remote reading hit Zenodo rate limits (replaced by verified local
   files), and configuration keys occur with '_' or '-' (both accepted).
+- **Residual chain** DONE (v0.9.6): see §5. Diagnostics note: with a least-squares
+  complex amplitude the χ² drop equals SNR_mf² identically, so SNR_mf is compared with
+  the catalog SNR instead; the reduced χ² of the residual is a weak test (about 7000
+  degrees of freedom in the band), reported only as a diagnostic.
+- **Version policy for extensions:** later data (O4b, GWTC-5.0) are analysed only with
+  the code at the v1.0 tag, unchanged; any change makes a new version with its own
+  registration before the new data are looked at.
 - **F6** Rough budget DONE: tangent basis per event 0.4 / 3.3 / 72 s
   (XPHM / v5PHM / v4PHM); the full calibration suite is feasible on a laptop.
   Final numbers of injections are fixed in v1.0. Compute budget: estimate the total cost of §7–§9 and fix the numbers of

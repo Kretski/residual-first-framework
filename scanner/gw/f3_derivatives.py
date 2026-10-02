@@ -89,7 +89,10 @@ def read_label(f, label):
         smp = ps["samples"][()]
         cols = {n: smp[:, i] for i, n in enumerate(names)}
     i = int(np.argmax(cols["log_likelihood"]))
-    sample = {k: float(v[i]) for k, v in cols.items() if np.ndim(v) == 1}
+    sample = {}
+    for k, v in cols.items():                    # numeric columns only (some files carry text columns)
+        if np.ndim(v) == 1 and np.issubdtype(np.asarray(v).dtype, np.number):
+            sample[k] = float(v[i])
     cfg = {}
 
     def visit(name, obj):
@@ -108,20 +111,31 @@ def nums(s):
 
 def settings(cfg):
     """Waveform settings from bilby or LALInference configuration keys."""
+    def num(*keys, default=None):
+        for k in keys:
+            v = cfg.get(k)
+            if v is not None and str(v).strip() != "":
+                try:
+                    return float(v)
+                except ValueError:
+                    raise ValueError(f"config key '{k}' not numeric: {v!r}")
+        if default is not None:
+            return default
+        raise ValueError(f"config keys {keys} missing or empty")
     flow_s = cfg.get("minimum-frequency") or cfg.get("flow") or "20"
     m = re.search(r"waveform\s*['\"]?\s*:\s*([0-9.]+)", flow_s)
     det_vals = [float(v) for k, v in re.findall(r"([HLVK]1)['\"]?\s*:\s*([0-9.]+)", flow_s)]
     f_an = min(det_vals) if det_vals else min(nums(flow_s))
-    f_wf = float(m.group(1)) if m else float(cfg.get("fmin-template", f_an))
+    f_wf = float(m.group(1)) if m else num("fmin-template", default=f_an)
     fh_s = cfg.get("maximum-frequency") or cfg.get("fhigh") or ""
     fh_vals = [float(v) for k, v in re.findall(r"([HLVK]1)['\"]?\s*:\s*([0-9.]+)", fh_s)]
-    srate = float(cfg.get("sampling-frequency") or cfg.get("srate"))
+    srate = num("sampling-frequency", "srate")
     return {
-        "f_ref": float(cfg.get("reference-frequency") or cfg.get("fref")),
+        "f_ref": num("reference-frequency", "fref"),
         "f_wf": f_wf, "f_an": f_an,
         "f_high": min(fh_vals) if fh_vals else srate / 2,
         "srate": srate,
-        "duration": float(cfg.get("duration") or cfg.get("seglen")),
+        "duration": num("duration", "seglen"),
         "wf_args": ast.literal_eval(cfg["waveform-arguments-dict"])
         if cfg.get("waveform-arguments-dict", "").strip().startswith("{") else {},
     }
