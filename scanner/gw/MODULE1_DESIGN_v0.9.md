@@ -1,6 +1,10 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.8 — not frozen.** (v0.9.8: calibration source fixed — bilby
+**Status: DRAFT v0.9.9 — not frozen.** (v0.9.9: primary statistic changed to a profile
+scan over Λ with the exact dispersive phase; the linear estimator fails at the scale of its
+own σ (real-geometry check, §12). Neyman construction required; GR-leakage test added;
+z from the posterior median distance; shape identifiability recorded as a limitation.)
+Previous: **DRAFT v0.9.8.** (v0.9.8: calibration source fixed — bilby
 recalib priors, not the plotting envelope, whose median has the opposite sign in
 GWTC-4.0 files; envelope columns verified to be ±1σ; bilby 2.8.2 added to the
 environment.)
@@ -83,8 +87,25 @@ To first order in δΨ the residual after subtracting the GR waveform is
 
 **Primary template:** p = 3. **False-shape controls:** p = 2 and p = 4.
 p = 0 and p = 1 are fully degenerate with coalescence phase and time and are not tested.
-The linear approximation requires |δΨ| ≪ 1 rad over the band; this is checked for
-every injection amplitude.
+**Linear approximation: not valid at the scale that matters (v0.9.9).** The linear
+estimator (§6, items 3–4) measures only the part of T₃ that survives the projection
+(20–28% for GW230627_015337). Second-order terms of e^{iδΨ} project into the same small
+subspace and dominate early: with the exact phase injected (no noise), the linear
+estimate returns 0.93–0.97 of Λ at 0.1σ, 0.69–0.82 at 0.3σ, 0.02 to −0.03 at 1σ and
+−0.52 at 3σ, at a signal-weighted phase ‖δΨ h‖/‖h‖ of only 0.13–0.17 rad at 1σ
+(`module1_event.py`, GW230627_015337, both models). A bound from the linear σ would
+exclude values the estimator cannot see. Therefore the **primary statistic is a profile
+scan over Λ with the exact phase** (§6, item 7); the linear estimate and T_p are kept as
+diagnostics and for the subspace geometry.
+
+**Shape identifiability (limitation, v0.9.9).** After the projection the templates
+T₂, T₃, T₄ are correlated at 0.90–0.98 in the C⁻¹ metric (GW230627_015337:
+ρ(f²,f³) = 0.975, ρ(f³,f⁴) = 0.970–0.981), and f² or f⁴ injections at 5σ give
+z(f³) ≈ +4.8 to +5.0. Within one event the method responds to any smooth phase
+deviation growing at high frequency, not specifically to f³. The bound on Λ remains
+valid because it assumes the α = 4 model. A significant result would be a candidate
+for a dispersion of the class α ≈ 2–4, not specifically for the Λ model; shape
+discrimination is attempted only at catalog level (§10) and its power is reported.
 
 ## 3. Cohorts
 
@@ -166,6 +187,11 @@ every injection amplitude.
   time and distance, so the stored log-likelihood is marginalised and the time and
   distance of a sample are draws, not maxima; LALInference analyses have few samples.
   Intrinsic parameters are not changed.
+- **Redshift for the template prefactor (v0.9.9):** z is computed from the posterior
+  median luminosity distance of the label (Planck15, `module1_cosmo.py`), not from the
+  maximum-likelihood sample. Reason: the maximum-likelihood distance differs between the
+  two models of the same event by up to 55% (GW200129_065458: z = 0.160 vs 0.103), and
+  Λ scales as 1/I₄(z); the median is far more stable (GW230627_015337: 0.066 vs 0.065).
 - Calibration model: the bilby recalib priors of the label (Gaussian mu and sigma of
   the amplitude and phase at each spline node; node frequencies from
   recalib_<IFO>_frequency_k); if absent (LALInference SEOBNRv4PHM labels), those of the
@@ -261,6 +287,19 @@ in its `__main__`).
    not mean usable: when s → 0, σ grows without bound and a single estimate carries no
    information.
 
+7. **Primary statistic (v0.9.9): profile scan over Λ with the exact phase.** For Λ on a
+   grid, the residual model is s(Λ) = h_ref (e^{iδΨ(Λ)} − 1) with the group-velocity
+   phase of §2, and
+   χ²(Λ) = ⟨P(r − s(Λ)), C⁻¹ P(r − s(Λ))⟩,  P = I − Q_A Q_Aᵀ.
+   The dispersive phase is exact at every Λ; the GR parameters stay linearised (free
+   subspace) and calibration constrained (C), as above. The event estimate is the grid
+   minimum. For the catalog the grid is common and in absolute units (m²), and
+   χ²_cat(Λ) = Σ_i χ²_i(Λ). **Intervals come from a Neyman construction** with
+   exact-phase injections in noise (synthetic first, then real off-source noise, §7);
+   the Δχ² ≤ 2.71 (Wilks) interval is not used: its coverage on the real geometry is
+   0.74–0.87 instead of 0.90 (§12). Implementation: `ProfileScan` in `module1_event.py`
+   (one projection per grid point; a noise trial costs one matrix-vector product).
+
 **Why calibration is not projected out (v0.9.7 correction).** v0.9.6 added the
 calibration spline directions to the free subspace. A calibration phase error and
 the f³ dispersion phase are both smooth functions of frequency over the band, so ten
@@ -293,16 +332,28 @@ median |Λ̂_A − Λ̂_B| over the null suite of an event exceeds 0.5 σ_i, the
 moved from the primary test to the separately reported set; otherwise the RMS of
 Λ̂_A − Λ̂_B is added in quadrature to σ_i.
 
+**GR-leakage test (v0.9.9).** Real GR waveforms h(θ_B) of set B (not used for the subspace
+of set A) are used as data, h(θ_B) − h_ref plus noise, and scanned. A GR-only signal must
+give the same distribution of the scan estimate as pure noise; a shift or a wider spread
+means that GR nonlinearity outside the linearised subspace leaks into Λ. Proposed rule
+(fixed in v1.0): two-sample Kolmogorov–Smirnov test between the leakage and pure-noise
+estimates, at least 60 waveforms each; p < 0.01 moves the event–model pair to the
+separately reported set. This tests posterior-scale GR variations only; waveform-model
+systematics are tested by the two-model comparison (§10).
+
 ## 8. Injection ladder
 
 | Injection | Checks |
 |---|---|
 | GR, Λ = 0 | null calibration (§7) |
-| f³ at pre-fixed amplitudes of both signs (in units of the catalog σ) | recovery of sign and amplitude |
-| f² at matched amplitude | wrong-shape rejection |
-| f⁴ at matched amplitude | wrong-shape rejection |
+| f³ at pre-fixed amplitudes of both signs, absolute Λ on the common grid | recovery of sign and amplitude; Neyman belts |
+| f² at matched amplitude | how a wrong shape maps into Λ (reported; see §2, shape identifiability) |
+| f⁴ at matched amplitude | how a wrong shape maps into Λ (reported) |
 
-Amplitudes are fixed in v1.0 and not changed after the first results.
+All injections use the exact phase factor e^{iδΨ} (for f² and f⁴ the same form with f^p),
+never the linear template. Amplitudes include the LVK GWTC-4.0 bound values
+(−2.4·10⁻¹¹ and +7.4·10⁻¹² m²). They are fixed in v1.0 and not changed after the first
+results.
 
 ## 9. Detector-calibration systematics
 
@@ -316,8 +367,10 @@ part of the calibration error that the spline-node model does not describe.
 
 ## 10. Catalog-level tests
 
-- Combined estimate: Λ̂ = Σ w_i Λ̂_i / Σ w_i, w_i = 1/σ_i² (K(z) is inside the template,
-  so Λ is common to all events).
+- Combined result (v0.9.9): χ²_cat(Λ) = Σ_i χ²_i(Λ) on the common absolute grid (K(z) is
+  inside the model, so Λ is common to all events); estimate at its minimum, interval
+  from the Neyman construction (§6, item 7). The weighted mean of linear estimates is
+  reported only as a diagnostic.
 - **Sign consistency:** a real effect gives Λ̂_i of one sign across events.
 - **Heterogeneity:** Q = Σ (Λ̂_i − Λ̂)²/σ_i², calibrated by the null suite; a real
   common Λ gives Q consistent with the null, systematics tend to give excess Q.
@@ -337,8 +390,13 @@ part of the calibration error that the spline-node model does not describe.
 
 1. **Null failure:** GR injections give a significant systematic Λ̂ → calibration
    failure; real events are not interpreted.
-2. **Wrong-shape failure:** f² or f⁴ injections are systematically recovered as f³
-   → shape discrimination failure; no physical interpretation.
+2. **Shape (changed in v0.9.9):** per-event shape discrimination is not possible (§2);
+   the former rule "f² or f⁴ recovered as f³ → failure" would always trigger and is
+   replaced by reporting how f² and f⁴ injections map into Λ. A significant result is
+   interpreted only as a candidate for the class α ≈ 2–4.
+2a. **GR-leakage failure (v0.9.9):** an event–model pair failing the GR-leakage test
+   (§7) leaves the primary test; if more than one third of the pairs fail, the method is
+   not interpreted.
 3. **Calibration failure:** calibration-only injections produce a catalog-level f³
    signal with the Λ sign and scaling → calibration confound unresolved.
 4. **All controls pass:**
@@ -385,6 +443,20 @@ Every result, including failures, is reported.
   v1.0: the same test on the real geometry (reference waveforms, PSDs, PE samples and
   calibration envelopes of 2–3 events, Gaussian noise from the released PSD), which
   measures the real survival s and therefore the reachable sensitivity.
+- **Real-geometry check** DONE (v0.9.9, `module1_event.py` v3, synthetic noise only, no
+  on-source strain read; `module1_geometry_check.csv`, `module1_geometry_check_v3.csv`).
+  Linear estimator, n = 800, frac ≥ 0.99: σ_lin = 8.5·10⁻¹⁰ / 8.3·10⁻¹⁰ m² (GW150914
+  XPHM / SEOBNRv4PHM), 6.5·10⁻¹⁰ / 3.5·10⁻¹⁰ (GW200129_065458), 3.6·10⁻¹¹ / 2.1·10⁻¹¹
+  (GW230627_015337, XPHM-SpinTaylor / SEOBNRv5PHM); nulls mean z within ±0.16, std
+  0.96–1.08; A/B median 0.21–0.38σ. Exact-phase response: see §2 (linear estimator fails
+  at ~1σ). Profile scan (GW230627_015337): noiseless Δχ² from Λ = 0 at ±1σ_lin 1.50 /
+  0.55 and ≥ 10.8 / 4.1 for |Λ| ≥ 2σ_lin (no blind region within ±8σ_lin); spread of
+  the estimate at Λ = 0: 0.97 / 1.66 σ_lin, i.e. ≈ 3.5·10⁻¹¹ m² for both models (the
+  model dependence of σ_lin disappears); recovery at +3σ_lin 2.79 / 2.64; Wilks 90%
+  coverage 0.78–0.91 / 0.74–0.84; GR leakage (60 set-B waveforms) mean +0.19 / −0.11,
+  std 0.95 / 1.45 vs pure noise 0.97 / 1.66. Open: the XPHM null mean +0.25 at about
+  2.6 standard errors (100 trials) — to be re-checked with more trials; the
+  SEOBNRv4PHM → XPHM calibration branch is exercised in the GW150914 and GW200129 runs.
 - **Calibration source** DONE (v0.9.8): see §6, item 2. bilby 2.8.2 added to `gw2`
   (pip dry run: no change to numpy, scipy, lalsuite, h5py, gwpy; `requirements_gw2.txt`
   updated).
