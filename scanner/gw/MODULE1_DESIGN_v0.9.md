@@ -1,6 +1,10 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.10 — not frozen.** (v0.9.10: GR-leakage rule and cohort roles fixed
+**Status: DRAFT v0.9.11 — not frozen.** (v0.9.11: catalog/Neyman machinery checked on
+three events with synthetic noise; reporting rules for concentration (leave-one-out,
+N_eff) and for non-contiguous intervals; belt sizes; belts from Gaussian noise with real
+off-source segments as a check.)
+Previous: **DRAFT v0.9.10.** (v0.9.10: GR-leakage rule and cohort roles fixed
 by decision, after the O3 XPHM real-geometry runs; joint-template conditioning recorded.)
 Previous: **DRAFT v0.9.9.** (v0.9.9: primary statistic changed to a profile
 scan over Λ with the exact dispersive phase; the linear estimator fails at the scale of its
@@ -315,7 +319,26 @@ in its `__main__`).
    exact-phase injections in noise (synthetic first, then real off-source noise, §7);
    the Δχ² ≤ 2.71 (Wilks) interval is not used: its coverage on the real geometry is
    0.74–0.87 instead of 0.90 (§12). Implementation: `ProfileScan` in `module1_event.py`
-   (one projection per grid point; a noise trial costs one matrix-vector product).
+   (one projection per grid point; a noise trial costs one matrix-vector product) and
+   `module1_catalog.py` (the noise enters linearly, so the catalog needs only the sums
+   over events of the Gram matrices and of the noise projections; test statistic
+   q(Λ) = χ²_cat(Λ) − min χ²_cat, Feldman–Cousins ordering).
+   **Belt sizes (fixed in v0.9.11):** 5000 trials per belt; coverage checked with 2000
+   independent trials at five true values; grid ±8 × the smallest σ_lin of the catalog,
+   step 0.05 × that σ; the fraction of intervals touching the grid edge is reported and
+   must be below 1%, otherwise the grid is widened before any real estimate.
+   **Belt noise (fixed in v0.9.11):** a belt needs thousands of noise realisations, while
+   each event has only 4–8 valid off-source segments. Belts are therefore built from
+   Gaussian noise with the released PSDs plus calibration errors drawn from the priors.
+   The real off-source segments (§7), each with the event's GR reference injected, are
+   scanned as a check of the belts: the fraction of their intervals containing Λ = 0 is
+   compared with 0.90 (binomial); a coverage below 0.80 at the catalog level stops the
+   analysis before any on-source estimate.
+   **Non-contiguous intervals (fixed in v0.9.11):** because of the sign ambiguity of the
+   nonlinear phase, a confidence set may consist of separate pieces (12% of the
+   expected-interval trials in the three-event check). The reported interval is the
+   envelope (smallest to largest included Λ), which is conservative; the full set is
+   reported alongside.
 
 **Why calibration is not projected out (v0.9.7 correction).** v0.9.6 added the
 calibration spline directions to the free subspace. A calibration phase error and
@@ -405,6 +428,11 @@ part of the calibration error that the spline-node model does not describe.
   f³ amplitudes are kept; this destroys the propagation relation but keeps waveform
   systematics, noise, SNR distribution and uncertainties. The observed catalog
   statistic is compared with the permutation distribution.
+- **Concentration (fixed in v0.9.11):** the effective number of events
+  N_eff = (Σ w_i)² / Σ w_i², w_i = 1/σ_i² (linear σ), is reported, and the result is
+  recomputed leaving out the event with the largest weight (leave-one-out) and reported
+  next to the main result. In the three-event check one event carried more than 99% of
+  the weight (N_eff ≈ 1.01).
 - **Waveform robustness:** the result must be consistent between the two models.
 - **Per-detector consistency:** Λ̂ is also estimated separately for each detector
   (same reference waveform, the detector's own projection and PSD). A propagation
@@ -493,6 +521,19 @@ Every result, including failures, is reported.
   1.13 / 1.21, mean +0.01 / −0.12. z median vs maximum likelihood: 0.096 vs 0.107 and
   0.189 vs 0.160. The current code still uses the maximum-likelihood z in the scan; it
   is switched to the median (§5) before v1.0.
+- **Catalog / Neyman check** DONE (v0.9.11, `module1_catalog.py`, synthetic noise only;
+  GW150914 and GW200129_065458 (C01 XPHM) with GW230627_015337 (C00 XPHM-SpinTaylor), mixed
+  cohorts for the machinery check only; 1000 belt and 300 independent trials;
+  `module1_catalog_check.json`). σ_lin with z median: 9.5·10⁻¹⁰, 5.4·10⁻¹⁰,
+  3.7·10⁻¹¹ m² (N_eff ≈ 1.01). Critical values 1.49–4.25 (Wilks 2.71). Expected 90%
+  interval under Λ = 0 (median ends) [−5.2·10⁻¹¹, +4.6·10⁻¹¹] m², about 3 times wider
+  than the LVK GWTC-4.0 interval [−2.4·10⁻¹¹, +7.4·10⁻¹²] (83 events); 88% of the
+  intervals contiguous; none at the grid edge. Coverage at five true values
+  (−1.48·10⁻¹⁰ … +1.48·10⁻¹⁰ m²): Neyman 0.873–0.933 (target 0.90; ±0.017 standard
+  error, the five values share the same 300 realisations), Wilks 0.840–0.893. Catalog
+  joint f², f³, f⁴: condition number 949, σ(f³) inflation ×14.7 (per event 22–33).
+  Formula check on a toy problem: sum-over-events χ² equals the direct computation to
+  6·10⁻⁶ of a 1.3·10³ range.
 - **Calibration source** DONE (v0.9.8): see §6, item 2. bilby 2.8.2 added to `gw2`
   (pip dry run: no change to numpy, scipy, lalsuite, h5py, gwpy; `requirements_gw2.txt`
   updated).

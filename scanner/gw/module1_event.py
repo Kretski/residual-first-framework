@@ -41,6 +41,8 @@ component, i.e. Gaussian noise with the released PSD scaled by the window power)
     distance (the choice is a v0.9.9 decision).
 Diagnostics only: no thresholds here; the final numbers are fixed in v1.0.
 
+Version 4: template prefactor K(z) from the posterior median distance (v0.9.9, §5);
+sigma with the maximum-likelihood z reported for comparison.
 Version 3: profile scan over Lambda with the exact phase (scan_checks), Wilks coverage,
 blind-region distance, and the GR-leakage test (set-B GR waveforms as data).
 Version 2 (after the first run): differences stored in float32 and the Gram matrix
@@ -206,7 +208,7 @@ def build(event, label, xphm_label, fh, ifos, n, frac, log):
     tab = posterior_table(fh, label)
     z = cosmo.z_from_dl(sample["luminosity_distance"] * cosmo.MPC_SI)
     z_med = cosmo.z_from_dl(float(np.median(tab["luminosity_distance"])) * cosmo.MPC_SI)
-    K = cosmo.K(z)
+    K = cosmo.K(z_med)          # v0.9.9: posterior median distance (§5)
     T = {p: net.stack({i: 1j * K * fb ** p * href[i] for i in ifos}) for p in (2, 3, 4)}
     tdir = net.stack({i: -2j * np.pi * fb * href[i] for i in ifos})
     adir = net.stack(href)
@@ -245,7 +247,7 @@ def build(event, label, xphm_label, fh, ifos, n, frac, log):
         Q = orthonormal([U, tdir, adir, pdir])
         del U
         est[name], ks[name] = Estimator(Q, J, T), k
-    info = {"gr_leak": gr_leak, "z": z, "z_med": z_med, "I4_ratio": cosmo.I4(z) / cosmo.I4(z_med), "K": K, "cal_source": cal_source, "fails": fails, "nb": net.nb,
+    info = {"gr_leak": gr_leak, "z": z, "z_med": z_med, "I4_ratio": cosmo.I4(z_med) / cosmo.I4(z), "K": K, "cal_source": cal_source, "fails": fails, "nb": net.nb,
             "snr_ref": float(np.linalg.norm(href_s)), "f_high": float(fb[-1]),
             "n_used": n, "nsamp": nsamp}
     return est, ks, info, sb, href, net, fb
@@ -313,7 +315,7 @@ def run_checks(est, info, sb, href, net, fb, T, trials, rng):
     return res
 
 
-KEYS = ["event", "label", "ifos", "k_A", "k_B", "s2", "s3", "s4", "sigma3_m2", "sigma3_m2_zmed",
+KEYS = ["event", "label", "ifos", "k_A", "k_B", "s2", "s3", "s4", "sigma3_m2", "sigma3_m2_zmaxL",
         "z", "z_med", "cos_AB", "rho23", "rho34", "rho24", "null_mean_z", "null_std_z",
         "ab_median_over_sigma", "inj_lambda", "inj_ratio_mean", "inj_ratio_std", "inj_max_dpsi",
         "f3_inj_shape_correct", "f2_inj_mean_z3", "f2_inj_shape_correct", "f4_inj_mean_z3",
@@ -469,12 +471,12 @@ def main():
                     # full (unprojected) templates: what the data would contain
                     T = {p: net.stack({i: 1j * K * fb ** p * href[i] for i in ifos}) for p in (2, 3, 4)}
                     cosAB = float(A.Tp[3] @ B.Tp[3] / (np.linalg.norm(A.Tp[3]) * np.linalg.norm(B.Tp[3])))
-                    s3m = A.sigma(3) * info["I4_ratio"]
+                    s3m = A.sigma(3) * info["I4_ratio"]          # what sigma would be with z maxL
                     print(f"  z maxL {info['z']:.4f}, z median {info['z_med']:.4f}   ref SNR {info['snr_ref']:.1f}   "
                           f"band to {info['f_high']:.0f} Hz   calibration from {info['cal_source']}   "
                           f"samples {info['nsamp']} (failures {info['fails']})")
                     print(f"  k A/B {ks['A']}/{ks['B']}   survival f2 {A.s[2]:.4f}  f3 {A.s[3]:.4f}  f4 {A.s[4]:.4f}   "
-                          f"sigma(Lambda) {A.sigma(3):.3e} m^2 (with z median {s3m:.3e})   cos(T3perp A,B) {cosAB:.4f}")
+                          f"sigma(Lambda) {A.sigma(3):.3e} m^2 (z median, used; with z maxL {s3m:.3e})   cos(T3perp A,B) {cosAB:.4f}")
                     res = run_checks(est, info, sb, href, net, fb, T, args.trials,
                                      np.random.default_rng(SEED + 1))
                     print(f"  template correlations: rho(f2,f3) {res['rho23']:+.4f}  rho(f3,f4) {res['rho34']:+.4f}  "
@@ -507,7 +509,7 @@ def main():
                               f"P(|est|>=1) {res['noise_frac_abs_ge1']:.3f}")
                     row = {"event": ev, "label": label, "ifos": ",".join(ifos), "k_A": ks["A"], "k_B": ks["B"],
                            "s2": A.s[2], "s3": A.s[3], "s4": A.s[4], "sigma3_m2": A.sigma(3),
-                           "sigma3_m2_zmed": s3m, "z": info["z"], "z_med": info["z_med"], "cos_AB": cosAB,
+                           "sigma3_m2_zmaxL": s3m, "z": info["z"], "z_med": info["z_med"], "cos_AB": cosAB,
                            "cal_source": info["cal_source"], "fails": info["fails"], **res, "error": ""}
                 except Exception as e:
                     print(f"  ERROR {type(e).__name__}: {str(e)[:200]}", flush=True)
