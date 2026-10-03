@@ -1,6 +1,8 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.9 — not frozen.** (v0.9.9: primary statistic changed to a profile
+**Status: DRAFT v0.9.10 — not frozen.** (v0.9.10: GR-leakage rule and cohort roles fixed
+by decision, after the O3 XPHM real-geometry runs; joint-template conditioning recorded.)
+Previous: **DRAFT v0.9.9.** (v0.9.9: primary statistic changed to a profile
 scan over Λ with the exact dispersive phase; the linear estimator fails at the scale of its
 own σ (real-geometry check, §12). Neyman construction required; GR-leakage test added;
 z from the posterior median distance; shape identifiability recorded as a limitation.)
@@ -106,11 +108,26 @@ deviation growing at high frequency, not specifically to f³. The bound on Λ re
 valid because it assumes the α = 4 model. A significant result would be a candidate
 for a dispersion of the class α ≈ 2–4, not specifically for the Λ model; shape
 discrimination is attempted only at catalog level (§10) and its power is reported.
+Joint-template conditioning (v0.9.10, from the measured correlations): the 3×3
+correlation matrix of T₂, T₃, T₄ has condition number 2100–4800 and smallest eigenvalue
+6·10⁻⁴–1.4·10⁻³ (GW150914, GW200129_065458, GW230627_015337); a joint fit of f², f³, f⁴
+would inflate σ(f³) by 22–33 (by 4.4–5.4 for f², f³ only). Per-event power
+identification is therefore not attempted; the catalog-level joint matrix and its
+conditioning are computed and reported (§10).
 
 ## 3. Cohorts
 
 - **Discovery cohort:** GWTC-1, GWTC-2.1 (O3a) and GWTC-3 (O3b).
-- **Confirmation cohort:** GWTC-4.0 (O4a), fixed in advance. Later data (e.g. O4b)
+- **Confirmation cohort:** GWTC-4.0 (O4a), fixed in advance.
+- **Cohort roles (fixed in v0.9.10; limitation recorded).** The cohort is determined by
+  the observing run only: O1–O3 = search, O4 = confirmation. No event is moved between
+  cohorts according to SNR, waveform model, reference-fit quality or any estimate.
+  Recorded limitation: the per-event spread of the scan is about 1·10⁻⁹ m² for the O3
+  events checked and about 3.5·10⁻¹¹ m² for GW230627_015337 (O4), so the search cohort is
+  expected to be roughly 5–10 times less sensitive than the confirmation cohort. The
+  two-stage candidate logic is therefore unbalanced: a candidate first appearing at the
+  O4 sensitivity cannot be produced by the search stage. The combined bound uses both
+  cohorts; the candidate procedure is kept as registered and its imbalance is reported. Later data (e.g. O4b)
   are not added after results are seen; they may form a separate, later blind extension.
 - **Selection rule (applied from catalog tables only, before any residual is computed):**
   GWOSC catalogs GWTC-2.1-confident (includes the O1/O2 events reanalysed with
@@ -335,10 +352,20 @@ moved from the primary test to the separately reported set; otherwise the RMS of
 **GR-leakage test (v0.9.9).** Real GR waveforms h(θ_B) of set B (not used for the subspace
 of set A) are used as data, h(θ_B) − h_ref plus noise, and scanned. A GR-only signal must
 give the same distribution of the scan estimate as pure noise; a shift or a wider spread
-means that GR nonlinearity outside the linearised subspace leaks into Λ. Proposed rule
-(fixed in v1.0): two-sample Kolmogorov–Smirnov test between the leakage and pure-noise
-estimates, at least 60 waveforms each; p < 0.01 moves the event–model pair to the
-separately reported set. This tests posterior-scale GR variations only; waveform-model
+means that GR nonlinearity outside the linearised subspace leaks into Λ. Rule (fixed
+in v0.9.10): the **primary test** is a two-sided two-sample Kolmogorov–Smirnov test
+between the leakage and pure-noise scan estimates, at least 60 waveforms each, at
+p < 0.01. **Action follows the primary test only:** a significant KS result in either
+direction moves the event–model pair from the primary test to the separately reported
+set. Reported with it, as interpretation (no effect on the action): KS not significant →
+no detected difference; significant with a wider leakage distribution or a larger tail
+fraction P(|est| ≥ 1σ_lin) → potential false-positive inflation; significant with a
+narrower leakage distribution → a statistical difference without evidence of
+false-positive inflation. The tail fraction is a secondary diagnostic, not a
+replacement of the KS test. Note: this rule was fixed after the O3 XPHM runs, in which
+GW150914 XPHM showed a narrower leakage distribution (std 0.83 vs 1.13, 60 trials); the
+two-sided form was kept so that the rule is not adjusted to that result, accepting that
+such a pair may leave the primary test. This tests posterior-scale GR variations only; waveform-model
 systematics are tested by the two-model comparison (§10).
 
 ## 8. Injection ladder
@@ -394,8 +421,9 @@ part of the calibration error that the spline-node model does not describe.
    the former rule "f² or f⁴ recovered as f³ → failure" would always trigger and is
    replaced by reporting how f² and f⁴ injections map into Λ. A significant result is
    interpreted only as a candidate for the class α ≈ 2–4.
-2a. **GR-leakage failure (v0.9.9):** an event–model pair failing the GR-leakage test
-   (§7) leaves the primary test; if more than one third of the pairs fail, the method is
+2a. **GR-leakage failure (v0.9.9; two-sided rule fixed in v0.9.10):** an event–model pair
+   with a significant two-sided KS test (§7) leaves the primary test, in either
+   direction; if more than one third of the pairs fail, the method is
    not interpreted.
 3. **Calibration failure:** calibration-only injections produce a catalog-level f³
    signal with the Λ sign and scaling → calibration confound unresolved.
@@ -457,6 +485,14 @@ Every result, including failures, is reported.
   std 0.95 / 1.45 vs pure noise 0.97 / 1.66. Open: the XPHM null mean +0.25 at about
   2.6 standard errors (100 trials) — to be re-checked with more trials; the
   SEOBNRv4PHM → XPHM calibration branch is exercised in the GW150914 and GW200129 runs.
+  O3 with the scan (v0.9.10 record, IMRPhenomXPHM; `module1_geometry_check_v3.csv`):
+  GW150914 / GW200129_065458 — exact-phase linear response at 10⁻¹¹ m² 0.997 / 0.986
+  (linear regime at the LVK scale for O3); scan Δχ² at ±1σ_lin 0.67 / 1.53, smallest at
+  |Λ| ≥ 2σ_lin 6.09 / 5.30 (no blind region); scan spread at Λ = 0 1.13 / 1.21 σ_lin;
+  Wilks coverage 0.75–0.83 / 0.69–0.83; GR leakage std 0.83 / 1.08 vs pure noise
+  1.13 / 1.21, mean +0.01 / −0.12. z median vs maximum likelihood: 0.096 vs 0.107 and
+  0.189 vs 0.160. The current code still uses the maximum-likelihood z in the scan; it
+  is switched to the median (§5) before v1.0.
 - **Calibration source** DONE (v0.9.8): see §6, item 2. bilby 2.8.2 added to `gw2`
   (pip dry run: no change to numpy, scipy, lalsuite, h5py, gwpy; `requirements_gw2.txt`
   updated).
