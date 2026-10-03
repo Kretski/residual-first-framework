@@ -1,0 +1,38 @@
+{
+ "tag": "v1.0-module1",
+ "code_sha256": "22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9",
+ "files": {
+  "module1_run.py": "b19052151187634c7ae676c70036cc9ee56cb2013b1b6ae3fa06976999983ba5",
+  "module1_event.py": "37fafe2dcdebe7581508032d27338376ad8fd8d8f8d9e16f462a1c516cae8177",
+  "module1_catalog.py": "c6fd6f550b18319d13deeff3e15b3d2c403c0198c050b1de9c30c1174092de5f",
+  "module1_offsource.py": "4a42e246af8edbddf8e90cd1368c92af438ba7566835c8dbc8e6378f737cebae",
+  "module1_calibration.py": "04e640d6b5eca76d5ec4d741f9f7b8bb4d3a2854e81fd5e5de735e1eb2ca7e28",
+  "module1_cosmo.py": "6faaf55a0860f4dc73ef0a0a2970579d1d5c904fcd4e5401de374d6f4ca17dad",
+  "f3_derivatives.py": "52e36491c92669ca738eebe6e455b8ce5cadfbca3994367a4dc49fc215ecfd07",
+  "residual_check.py": "dcf311c02a71ab4e7ab966210a95bf762ea5435425eaa759c39dca21a8753f7e"
+ },
+ "code_files": [
+  "module1_run.py",
+  "module1_event.py",
+  "module1_catalog.py",
+  "module1_offsource.py",
+  "module1_calibration.py",
+  "module1_cosmo.py",
+  "f3_derivatives.py",
+  "residual_check.py"
+ ],
+ "cache_version": 1,
+ "seed": 20261001,
+ "frac": 0.99,
+ "n_leak": 60,
+ "versions": {
+  "python": "3.11.16",
+  "numpy": "2.4.6",
+  "lal": "7.7.1",
+  "lalsimulation": "6.2.1",
+  "bilby": "2.8.2",
+  "h5py": "3.16.0",
+  "scipy": "1.17.1"
+ },
+ "written_utc": "2026-10-03T13:25:29Z"
+}
