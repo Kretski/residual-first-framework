@@ -1,6 +1,10 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.15 — ready to freeze.** (v0.9.15: §11 completed — thresholds made
+**Status: v1.0 FROZEN (tag `v1.0-module1`, code SHA-256 22a5127d…, manifest
+`FREEZE_v1.0.json`).** Changes after the tag are limited to recording what the official
+run finds; the code is not changed. v1.0a: four more search-cohort events excluded under
+the existing §3 calibration rule, found at the start of the official build (§3).
+Previous: **DRAFT v0.9.15 — ready to freeze.** (v0.9.15: §11 completed — thresholds made
 numerical, construction rule one-sided for the union, order of the stages and the opening
 of the confirmation cohort fixed.)
 Previous: **DRAFT v0.9.14.**
@@ -167,8 +171,18 @@ conditioning are computed and reported (§10).
     selection, so that the primary sample is comparable with the LVK one. The
     detector list of every event is taken from its PE file (F5 output) and the rule
     is applied mechanically to both cohorts.
-- **Primary catalog test: 31 discovery + 20 confirmation events** (v0.9.6: GW200225_060421
-  removed by the reference-fit gate of §5).
+- **Primary catalog test: 27 discovery + 20 confirmation events** (v1.0a).
+- **Four further discovery events excluded (v1.0a, found during the official build, before
+  any estimate): GW170608, GW190707_093326, GW190728_064510, GW190924_021846.** No label
+  of these files contains calibration priors (`recalib_<IFO>_*`) for any detector —
+  checked over every label present, not only the two of the primary test. This is the rule
+  already applied to GW191204_171526 above ("no calibration envelope in the public file,
+  for either model"); it was not caught by F5 because F5 tested the plotting table
+  `priors/calibration`, whereas v0.9.8 moved the calibration source to the bilby priors
+  (§6, item 2). The exclusion is mechanical and was applied before any residual estimate.
+  These events cannot be analysed with the frozen calibration model at all, so unlike the
+  other excluded events they are not analysed separately either.
+- Earlier count before v1.0a: 31 discovery + 20 confirmation.
 - Earlier count in v0.9.5: **32 discovery + 20 confirmation events.** The detector rule
   removes three confirmation events whose PE used a single detector
   (GW230814_230901: L1; GW231231_154016: H1; GW240104_164932: H1); none of the
