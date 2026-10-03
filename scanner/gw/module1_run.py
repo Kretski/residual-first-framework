@@ -119,13 +119,21 @@ def versions():
     return out
 
 
-def official_status(chash, manifest):
+def official_status(chash, manifest, per=None):
+    """A run is official only if the combined code hash AND every per-file hash match the
+    freeze manifest; a per-file mismatch is named, so a silent edit cannot pass."""
     if not os.path.exists(manifest):
         return "trial", "no freeze manifest"
     m = json.load(open(manifest, encoding="utf-8"))
-    if m.get("code_sha256") == chash:
-        return "official", f"code hash matches {m.get('tag', '?')}"
-    return "trial", f"code hash differs from {m.get('tag', '?')}"
+    tag = m.get("tag", "?")
+    if m.get("code_sha256") != chash:
+        return "trial", f"code hash differs from {tag}"
+    want = m.get("files", {})
+    if per and want:
+        bad = sorted(k for k in set(want) | set(per) if want.get(k) != per.get(k))
+        if bad:
+            return "trial", f"per-file hash differs from {tag}: {', '.join(bad)}"
+    return "official", f"code hash matches {tag}"
 
 
 # ------------------------------------------------------------------ selection -------
@@ -284,15 +292,22 @@ def stage_checks(args, chash, status):
 
 
 # ------------------------------------------------------------------ catalog ---------
-def combine(Gs, Vbs, Ves, grid):
-    G = sum(Gs)
-    Delta = mc.delta_matrix(0.5 * (G + G.T))
-    Vb, Ve = sum(Vbs), sum(Ves)
-    c = mc.neyman(Vb, Delta)
+def combine(parts, grid):
+    """parts: list over subspaces of (list of Gram matrices, of belt V, of trial V), one
+    entry per event. The reported set is the UNION over subspaces (v0.9.14, §7); the same
+    noise realisations are used in both, so the sets of a trial come from the same data."""
+    Deltas, cs, Ves = [], [], []
+    for Gs, Vbs, Ves_ in parts:
+        D = mc.delta_matrix(0.5 * (sum(Gs) + sum(Gs).T))
+        Deltas.append(D)
+        cs.append(mc.neyman(sum(Vbs), D))
+        Ves.append(sum(Ves_))
     t0 = int(np.argmin(np.abs(grid)))
+    n = Ves[0].shape[0]
     lo, hi, cont, edge = [], [], 0, 0
-    for j in range(Ve.shape[0]):
-        a, b, ok = mc.interval(mc.q_obs_all(Ve[j], Delta, t0), c, grid)
+    for j in range(n):
+        qs = [mc.q_obs_all(V[j], D, t0) for V, D in zip(Ves, Deltas)]
+        a, b, ok = mc.union_interval(qs, cs, grid)
         lo.append(a)
         hi.append(b)
         cont += ok
@@ -300,11 +315,17 @@ def combine(Gs, Vbs, Ves, grid):
     cov = {}
     for frac in (-0.5, -0.2, 0.0, 0.2, 0.5):
         t = int(np.argmin(np.abs(grid - frac * grid[-1])))
-        qn = np.array([mc.q_obs_all(Ve[j], Delta, t)[t] for j in range(Ve.shape[0])])
-        cov[f"{grid[t]:+.3e}"] = {"neyman": float(np.mean(qn <= c[t])), "wilks": float(np.mean(qn <= 2.71))}
+        covered = np.zeros(n, bool)
+        wilks = np.zeros(n, bool)
+        for V, D, c in zip(Ves, Deltas, cs):
+            q = np.array([mc.q_obs_all(V[j], D, t)[t] for j in range(n)])
+            covered |= q <= c[t]
+            wilks |= q <= 2.71
+        cov[f"{grid[t]:+.3e}"] = {"neyman": float(covered.mean()), "wilks": float(wilks.mean())}
     return {"exp_lower_median": float(np.nanmedian(lo)), "exp_upper_median": float(np.nanmedian(hi)),
-            "contiguous": cont / Ve.shape[0], "edge": edge / Ve.shape[0], "coverage": cov,
-            "critical_values": [float(c.min()), float(c.max())]}
+            "contiguous": cont / n, "edge": edge / n, "coverage": cov,
+            "subspaces": len(parts),
+            "critical_values": [float(min(c.min() for c in cs)), float(max(c.max() for c in cs))]}
 
 
 def stage_catalog(args, chash, status):
@@ -319,7 +340,9 @@ def stage_catalog(args, chash, status):
     neff = w.sum() ** 2 / (w ** 2).sum()
     print(f"catalog: {len(pairs)} pairs, grid ±{args.half_width:g} x {smin:.3e} m^2 ({len(grid)} points), "
           f"N_eff {neff:.2f}", flush=True)
-    Gs, Vbs, Ves, F = [], [], [], np.zeros((3, 3))
+    subs = ("A", "B")
+    acc = {w: ([], [], []) for w in subs}
+    F = np.zeros((3, 3))
     for k, (ev, label, r5) in enumerate(pairs):
         t0 = time.time()
         e = load(args, ev, label, r5, chash)
@@ -327,12 +350,14 @@ def stage_catalog(args, chash, status):
         for a, p in enumerate((2, 3, 4)):
             for b, q in enumerate((2, 3, 4)):
                 F[a, b] += float(A.Tp[p] @ A.CTp[q])
-        G, vb, ve = mc.event_trials(e, grid, args.belt_trials, args.exp_trials, me.SEED + 7 + 1000 * k)
-        Gs.append(G)
-        Vbs.append(vb)
-        Ves.append(ve)
+        for wsp in subs:
+            G, vb, ve = mc.event_trials(e, grid, args.belt_trials, args.exp_trials,
+                                        me.SEED + 7 + 1000 * k, which=wsp)
+            for store, val in zip(acc[wsp], (G, vb, ve)):
+                store.append(val)
         del e
-        print(f"  {ev} {label}: {time.time() - t0:.0f} s", flush=True)
+        print(f"  {ev} {label}: {time.time() - t0:.0f} s (subspaces {', '.join(subs)})", flush=True)
+    parts = [acc[w] for w in subs]
     F = 0.5 * (F + F.T)
     R = F / np.sqrt(np.outer(np.diag(F), np.diag(F)))
     wv = np.linalg.eigvalsh(R)
@@ -340,29 +365,30 @@ def stage_catalog(args, chash, status):
            "N_eff": neff, "grid": [float(grid[0]), float(grid[-1]), float(grid[1] - grid[0])],
            "joint_condition": float(wv[-1] / wv[0]), "joint_inflation_f3": float(np.sqrt(np.linalg.inv(R)[1, 1])),
            "belt_trials": args.belt_trials, "exp_trials": args.exp_trials}
-    res["all"] = combine(Gs, Vbs, Ves, grid)
+    res["all"] = combine(parts, grid)
     top = int(np.argmax(w))
     if len(pairs) > 1:
         keep = [i for i in range(len(pairs)) if i != top]
         smin_loo = min(metas[i]["sigma_lin"] for i in keep)
         if smin_loo <= smin * (1 + 1e-9):
-            loo = combine([Gs[i] for i in keep], [Vbs[i] for i in keep], [Ves[i] for i in keep], grid)
+            loo = combine([tuple([x[i] for i in keep] for x in part) for part in parts], grid)
             loo_grid = grid
         else:
             # own grid from the smallest sigma of the remaining events, same seeds per event
             loo_grid = np.round(np.arange(-args.half_width, args.half_width + 1e-9, args.step), 6) * smin_loo
             print(f"\nleave-one-out without {metas[top]['event']}: own grid ±{args.half_width:g} x "
                   f"{smin_loo:.3e} m^2", flush=True)
-            G2, V2, E2 = [], [], []
+            acc2 = {w: ([], [], []) for w in subs}
             for k in keep:
                 ev, label, r5 = pairs[k]
                 e = load(args, ev, label, r5, chash)
-                G, vb, ve = mc.event_trials(e, loo_grid, args.belt_trials, args.exp_trials, me.SEED + 7 + 1000 * k)
-                G2.append(G)
-                V2.append(vb)
-                E2.append(ve)
+                for wsp in subs:
+                    G, vb, ve = mc.event_trials(e, loo_grid, args.belt_trials, args.exp_trials,
+                                                me.SEED + 7 + 1000 * k, which=wsp)
+                    for store, val in zip(acc2[wsp], (G, vb, ve)):
+                        store.append(val)
                 del e
-            loo = combine(G2, V2, E2, loo_grid)
+            loo = combine([acc2[w] for w in subs], loo_grid)
         res["leave_one_out"] = {"left_out": metas[top]["event"],
                                 "grid": [float(loo_grid[0]), float(loo_grid[-1]), float(loo_grid[1] - loo_grid[0])],
                                 **loo}
@@ -373,6 +399,9 @@ def stage_catalog(args, chash, status):
         print(f"\n[{key}{' without ' + r['left_out'] if key == 'leave_one_out' else ''}] expected 90% interval "
               f"[{r['exp_lower_median']:+.2e}, {r['exp_upper_median']:+.2e}] m^2; contiguous {r['contiguous']:.2f}; "
               f"edge {r['edge']:.3f}; critical values {r['critical_values'][0]:.2f}–{r['critical_values'][1]:.2f}")
+        if r.get("subspaces", 1) > 1:
+            print(f"   union of {r['subspaces']} subspaces (v0.9.14): coverage above 0.90 is expected "
+                  f"and reported as conservative; only below the interval stops the analysis")
         if r["edge"] > 0.01:
             print("   WARNING: more than 1% of the intervals touch the grid edge (v0.9.11 rule): "
                   "widen the grid before any real estimate")
@@ -389,6 +418,7 @@ def stage_catalog(args, chash, status):
 # ------------------------------------------------------------------ off-source ------
 def stage_offsource(args, chash, status):
     from scipy.signal import resample_poly
+    from scipy.signal.windows import tukey
     import f3_derivatives as f3
     out = args.out or f"module1_offsource_{args.labels}.csv"
     keys = ["event", "label", "status", "code_sha256", "seg_start", "inj", "q0", "c0", "covered", "lambda_hat",
@@ -513,14 +543,25 @@ def main():
     ap.add_argument("--strain-dir", default=os.path.expanduser("~/gwdata/strain"))
     ap.add_argument("--events-list", default="event_selection/event_list_v1.csv")
     ap.add_argument("--freeze-manifest", default=os.path.join(HERE, "FREEZE_v1.0.json"))
+    ap.add_argument("--write-manifest", default="", metavar="TAG",
+                    help="with stage hash: write the freeze manifest for TAG (refuses to overwrite)")
     ap.add_argument("--out", default="")
     args = ap.parse_args()
     chash, per = code_hash()
-    status, why = official_status(chash, args.freeze_manifest)
+    status, why = official_status(chash, args.freeze_manifest, per)
     print(f"code SHA-256 {chash}\nstatus: {status} ({why})", flush=True)
     if args.stage == "hash":
         for k, v in per.items():
             print(f"  {v}  {k}")
+        if args.write_manifest:
+            if os.path.exists(args.freeze_manifest):
+                raise SystemExit(f"{args.freeze_manifest} exists; refusing to overwrite a freeze manifest")
+            json.dump({"tag": args.write_manifest, "code_sha256": chash, "files": per,
+                       "code_files": CODE_FILES, "cache_version": CACHE_VERSION, "seed": me.SEED,
+                       "frac": me.FRAC, "n_leak": me.N_LEAK, "versions": versions(),
+                       "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
+                      open(args.freeze_manifest, "w", encoding="utf-8"), indent=1)
+            print(f"\nwritten {args.freeze_manifest} for tag {args.write_manifest}")
         return
     if args.stage == "offsource" and args.belt_trials == 5000:
         args.belt_trials = 2000          # event-only belt at Lambda = 0

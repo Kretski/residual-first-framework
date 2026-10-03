@@ -59,9 +59,12 @@ def cal_error_fn(ev, rng):
     return f
 
 
-def event_trials(ev, grid, n_belt, n_exp, seed):
-    """Gram matrix and noise projections v (trials x grid) for one event."""
-    A = ev["A"]
+def event_trials(ev, grid, n_belt, n_exp, seed, which="A"):
+    """Gram matrix and noise projections v (trials x grid) for one event and subspace.
+    The SAME noise realisations are used for both subspaces (same seed), so that the A
+    and B confidence sets of a trial come from the same data, as required by the union
+    of v0.9.14."""
+    A = ev[which]
     sc = me.ProfileScan(A, ev["K"], ev["href"], ev["net"], ev["fb"], grid)
     B = sc.b.astype(np.float64)
     G = sc.G
@@ -100,6 +103,17 @@ def q_obs_all(Vrow, Delta, t0):
 
 def neyman(V_belt, Delta, level=0.90):
     return np.array([np.quantile(qstat(V_belt, Delta, t), level) for t in range(Delta.shape[0])])
+
+
+def union_interval(qs, cs, grid):
+    """Union of the confidence sets of the subspaces (v0.9.14, §7)."""
+    inside = np.zeros(len(grid), bool)
+    for q, c in zip(qs, cs):
+        inside |= q <= c
+    idx = np.where(inside)[0]
+    if len(idx) == 0:
+        return np.nan, np.nan, True
+    return grid[idx[0]], grid[idx[-1]], (idx[-1] - idx[0] + 1) == len(idx)
 
 
 def interval(q, c, grid):

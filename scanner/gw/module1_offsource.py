@@ -28,10 +28,8 @@ diagnostics. Software injections do not pass through the detector calibration: t
 check covers non-Gaussian noise and the signal–reference mismatch, not calibration.
 """
 import csv
-import os
 
 import numpy as np
-from scipy.signal.windows import tukey
 
 import module1_catalog as mc
 import module1_event as me

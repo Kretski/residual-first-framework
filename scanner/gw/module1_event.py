@@ -41,6 +41,10 @@ component, i.e. Gaussian noise with the released PSD scaled by the window power)
     distance (the choice is a v0.9.9 decision).
 Diagnostics only: no thresholds here; the final numbers are fixed in v1.0.
 
+Version 7: every sub-test of run_checks/scan_checks uses its own seeded generator, so
+adding a test cannot change the numbers of the others.
+Version 6: A/B systematic measured on the scan (decision level and median difference),
+v0.9.13 §7.
 Version 5: build() also returns the raw calibration matrix J (for the module1_run cache).
 Version 4: template prefactor K(z) from the posterior median distance (v0.9.9, §5);
 sigma with the maximum-likelihood z reported for comparison.
@@ -255,24 +259,29 @@ def build(event, label, xphm_label, fh, ifos, n, frac, log):
 
 
 def run_checks(est, info, sb, href, net, fb, T, trials, rng):
+    """Per-test generators, as in scan_checks."""
+    def gen(tag):
+        return np.random.default_rng([SEED, int(np.frombuffer(tag.encode().ljust(8, b"\0")[:8],
+                                                              dtype=np.uint64)[0] % (2 ** 32))])
     A, B = est["A"], est["B"]
     s3 = A.sigma(3)
     nvec = 2 * net.nb * len(net.ifos)
 
-    def cal_error():
+    def cal_error(g):
         out = {}
         for i in net.ifos:
             pr = sb[i].pri
-            out[i] = (sb[i].factor(fb, rng.normal(0, pr["sg_a"]), rng.normal(0, pr["sg_p"])) - 1.0) * href[i]
+            out[i] = (sb[i].factor(fb, g.normal(0, pr["sg_a"]), g.normal(0, pr["sg_p"])) - 1.0) * href[i]
         return net.stack(out)
 
-    def noise():
-        return rng.normal(size=nvec) + cal_error()
+    def noise(g):
+        return g.normal(size=nvec) + cal_error(g)
 
     res = {}
+    gnull = gen("null")
     z3, dab = [], []
     for _ in range(trials):
-        r = noise()
+        r = noise(gnull)
         a3 = A.estimate(r, 3)
         z3.append(a3 / s3)
         dab.append(abs(a3 - B.estimate(r, 3)) / s3)
@@ -281,8 +290,9 @@ def run_checks(est, info, sb, href, net, fb, T, trials, rng):
 
     lam = 5.0 * s3
     ratios = []
+    g3 = gen("inj3")
     for _ in range(trials):
-        ratios.append(A.estimate(lam * T[3] + noise(), 3) / lam)
+        ratios.append(A.estimate(lam * T[3] + noise(g3), 3) / lam)
     res["inj_lambda"] = lam
     res["inj_ratio_mean"], res["inj_ratio_std"] = float(np.mean(ratios)), float(np.std(ratios))
     res["inj_max_dpsi"] = float(abs(lam * info["K"]) * info["f_high"] ** 3)
@@ -290,16 +300,18 @@ def run_checks(est, info, sb, href, net, fb, T, trials, rng):
     for q in (2, 4):
         aq = 5.0 * A.sigma(q)
         zq3, hit = [], 0
+        gq = gen(f"inj{q}")
         for _ in range(trials):
-            r = aq * T[q] + noise()
+            r = aq * T[q] + noise(gq)
             z = {p: A.estimate(r, p) / A.sigma(p) for p in (2, 3, 4)}
             zq3.append(z[3])
             hit += max(z, key=lambda p: abs(z[p])) == q
         res[f"f{q}_inj_mean_z3"] = float(np.mean(zq3))
         res[f"f{q}_inj_shape_correct"] = hit / trials
     hit = 0
+    gs = gen("shape3")
     for _ in range(trials):
-        r = lam * T[3] + noise()
+        r = lam * T[3] + noise(gs)
         z = {p: A.estimate(r, p) / A.sigma(p) for p in (2, 3, 4)}
         hit += max(z, key=lambda p: abs(z[p])) == 3
     res["f3_inj_shape_correct"] = hit / trials
@@ -323,7 +335,7 @@ KEYS = ["event", "label", "ifos", "k_A", "k_B", "s2", "s3", "s4", "sigma3_m2", "
         "f4_inj_shape_correct"] + [f"{a}_{t}" for t in ("0.1sig", "0.3sig", "1sig", "3sig", "1e-12", "1e-11")
                                    for a in ("resp", "wphase")] + ["scan_dchi2_at_pm1", "scan_min_dchi2_far_from_0"] + [
             f"scan_{l}_{q}" for l in ("+0sig", "+1sig", "+3sig", "-1sig") for q in ("mean", "std", "cover90", "width")] + [
-            "noise_frac_abs_ge1", "leak_n", "leak_mean", "leak_std", "leak_frac_abs_ge1", "cal_source", "fails", "seconds", "error"]
+            "noise_frac_abs_ge1", "ab_scan_disagree", "ab_scan_median_diff", "leak_n", "leak_mean", "leak_std", "leak_frac_abs_ge1", "cal_source", "fails", "seconds", "error"]
 
 
 def exact_signal(L, K, href, net, fb):
@@ -374,6 +386,13 @@ class ProfileScan:
 
 
 def scan_checks(est, info, sb, href, net, fb, trials, rng, half_width=8.0, step=0.05):
+    """Each sub-test draws from its OWN generator, seeded from SEED and a fixed label, so
+    that adding or removing a sub-test cannot change the numbers of the others (v0.9.13;
+    before this, the GR-leakage numbers changed when the A/B test was inserted ahead of
+    them in the same stream)."""
+    def gen(tag):
+        return np.random.default_rng([SEED, int(np.frombuffer(tag.encode().ljust(8, b"\0")[:8],
+                                                              dtype=np.uint64)[0] % (2 ** 32))])
     A = est["A"]
     s3 = A.sigma(3)
     K = info["K"]
@@ -382,11 +401,11 @@ def scan_checks(est, info, sb, href, net, fb, trials, rng, half_width=8.0, step=
     sc = ProfileScan(A, K, href, net, fb, grid)
     nvec = len(A.Q)
 
-    def cal_error():
+    def cal_error(g):
         out = {}
         for i in net.ifos:
             pr = sb[i].pri
-            out[i] = (sb[i].factor(fb, rng.normal(0, pr["sg_a"]), rng.normal(0, pr["sg_p"])) - 1.0) * href[i]
+            out[i] = (sb[i].factor(fb, g.normal(0, pr["sg_a"]), g.normal(0, pr["sg_p"])) - 1.0) * href[i]
         return net.stack(out)
 
     res = {}
@@ -399,8 +418,9 @@ def scan_checks(est, info, sb, href, net, fb, trials, rng, half_width=8.0, step=
     for lev in (0.0, 1.0, 3.0, -1.0):
         t = int(np.argmin(np.abs(units - lev)))
         est_u, cover, width = [], 0, []
+        rg = gen(f"level{lev:+g}")
         for _ in range(trials):
-            n = rng.normal(size=nvec) + cal_error()
+            n = rg.normal(size=nvec) + cal_error(rg)
             npj = n - A.Q @ (A.Q.T @ n)
             c = sc.chi2(npj, t)
             g = int(np.argmin(c))
@@ -415,15 +435,35 @@ def scan_checks(est, info, sb, href, net, fb, trials, rng, half_width=8.0, step=
         res[f"scan_{tag}_std"] = float(np.std(est_u))
         res[f"scan_{tag}_cover90"] = cover / trials
         res[f"scan_{tag}_width"] = float(np.median(width))
+    # A/B systematic on the scan (v0.9.13): same noise, subspace A vs subspace B.
+    # Decision level: do A and B disagree about whether Lambda = 0 is in the 90% interval?
+    # Quantitative: median |Lambda_A - Lambda_B| of the scan estimates, in sigma_lin(A).
+    B = est.get("B")
+    if B is not None:
+        scB = ProfileScan(B, K, href, net, fb, grid)
+        dis, diff = 0, []
+        g = gen("ab")
+        for _ in range(trials):
+            n = g.normal(size=nvec) + cal_error(g)
+            inA = sc.chi2(n - A.Q @ (A.Q.T @ n), t0)
+            inB = scB.chi2(n - B.Q @ (B.Q.T @ n), t0)
+            gA, gB = int(np.argmin(inA)), int(np.argmin(inB))
+            dis += bool((inA[t0] - inA[gA] <= 2.71) != (inB[t0] - inB[gB] <= 2.71))
+            diff.append(abs(units[gA] - units[gB]))
+        res["ab_scan_disagree"] = dis / trials
+        res["ab_scan_median_diff"] = float(np.median(diff))
+        del scB
+
     # GR leakage: data = a real GR waveform of set B (not used for the subspace of A)
     # minus h_ref, plus noise. A GR-only signal must give Lambda ~ 0 with the spread of
     # pure noise; a shift or wider spread means GR nonlinearity leaks into Lambda.
     leak = info.get("gr_leak")
     if leak is not None and leak.shape[1] > 0:
         est_u = []
+        g = gen("leak")
         for j in range(leak.shape[1]):
             for _ in range(max(1, trials // leak.shape[1])):
-                n = leak[:, j].astype(np.float64) + rng.normal(size=nvec) + cal_error()
+                n = leak[:, j].astype(np.float64) + g.normal(size=nvec) + cal_error(g)
                 npj = n - A.Q @ (A.Q.T @ n)
                 c = sc.chi2(npj, t0)
                 est_u.append(units[int(np.argmin(c))])
@@ -503,6 +543,10 @@ def main():
                     for lev in ("+0sig", "+1sig", "+3sig", "-1sig"):
                         print(f"    {lev:>6s}    {res[f'scan_{lev}_mean']:+8.3f}    {res[f'scan_{lev}_std']:6.3f}"
                               f"      {res[f'scan_{lev}_cover90']:.2f}          {res[f'scan_{lev}_width']:.2f}")
+                    if "ab_scan_disagree" in res:
+                        print(f"    A/B on the scan: decision-level disagreement "
+                              f"{res['ab_scan_disagree']:.3f} (rule <= 0.05); median |Lambda_A - Lambda_B| "
+                              f"{res['ab_scan_median_diff']:.3f} sigma_lin (rule <= 0.5)")
                     if "leak_mean" in res:
                         print(f"    GR leakage (set-B GR waveforms + noise, {res['leak_n']} trials): mean "
                               f"{res['leak_mean']:+.3f}  std {res['leak_std']:.3f}  P(|est|>=1) "

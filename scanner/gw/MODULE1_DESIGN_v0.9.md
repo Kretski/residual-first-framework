@@ -1,6 +1,15 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.12 — not frozen.** (v0.9.12: driver with verified cache and strain
+**Status: DRAFT v0.9.15 — ready to freeze.** (v0.9.15: §11 completed — thresholds made
+numerical, construction rule one-sided for the union, order of the stages and the opening
+of the confirmation cohort fixed.)
+Previous: **DRAFT v0.9.14.**
+(v0.9.14: the A/B systematic enters as the union of the two confidence sets, per event and
+for the catalog, instead of a decision-level threshold that was measured and rejected.)
+Previous: **DRAFT v0.9.13.**
+(v0.9.13: Gaussian-belt coverage becomes a stopping rule; the A/B systematic moves to the
+scan, with a decision-level criterion; numbers of §11 collected.)
+Previous: **DRAFT v0.9.12.** (v0.9.12: driver with verified cache and strain
 guard (`module1_run.py`); off-source check of the belts specified (set C, paired reference
 control, catalog-level binomial acceptance, guard around all listed events).)
 Previous: **DRAFT v0.9.11.** (v0.9.11: catalog/Neyman machinery checked on
@@ -358,6 +367,12 @@ in its `__main__`).
    - **Limitation:** software injections do not pass through the detector calibration;
      this check covers non-Gaussian noise and the signal–reference mismatch, not
      calibration (§9).
+   - **Observed in the trial (v0.9.13, GW230627_015337 XPHM-SpinTaylor, 8 segments):**
+     q(0) of the C and of the reference injection differ by less than 0.2 on every
+     segment, and the two fail on the same segment. The posterior subspace absorbs the
+     signal–reference mismatch, so in this case the statistic is set by the noise. The
+     refinement behaves as expected: the time shift is one grid step (0.05 ms) for C and
+     zero for the reference, |a| 0.89–0.99 for C and 0.96–1.02 for the reference.
    **Non-contiguous intervals (fixed in v0.9.11):** because of the sign ambiguity of the
    nonlinear phase, a confidence set may consist of separate pieces (12% of the
    expected-interval trials in the three-event check). The reported interval is the
@@ -386,18 +401,69 @@ vetoed times), with the event's own GR reference waveform injected. The full
 pipeline is run and the distribution of Λ̂ under Λ = 0 is recorded: bias, scatter,
 empirical σ_i, and the per-event and catalog-level false-positive rates. The number
 of off-source injections per event is fixed in v1.0 from the compute budget (F6).
+**Gaussian-belt coverage (stopping rule, v0.9.13).** Independently of the off-source
+check (§6, item 7), the coverage of the Neyman intervals is measured on the same
+Gaussian noise model the belts are built from (2000 independent trials at five true
+values, as in `module1_catalog.py`). By construction it must be ≈ 0.90: it cannot fail
+for a physical reason, only through an error in the code, the grid or the number of
+trials. Rule: each of the five coverages must lie inside the 99% binomial interval
+around 0.90 for the number of trials used (≈ 0.883–0.917 for 2000); outside it, the
+analysis stops and the cause is found before any real estimate. For the union of the A
+and B sets (§7) the rule is one-sided: stop only below the lower end; above the upper end
+the construction is reported as conservative, which is the expected behaviour of a union. The two checks have
+different meanings: the Gaussian one tests the internal consistency of the construction,
+the off-source one tests whether the method is valid in real noise.
 Off-source segments are taken on both sides of the event, skipping invalid data (gaps,
 file edges); at least 4 valid segments are required per detector.
 
-**Subspace systematic.** Every null and ladder injection is analysed twice, with the
-set-A and the set-B subspace. The difference Λ̂_A − Λ̂_B over the null suite measures
-the cost of the subspace choice in the units of the estimate. Rule (fixed now): if the
-median |Λ̂_A − Λ̂_B| over the null suite of an event exceeds 0.5 σ_i, the event is
-moved from the primary test to the separately reported set; otherwise the RMS of
-Λ̂_A − Λ̂_B is added in quadrature to σ_i.
+**Subspace systematic (moved to the scan in v0.9.13).** Every null and ladder injection
+is analysed twice, with the set-A and the set-B subspace, on the same noise. Since the
+scan is the primary statistic, the systematic is measured on it and not on the linear
+estimate (which is kept as a diagnostic and for comparison with the pre-v0.9.9 numbers).
+**How it enters the result (fixed in v0.9.14): the reported confidence set is the union
+of the 90% sets obtained with subspace A and with subspace B**, both per event and at
+catalog level, each from its own Neyman belt with the same number of trials. The union
+costs a second catalog belt (the belts are not interchangeable: cos(T₃⊥ A, B) is
+0.88–0.95 on the real geometry), roughly 6–10 h of the ≈ 45 h budget; the geometry is
+not rebuilt, since both subspaces are built anyway. No threshold is needed for the
+disagreement: where A and B differ, the interval simply widens.
+Consequences, measured on the real geometry (GW150914 XPHM with GW230627_015337
+XPHM-SpinTaylor, 2000 trials, ±0.007): (i) the coverage of the union is 0.913–0.949 at the
+five true values, against 0.895–0.909 with subspace A alone — the largest value, 0.949 at
+Λ = +5.9·10⁻¹¹ m², is about 7 standard errors above 0.90 and is the measure of how
+conservative the union is, not an anomaly; the expected interval is essentially unchanged
+([−4.99·10⁻¹¹, +4.80·10⁻¹¹] m² against ±4.8·10⁻¹¹), so the widening affects only the few
+trials in which A and B differ; (ii) the fraction of contiguous sets falls from 0.85 to
+0.86 at catalog level and from 0.79 to 0.83 in the leave-one-out, i.e. the effect is small
+here — the construction rule of §7 is therefore one-sided for the union
+(stop only below the lower end of the interval; above the upper end is reported as
+conservative). The envelope rule of §6 item 7 applies to the non-contiguous sets.
+**Stopping rule (quantitative, kept):** the median |Λ̂_A − Λ̂_B| of the scan estimates
+over the null suite must be ≤ 0.5 σ_lin; an event–model pair exceeding it moves to the
+separately reported set.
+**Rejected threshold, recorded:** a decision-level criterion (fraction of null trials in
+which A and B disagree about whether Λ = 0 is inside the 90% interval ≤ 5%) was written
+in v0.9.13 and then measured on the real geometry: 0.09 (GW150914 XPHM) and 0.07
+(GW230627_015337 XPHM-SpinTaylor), 100 trials each (±0.03). Both would have failed from
+the geometry alone, while the quantitative criterion passed with a large margin (median
+difference 0.05 and 0.125 σ_lin). The threshold measures the sensitivity of a binary
+decision near its critical value, not the instability of the subspace: at Λ = 0 the belt
+rejects in 10% of trials by definition, so a marginal difference flips the decision, and
+non-contiguous sets add jumps between minima; independent subspaces would disagree in
+≈ 18%, identical ones in 0%. The threshold was therefore dropped rather than raised
+until it passed, and the disagreement is reported as a diagnostic.
 
 **GR-leakage test (v0.9.9).** Real GR waveforms h(θ_B) of set B (not used for the subspace
-of set A) are used as data, h(θ_B) − h_ref plus noise, and scanned. A GR-only signal must
+of set A) are used as data, h(θ_B) − h_ref plus noise, and scanned. The quantity compared
+(`leak_std` in the output) is the standard deviation of the **scan estimate**, in units of
+σ_lin, against the same quantity for pure noise (`scan_+0sig_std`) — not a z-score and not
+a comparison with 1. On the real geometry it is 0.95 vs 1.13 (GW150914 XPHM) and 1.48 vs
+1.66 (GW230627_015337 XPHM-SpinTaylor): the leakage distribution is 11–16% *narrower*
+than pure noise, consistent with the per-segment check of §6 item 7 (q(0) of the set-C and
+of the reference injection differ by less than 0.2). Building the belts from set-C
+injections instead of Gaussian noise was considered and rejected on these numbers: the
+mismatch does not widen the distribution, and it would make the belt depend on the
+particular samples and mix the check into the construction. A GR-only signal must
 give the same distribution of the scan estimate as pure noise; a shift or a wider spread
 means that GR nonlinearity outside the linearised subspace leaks into Λ. Rule (fixed
 in v0.9.10): the **primary test** is a two-sided two-sample Kolmogorov–Smirnov test
@@ -467,8 +533,31 @@ part of the calibration error that the spline-node model does not describe.
 
 ## 11. Decision rules (fixed in v1.0)
 
-1. **Null failure:** GR injections give a significant systematic Λ̂ → calibration
-   failure; real events are not interpreted.
+**Order of the stages (fixed in v0.9.15).** build → checks → catalog (rules 0, 1, 1a, 2a)
+→ offsource (rule 0a) → **only then** the real estimates, and only for the search cohort;
+the result of the search cohort is committed before the confirmation cohort is run. No
+on-source estimate is made before every stopping rule below has been evaluated and
+recorded.
+
+0. **Construction failure (v0.9.13; one-sided for the union, v0.9.15):** any of the five
+   Gaussian-belt coverages **below** the lower end of the 99% binomial interval around
+   0.90 (≈ 0.883 for 2000 trials) → stop. Values above the upper end are expected for the
+   union of the A and B sets (§7) and are reported as conservative. More than 1% of the
+   expected intervals touching the grid edge → stop and widen the grid (§6, item 7). In
+   both cases the cause is found before any real estimate.
+0a. **Off-source failure (v0.9.12):** catalog-level coverage of the set-C injections
+   below the lower end of the 99% binomial interval around 0.90 (≈ 0.861 for 400
+   segments) → stop before any on-source estimate (§6, item 7).
+1. **Null failure (made numerical in v0.9.15):** over the null suite of an event–model
+   pair, |mean Λ̂| > 0.3 σ_lin (GR injections, scan estimate) → the pair leaves the
+   primary test; if this happens for more than one third of the pairs, the catalog result
+   is not interpreted. The threshold is set from the trial geometry, where the null mean
+   of the linear estimator is within ±0.16 σ (§12), i.e. it flags a bias about twice the
+   largest observed, not a typical fluctuation.
+1a. **Subspace systematic (v0.9.14):** the reported confidence set is the union of the A
+   and B sets (§7); an event–model pair with median |Λ̂_A − Λ̂_B| > 0.5 σ_lin leaves the
+   primary test. The decision-level disagreement is a diagnostic (the 5% threshold of
+   v0.9.13 was measured and rejected; see §7).
 2. **Shape (changed in v0.9.9):** per-event shape discrimination is not possible (§2);
    the former rule "f² or f⁴ recovered as f³ → failure" would always trigger and is
    replaced by reporting how f² and f⁴ injections map into Λ. A significant result is
@@ -477,14 +566,22 @@ part of the calibration error that the spline-node model does not describe.
    with a significant two-sided KS test (§7) leaves the primary test, in either
    direction; if more than one third of the pairs fail, the method is
    not interpreted.
-3. **Calibration failure:** calibration-only injections produce a catalog-level f³
-   signal with the Λ sign and scaling → calibration confound unresolved.
+3. **Calibration failure (made numerical in v0.9.15):** calibration-only injections
+   (§9) give a catalog-level |Λ̂| > 1.0 σ_cat, or a catalog-level set that excludes
+   Λ = 0 → the calibration confound is unresolved and no bound is reported.
 4. **All controls pass:**
-   - no significant f³ → bound on Λ (reported with the conversion to A₄ from §2);
-   - significant f³ → **candidate only**, which must pass the confirmation cohort,
-     the waveform and calibration controls, the permutation test and the
-     per-detector consistency test (catalog-level χ² not in the upper 1% tail of its
-     null distribution); a p-value alone is not called a discovery.
+   - the search-cohort set contains Λ = 0 → **bound** on Λ (the union set of §7, reported
+     as the envelope with the full set alongside, with N_eff, the leave-one-out result and
+     the conversion to A₄ of §2), after which the confirmation cohort is run and reported
+     in the same way;
+   - the search-cohort set excludes Λ = 0 → **candidate only**. It must then pass, in
+     this order: the confirmation cohort (its set must also exclude Λ = 0, with a
+     consistent sign and a value within the search-cohort set), the two waveform models,
+     the calibration controls (rule 3), the K(z) permutation test and the per-detector
+     consistency test (catalog-level χ² not in the upper 1% tail of its null
+     distribution). A p-value alone is not called a discovery, and a significant result
+     remains a candidate for the class α ≈ 2–4 (rule 2), not specifically for the Λ
+     model.
 
 Every result, including failures, is reported.
 
@@ -545,6 +642,10 @@ Every result, including failures, is reported.
   1.13 / 1.21, mean +0.01 / −0.12. z median vs maximum likelihood: 0.096 vs 0.107 and
   0.189 vs 0.160. The current code still uses the maximum-likelihood z in the scan; it
   is switched to the median (§5) before v1.0.
+- **A/B union** DONE (v0.9.14, `trial_catalog_union.json`, code 7969f087, status trial):
+  numbers above in §7. Wilks under the union is still below nominal (down to 0.835 in the
+  leave-one-out), confirming that the Neyman construction is required. Joint f², f³, f⁴
+  conditioning with two events: 1506, σ(f³) inflation ×18.5.
 - **Driver and cache** DONE (v0.9.12, `module1_run.py`): stages build / checks / catalog /
   offsource / hash; cache entries carry the SHA-256 of the code (all Module 1 modules,
   line endings normalised), seeds, n, PCA rule, MD5 and SHA-256 of the PE file and
