@@ -23,6 +23,8 @@ Safeguards required before v1.0:
      these match the current run; otherwise it is rebuilt.
   Leave-one-out (catalog stage) uses its own grid, built from the smallest sigma of the
   remaining events, whenever the left-out event set the common grid.
+  Off-source stage: the only stage that reads strain; it reads off-source segments only,
+  refusing any segment that overlaps an event of the event list (module1_offsource.py).
   3. Every output is marked "official" only if the code hash equals the hash in the
      freeze manifest (default FREEZE_v1.0.json, written at the v1.0 tag); otherwise
      "trial".
@@ -55,6 +57,8 @@ def _forbidden(*a, **k):
                        "(MODULE1_DESIGN §12); this driver works on synthetic noise only")
 
 
+_ORIG_READ_STRAIN = _rc.read_strain        # kept only for the off-source stage
+_ORIG_SEGMENT = _rc.segment
 _rc.read_strain = _forbidden
 _rc.segment = _forbidden
 _rc.check = _forbidden
@@ -63,8 +67,9 @@ import h5py                                  # noqa: E402
 import module1_calibration as cal            # noqa: E402
 import module1_catalog as mc                 # noqa: E402
 import module1_event as me                   # noqa: E402
+import module1_offsource as mo               # noqa: E402
 
-CODE_FILES = ["module1_run.py", "module1_event.py", "module1_catalog.py", "module1_calibration.py",
+CODE_FILES = ["module1_run.py", "module1_event.py", "module1_catalog.py", "module1_offsource.py", "module1_calibration.py",
               "module1_cosmo.py", "f3_derivatives.py", "residual_check.py"]
 CACHE_VERSION = 1
 
@@ -380,10 +385,118 @@ def stage_catalog(args, chash, status):
     print(f"written {out}")
 
 
+
+# ------------------------------------------------------------------ off-source ------
+def stage_offsource(args, chash, status):
+    from scipy.signal import resample_poly
+    import f3_derivatives as f3
+    out = args.out or f"module1_offsource_{args.labels}.csv"
+    keys = ["event", "label", "status", "code_sha256", "seg_start", "inj", "q0", "c0", "covered", "lambda_hat",
+            "dt_ms", "abs_a", "c_index"]
+    new = not os.path.exists(out)
+    fout = open(out, "a", newline="", encoding="utf-8")
+    w = csv.DictWriter(fout, fieldnames=keys)
+    if new:
+        w.writeheader()
+    manifest = {(r["event"], r["ifo"]): r for r in
+                csv.DictReader(open(os.path.join(args.strain_dir, "strain_manifest.csv"), encoding="utf-8"))}
+    summary = {"C": [0, 0], "ref": [0, 0]}
+    for k, (ev, label, r5) in enumerate(select(args)):
+        t0 = time.time()
+        e = load(args, ev, label, r5, chash)
+        meta = e["meta"]
+        ifos, fb = meta["ifos"], e["fb"]
+        pe_path = os.path.join(args.pe_dir, r5["file"].split(" ")[0])
+        with h5py.File(pe_path, "r") as fh:
+            sample, cfg, _ = f3.read_label(fh, label)
+            st = f3.settings(cfg)
+            tab = me.posterior_table(fh, label)
+        dur, srate = st["duration"], st["srate"]
+        seg_on = sample["geocent_time"] + me.rc.POST_TRIGGER - dur
+        f, hp, hc = me.rc.polarizations(label, sample, st)
+        band = (f >= st["f_an"]) & (f <= st["f_high"])
+        if not np.allclose(f[band], fb):
+            raise RuntimeError(f"{ev} {label}: frequency band differs from the cache")
+        calf = {i: e["sb"][i].mean_factor(fb) for i in ifos}
+        # set C: indices after those consumed by sets A and B (2n attempts + failures)
+        idx = np.random.default_rng(me.SEED).permutation(len(tab["log_likelihood"]))
+        pos = 2 * meta["n"] + meta["fails"]
+        hC = []
+        while len(hC) < mo.N_C and pos < len(idx):
+            j = int(idx[pos])
+            pos += 1
+            sC = {kk: float(tab[kk][j]) for kk in me.NEED}
+            try:
+                fp, sp, sc_ = me.rc.polarizations(label, sC, st)
+                hC.append((j, {i: me.rc.project(f, sp, sc_, i, sC, seg_on)[band] * calf[i] for i in ifos}))
+            except Exception:
+                continue
+        if len(hC) < mo.N_C:
+            print(f"  {ev} {label}: only {len(hC)} set-C waveforms", flush=True)
+        windows = mo.forbidden_windows(args.events_list, dur)
+        win = tukey(int(round(dur * srate)), alpha=2 * me.rc.ROLL_OFF / dur)
+        strain = {}
+        for i in ifos:
+            x, dt, t0f = _ORIG_READ_STRAIN(os.path.join(args.strain_dir, manifest[(ev, i)]["file"]))
+            if abs(1 / dt - srate) > 1e-6:
+                x = resample_poly(x, int(srate), int(round(1 / dt)))
+                dt = 1.0 / srate
+            strain[i] = (x, dt, t0f)
+        segs = []
+        for kk in range(1, 4 * mo.N_OFF):
+            for side in (-1, +1):
+                if len(segs) >= mo.N_OFF:
+                    break
+                s0 = seg_on + side * kk * (dur + mo.OFF_GAP)
+                ok, _ = mo.segment_allowed(s0, dur, windows)
+                if not ok:
+                    continue
+                try:
+                    dseg = {}
+                    for i in ifos:
+                        x, dt, t0f = strain[i]
+                        dseg[i] = (np.fft.rfft(_ORIG_SEGMENT(x, dt, t0f, s0, dur) * win) * dt)[band]
+                    segs.append((s0, dseg))
+                except ValueError:
+                    pass
+        del strain
+        own_grid = np.round(np.arange(-args.half_width, args.half_width + 1e-9, args.step), 6) * e["sigma_lin"]
+        c0, scan, tz = mo.event_c0(e, own_grid, args.belt_trials, me.SEED + 11 + 1000 * k)
+        Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+        for m, (s0, dseg) in enumerate(segs):
+            for inj in ("C", "ref"):
+                if inj == "C":
+                    if m >= len(hC):
+                        continue
+                    cj, hinj = hC[m]
+                else:
+                    cj, hinj = -1, e["href"]
+                d = {i: dseg[i] + hinj[i] for i in ifos}
+                r, tsh, a = mo.refine(d, e["href"], Seff, fb[1] - fb[0], fb=fb)
+                q0, g = mo.q0_of_residual(e["net"].stack(r), e, scan, tz)
+                cov = q0 <= c0
+                summary[inj][0] += cov
+                summary[inj][1] += 1
+                w.writerow({"event": ev, "label": label, "status": status, "code_sha256": chash, "seg_start": s0,
+                            "inj": inj, "q0": q0, "c0": c0, "covered": cov, "lambda_hat": own_grid[g],
+                            "dt_ms": tsh * 1e3, "abs_a": abs(a), "c_index": cj})
+        fout.flush()
+        print(f"{ev:18s} {label:30s} segments {len(segs)}  c0 {c0:.2f}  ({time.time() - t0:.0f} s)", flush=True)
+    fout.close()
+    for inj in ("C", "ref"):
+        nc, n = summary[inj]
+        if n:
+            p = nc / n
+            lo, hi = mo.binomial_interval(0.90, n)
+            verdict = ("STOP: below the 99% binomial interval around 0.90" if p < lo else
+                       "conservative (above the interval)" if p > hi else "within the interval")
+            print(f"{inj:4s} coverage {nc}/{n} = {p:.3f}; 99% interval around 0.90: {lo:.3f}–{hi:.3f} -> "
+                  f"{verdict if inj == 'C' else 'diagnostic'}")
+
 # ------------------------------------------------------------------ main ------------
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["build", "checks", "catalog", "hash"])
+    ap.add_argument("stage", choices=["build", "checks", "catalog", "offsource", "hash"])
     ap.add_argument("--events", default="GW150914,GW230627_015337")
     ap.add_argument("--labels", default="both", choices=["both", "xphm", "eob"])
     ap.add_argument("--pe-dir", default=os.path.expanduser("~/gwdata/pe"))
@@ -397,6 +510,8 @@ def main():
     ap.add_argument("--exp-trials", type=int, default=2000)
     ap.add_argument("--half-width", type=float, default=8.0)
     ap.add_argument("--step", type=float, default=0.05)
+    ap.add_argument("--strain-dir", default=os.path.expanduser("~/gwdata/strain"))
+    ap.add_argument("--events-list", default="event_selection/event_list_v1.csv")
     ap.add_argument("--freeze-manifest", default=os.path.join(HERE, "FREEZE_v1.0.json"))
     ap.add_argument("--out", default="")
     args = ap.parse_args()
@@ -407,7 +522,10 @@ def main():
         for k, v in per.items():
             print(f"  {v}  {k}")
         return
-    {"build": stage_build, "checks": stage_checks, "catalog": stage_catalog}[args.stage](args, chash, status)
+    if args.stage == "offsource" and args.belt_trials == 5000:
+        args.belt_trials = 2000          # event-only belt at Lambda = 0
+    {"build": stage_build, "checks": stage_checks, "catalog": stage_catalog,
+     "offsource": stage_offsource}[args.stage](args, chash, status)
 
 
 if __name__ == "__main__":

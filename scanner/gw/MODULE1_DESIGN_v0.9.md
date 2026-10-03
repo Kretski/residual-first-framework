@@ -1,6 +1,9 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.11 — not frozen.** (v0.9.11: catalog/Neyman machinery checked on
+**Status: DRAFT v0.9.12 — not frozen.** (v0.9.12: driver with verified cache and strain
+guard (`module1_run.py`); off-source check of the belts specified (set C, paired reference
+control, catalog-level binomial acceptance, guard around all listed events).)
+Previous: **DRAFT v0.9.11.** (v0.9.11: catalog/Neyman machinery checked on
 three events with synthetic noise; reporting rules for concentration (leave-one-out,
 N_eff) and for non-contiguous intervals; belt sizes; belts from Gaussian noise with real
 off-source segments as a check.)
@@ -330,10 +333,31 @@ in its `__main__`).
    **Belt noise (fixed in v0.9.11):** a belt needs thousands of noise realisations, while
    each event has only 4–8 valid off-source segments. Belts are therefore built from
    Gaussian noise with the released PSDs plus calibration errors drawn from the priors.
-   The real off-source segments (§7), each with the event's GR reference injected, are
-   scanned as a check of the belts: the fraction of their intervals containing Λ = 0 is
-   compared with 0.90 (binomial); a coverage below 0.80 at the catalog level stops the
-   analysis before any on-source estimate.
+   The real off-source segments (§7) are scanned as a check of the belts
+   (`module1_offsource.py`, stage `offsource` of `module1_run.py`; v0.9.12):
+   - **Injections:** on every segment two injections on the same noise: (C) a posterior
+     sample of **set C** — the indices following those consumed by sets A and B in the
+     fixed permutation (seed 20261001; 2n attempts plus failures, recorded in the
+     cache), hence disjoint from both and deterministic — projected with its own sky
+     position, polarization and time; (ref) the reference waveform itself, as a paired
+     control. Set B is not used because it defines the second subspace of the A/B
+     systematic. The difference between C and ref on the same noise separates the
+     signal–reference mismatch from non-Gaussian noise.
+   - **Chain:** the residual chain of the real analysis (time shift ±100 ms, complex
+     amplitude, against the reference), then the profile scan on the event's own grid;
+     q(0) is compared with the event's own Gaussian-belt critical value at Λ = 0.
+   - **Acceptance (catalog level, per model, C injections only):** coverage over all
+     segments of all event–model pairs (about 400 per model). Below the lower end of
+     the 99% binomial interval around 0.90 (≈ 0.861 for 400) the analysis stops before
+     any on-source estimate; above the upper end (≈ 0.939) the belts are reported as
+     conservative. Per-event coverage (8 segments: 0.90 × 8 = 7.2 ± 0.85) and the ref
+     injections are diagnostics only.
+   - **Guard:** a segment is refused if it overlaps the window
+     [t − duration − 2 s, t + 4 s] of any event of `event_list_v1.csv`, selected or
+     excluded, not only the event analysed.
+   - **Limitation:** software injections do not pass through the detector calibration;
+     this check covers non-Gaussian noise and the signal–reference mismatch, not
+     calibration (§9).
    **Non-contiguous intervals (fixed in v0.9.11):** because of the sign ambiguity of the
    nonlinear phase, a confidence set may consist of separate pieces (12% of the
    expected-interval trials in the three-event check). The reported interval is the
@@ -521,6 +545,17 @@ Every result, including failures, is reported.
   1.13 / 1.21, mean +0.01 / −0.12. z median vs maximum likelihood: 0.096 vs 0.107 and
   0.189 vs 0.160. The current code still uses the maximum-likelihood z in the scan; it
   is switched to the median (§5) before v1.0.
+- **Driver and cache** DONE (v0.9.12, `module1_run.py`): stages build / checks / catalog /
+  offsource / hash; cache entries carry the SHA-256 of the code (all Module 1 modules,
+  line endings normalised), seeds, n, PCA rule, MD5 and SHA-256 of the PE file and
+  SHA-256 of the input tables, and are used only if all match; strain readers are
+  disabled in every stage except offsource; outputs are "official" only if the code hash
+  equals the freeze manifest `FREEZE_v1.0.json`, otherwise "trial". Leave-one-out uses its
+  own grid when the left-out event set the common grid. Trial (code 68b00bc6, status
+  trial): GW150914 XPHM with GW230627_015337 XPHM-SpinTaylor — all numbers reproduced from
+  the cache; catalog Neyman coverage 0.895–0.909 (2000 trials), Wilks 0.83–0.90;
+  expected interval ±4.8·10⁻¹¹ m²; leave-one-out (GW150914 alone, own grid)
+  [−1.2·10⁻⁹, +1.7·10⁻⁹] m², coverage 0.898–0.918, Wilks down to 0.756.
 - **Catalog / Neyman check** DONE (v0.9.11, `module1_catalog.py`, synthetic noise only;
   GW150914 and GW200129_065458 (C01 XPHM) with GW230627_015337 (C00 XPHM-SpinTaylor), mixed
   cohorts for the machinery check only; 1000 belt and 300 independent trials;
