@@ -1,6 +1,10 @@
 # Module 1 — Residual-first test of Λ-type dispersion in gravitational-wave data
 
-**Status: DRAFT v0.9.7 — not frozen.** (v0.9.7: §6 CORRECTED — detector-calibration
+**Status: DRAFT v0.9.8 — not frozen.** (v0.9.8: calibration source fixed — bilby
+recalib priors, not the plotting envelope, whose median has the opposite sign in
+GWTC-4.0 files; envelope columns verified to be ±1σ; bilby 2.8.2 added to the
+environment.)
+Previous: **DRAFT v0.9.7.** (v0.9.7: §6 CORRECTED — detector-calibration
 directions are no longer projected out freely; they enter as a constrained noise
 covariance (generalized least squares). The v0.9.6 estimator could not see any f³
 effect; found by a synthetic test of the estimator core before any real residual.)
@@ -162,8 +166,11 @@ every injection amplitude.
   time and distance, so the stored log-likelihood is marginalised and the time and
   distance of a sample are draws, not maxima; LALInference analyses have few samples.
   Intrinsic parameters are not changed.
-- Calibration envelope: from the label itself; if absent, from the XPHM label of the
-  same event (same detectors and strain); if absent in both, the event is excluded.
+- Calibration model: the bilby recalib priors of the label (Gaussian mu and sigma of
+  the amplitude and phase at each spline node; node frequencies from
+  recalib_<IFO>_frequency_k); if absent (LALInference SEOBNRv4PHM labels), those of the
+  XPHM label of the same event (same detectors and strain); if absent in both, the
+  event is excluded. Details and the reason for not using the envelope table: §6, item 2.
 - **Extrinsic refinement (verified, `residual_check.py`):** a common time shift within
   ±100 ms (step 0.05 ms) and a common complex amplitude for the network. Bilby-based
   labels need |Δt| < 1 ms; LALInference-based labels (SEOBNRv4PHM) need event-dependent
@@ -205,15 +212,41 @@ in its `__main__`).
    Q_A is an orthonormal basis of these directions for set A. **Set A defines the
    primary subspace;** set B is used only for the subspace systematic (§7).
 2. **Detector calibration (constrained, NOT projected out).** Calibration errors are
-   unknown but bounded by the envelope released with the PE results. For every
-   detector, amplitude and phase perturbations at the spline nodes of that detector's
-   envelope give directions J_k (amplitude node k: b_k(f)·h_ref; phase node k:
-   i·b_k(f)·h_ref, with b_k the spline basis function of node k), each scaled by the
-   envelope standard deviation at that node, so the envelope's frequency dependence
-   enters through J. The envelope median is applied to the reference waveform; the
-   spread enters the noise covariance
-   C = I + J₁J₁ᵀ,  J₁ = (I − Q_A Q_Aᵀ) J,
-   applied through the Woodbury identity C⁻¹v = v − J₁(I + J₁ᵀJ₁)⁻¹J₁ᵀv.
+   unknown but bounded. Model and numbers are those of the LVK PE run itself: bilby's
+   cubic-spline calibration (bilby 2.8.2, `CubicSpline`, LIGO-T2300140): nodes
+   log-spaced in frequency (20–896 Hz in the O3 releases checked, 20–1792 Hz in O4),
+   δA(f) and δφ(f) cubic splines in log₁₀ f through the node values (not-a-knot), and
+   factor (1 + δA)(2 + iδφ)/(2 − iδφ). Per detector:
+   - the reference waveform is multiplied by this factor at the prior means μ of the
+     nodes;
+   - the spread enters J: amplitude node k gives σ_A,k · B_k(f) · h_ref, phase node k
+     gives i · σ_φ,k · B_k(f) · h_ref, with B_k the spline response to a unit value at
+     node k (first order of the factor);
+   - C = I + J₁J₁ᵀ, J₁ = (I − Q_A Q_Aᵀ) J, applied through the Woodbury identity
+     C⁻¹v = v − J₁(I + J₁ᵀJ₁)⁻¹J₁ᵀv.
+   Implementation: `module1_calibration.py` (self-test: bilby spline equals a
+   not-a-knot spline in log₁₀ f to 3·10⁻¹⁶; first-order directions agree with the exact
+   factor to 1.7% for a 1σ draw of 3% calibration, as expected at second order).
+   **Calibration protocol (fixed in v0.9.8, before any Λ estimate).** The calibration
+   priors describe the detectors and the strain, not the waveform model. For a label
+   without recalib priors, "the XPHM label of the same event" means the
+   IMRPhenomXPHM PE run of the same event on the same detectors and strain; it is used
+   only as the place where these priors are stored. Only the priors (μ, σ, node
+   frequencies) are used, never posterior calibration samples of any label, so the
+   calibration of the test does not depend on the posterior of the model being tested.
+   The rule was chosen from the file format alone (`inspect_calibration.py`,
+   `check_calib_sigma.py`), before any residual projection or Λ estimate, and is not
+   changed according to the F3/PCA results or any later result.
+   **Why not the envelope table priors/calibration/<IFO>** (`check_calib_sigma.py`,
+   GW150914, GW200129_065458, GW230627_015337): its columns are f, A_med, φ_med, A_lo,
+   φ_lo, A_hi, φ_hi with lo/hi = ±1σ (prior std / half-width = 0.97–1.03; a few O4 H1
+   nodes 0.91–1.08), but in the GWTC-4.0 (C00) labels the prior mean equals −(A_med − 1)
+   at every node, while in GWTC-2.1/3 (C01) labels it equals +(A_med − 1). Applying the
+   envelope median would have doubled the calibration offset in O4 instead of removing
+   it. The recalib priors are the input of the PE run and have one convention in all
+   catalogs. The maximum-likelihood sample's calibration was not chosen because the
+   SEOBNRv4PHM labels have no calibration columns, so the rule would differ between
+   models.
 3. T_p^⊥ = (I − Q_A Q_Aᵀ) T_p, r^⊥ = (I − Q_A Q_Aᵀ) r.
 4. Per-event estimate (generalized least squares):
    Λ̂_i = ⟨T₃^⊥, C⁻¹ r^⊥⟩ / ⟨T₃^⊥, C⁻¹ T₃^⊥⟩,  σ_i = ⟨T₃^⊥, C⁻¹ T₃^⊥⟩^(−1/2);
@@ -320,7 +353,7 @@ Every result, including failures, is reported.
 ## 12. Feasibility checks before v1.0
 
 - **F1** DONE: lalsuite (pip) with lal 7.7.1 / lalsimulation 6.2.1, pyseobnr 0.3.7,
-  gwpy 4.0.2, Python 3.11 in WSL (`requirements_gw2.txt`, `environment_gw2.yml`).
+  gwpy 4.0.2, bilby 2.8.2 (added in v0.9.8), Python 3.11 in WSL (`requirements_gw2.txt`, `environment_gw2.yml`).
   The conda-forge lal/lalsimulation builds showed a SWIG type mismatch.
 - **F2** DONE: one waveform: IMRPhenomXPHM 0.014 s, SEOBNRv5PHM 0.1 s (first call
   ~9 s), SEOBNRv4PHM 2.3 s.
@@ -352,6 +385,9 @@ Every result, including failures, is reported.
   v1.0: the same test on the real geometry (reference waveforms, PSDs, PE samples and
   calibration envelopes of 2–3 events, Gaussian noise from the released PSD), which
   measures the real survival s and therefore the reachable sensitivity.
+- **Calibration source** DONE (v0.9.8): see §6, item 2. bilby 2.8.2 added to `gw2`
+  (pip dry run: no change to numpy, scipy, lalsuite, h5py, gwpy; `requirements_gw2.txt`
+  updated).
 - **F6** Rough budget DONE: tangent basis per event 0.4 / 3.3 / 72 s
   (XPHM / v5PHM / v4PHM); the full calibration suite is feasible on a laptop.
   Final numbers of injections are fixed in v1.0. Compute budget: estimate the total cost of §7–§9 and fix the numbers of
