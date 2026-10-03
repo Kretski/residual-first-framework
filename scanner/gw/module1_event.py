@@ -41,6 +41,7 @@ component, i.e. Gaussian noise with the released PSD scaled by the window power)
     distance (the choice is a v0.9.9 decision).
 Diagnostics only: no thresholds here; the final numbers are fixed in v1.0.
 
+Version 5: build() also returns the raw calibration matrix J (for the module1_run cache).
 Version 4: template prefactor K(z) from the posterior median distance (v0.9.9, §5);
 sigma with the maximum-likelihood z reported for comparison.
 Version 3: profile scan over Lambda with the exact phase (scan_checks), Wilks coverage,
@@ -247,7 +248,7 @@ def build(event, label, xphm_label, fh, ifos, n, frac, log):
         Q = orthonormal([U, tdir, adir, pdir])
         del U
         est[name], ks[name] = Estimator(Q, J, T), k
-    info = {"gr_leak": gr_leak, "z": z, "z_med": z_med, "I4_ratio": cosmo.I4(z_med) / cosmo.I4(z), "K": K, "cal_source": cal_source, "fails": fails, "nb": net.nb,
+    info = {"J": J, "gr_leak": gr_leak, "z": z, "z_med": z_med, "I4_ratio": cosmo.I4(z_med) / cosmo.I4(z), "K": K, "cal_source": cal_source, "fails": fails, "nb": net.nb,
             "snr_ref": float(np.linalg.norm(href_s)), "f_high": float(fb[-1]),
             "n_used": n, "nsamp": nsamp}
     return est, ks, info, sb, href, net, fb

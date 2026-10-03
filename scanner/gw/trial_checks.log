@@ -1,0 +1,7 @@
+code SHA-256 113fd4f25343d9e74fd1efda1db44bdffaac6364bc9c34b887b745f8e054a8f8
+status: trial (no freeze manifest)
+GW150914           C01:IMRPhenomXPHM              s3 0.116 sigma_lin 9.47e-10  null z +0.13/1.08  scan std 1.13  Wilks cov 0.80  leak std 0.83  (16 s)
+code SHA-256 113fd4f25343d9e74fd1efda1db44bdffaac6364bc9c34b887b745f8e054a8f8
+status: trial (no freeze manifest)
+GW230627_015337    C00:IMRPhenomXPHM-SpinTaylor   s3 0.203 sigma_lin 3.69e-11  null z -0.03/0.96  scan std 0.97  Wilks cov 0.87  leak std 0.95  (509 s)
+GW230627_015337    C00:SEOBNRv5PHM                s3 0.279 sigma_lin 2.24e-11  null z -0.16/1.07  scan std 1.66  Wilks cov 0.84  leak std 1.45  (428 s)

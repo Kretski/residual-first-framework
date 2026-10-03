@@ -1,0 +1,46 @@
+code SHA-256 113fd4f25343d9e74fd1efda1db44bdffaac6364bc9c34b887b745f8e054a8f8
+status: trial (no freeze manifest)
+catalog: 2 pairs, grid ±8 x 3.695e-11 m^2 (321 points), N_eff 1.00
+  GW150914 C01:IMRPhenomXPHM: 37 s
+  GW230627_015337 C00:IMRPhenomXPHM-SpinTaylor: 949 s
+
+[all] expected 90% interval [-4.80e-11, +4.80e-11] m^2; contiguous 0.85; edge 0.002; critical values 1.60–4.28
+   true -1.478e-10: Neyman 0.903  Wilks 0.899
+   true -5.912e-11: Neyman 0.909  Wilks 0.831
+   true -0.000e+00: Neyman 0.895  Wilks 0.861
+   true +5.912e-11: Neyman 0.908  Wilks 0.828
+   true +1.478e-10: Neyman 0.908  Wilks 0.892
+
+[leave_one_out without GW230627_015337] expected 90% interval [-2.96e-10, +2.96e-10] m^2; contiguous 0.92; edge 0.990; critical values 0.94–1.15
+   true -1.478e-10: Neyman 0.887  Wilks 1.000
+   true -5.912e-11: Neyman 0.901  Wilks 1.000
+   true -0.000e+00: Neyman 0.901  Wilks 1.000
+   true +5.912e-11: Neyman 0.892  Wilks 1.000
+   true +1.478e-10: Neyman 0.899  Wilks 1.000
+
+joint f2/f3/f4 condition 1506, f3 inflation x18.5; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status trial
+written trial_catalog_xphm.json
+code SHA-256 68b00bc6b45ec4e8fdcc3e76cd11a4ab925e1d20227fc774063ca7acf5bd9921
+status: trial (no freeze manifest)
+catalog: 2 pairs, grid ±8 x 3.695e-11 m^2 (321 points), N_eff 1.00
+  GW150914 C01:IMRPhenomXPHM: 34 s
+  GW230627_015337 C00:IMRPhenomXPHM-SpinTaylor: 1331 s
+
+leave-one-out without GW230627_015337: own grid ±8 x 9.475e-10 m^2
+
+[all] expected 90% interval [-4.80e-11, +4.80e-11] m^2; contiguous 0.85; edge 0.002; critical values 1.60–4.28
+   true -1.478e-10: Neyman 0.903  Wilks 0.899
+   true -5.912e-11: Neyman 0.909  Wilks 0.831
+   true -0.000e+00: Neyman 0.895  Wilks 0.861
+   true +5.912e-11: Neyman 0.908  Wilks 0.828
+   true +1.478e-10: Neyman 0.908  Wilks 0.892
+
+[leave_one_out without GW230627_015337] expected 90% interval [-1.23e-09, +1.66e-09] m^2; contiguous 0.79; edge 0.000; critical values 1.66–4.37
+   true -3.790e-09: Neyman 0.903  Wilks 0.876
+   true -1.516e-09: Neyman 0.898  Wilks 0.790
+   true -0.000e+00: Neyman 0.905  Wilks 0.872
+   true +1.516e-09: Neyman 0.898  Wilks 0.756
+   true +3.790e-09: Neyman 0.918  Wilks 0.896
+
+joint f2/f3/f4 condition 1506, f3 inflation x18.5; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status trial
+written trial_catalog_xphm.json
