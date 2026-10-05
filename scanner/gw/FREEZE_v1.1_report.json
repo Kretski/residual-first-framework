@@ -1,0 +1,39 @@
+{
+ "tag": "v1.1-report",
+ "report_sha256": "1a6e30379b5cef9cd9c32b338242b34124896932696afd9351adb6e8f63791f1",
+ "files": {
+  "module1_report.py": "ba1851552122b94face55ac347d4e5af344cd749611cb81aabd243fa16d519ee",
+  "write_report_manifest.py": "2099809982f971148c0a482dd88775e3e14d588d4f72d76ad31a3629756f05b1"
+ },
+ "report_files": [
+  "module1_report.py",
+  "write_report_manifest.py"
+ ],
+ "core_sha256": "22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9",
+ "core_files": {
+  "module1_run.py": "b19052151187634c7ae676c70036cc9ee56cb2013b1b6ae3fa06976999983ba5",
+  "module1_event.py": "37fafe2dcdebe7581508032d27338376ad8fd8d8f8d9e16f462a1c516cae8177",
+  "module1_catalog.py": "c6fd6f550b18319d13deeff3e15b3d2c403c0198c050b1de9c30c1174092de5f",
+  "module1_offsource.py": "4a42e246af8edbddf8e90cd1368c92af438ba7566835c8dbc8e6378f737cebae",
+  "module1_calibration.py": "04e640d6b5eca76d5ec4d741f9f7b8bb4d3a2854e81fd5e5de735e1eb2ca7e28",
+  "module1_cosmo.py": "6faaf55a0860f4dc73ef0a0a2970579d1d5c904fcd4e5401de374d6f4ca17dad",
+  "f3_derivatives.py": "52e36491c92669ca738eebe6e455b8ce5cadfbca3994367a4dc49fc215ecfd07",
+  "residual_check.py": "dcf311c02a71ab4e7ab966210a95bf762ea5435425eaa759c39dca21a8753f7e"
+ },
+ "rules": {
+  "null_bias_sigma": 0.3,
+  "ab_median_sigma": 0.5,
+  "ks_alpha": 0.01,
+  "verify_tolerance": 1e-12
+ },
+ "versions": {
+  "python": "3.11.16",
+  "numpy": "2.4.6",
+  "lal": "7.7.1",
+  "lalsimulation": "6.2.1",
+  "bilby": "2.8.2",
+  "h5py": "3.16.0",
+  "scipy": "1.17.1"
+ },
+ "written_utc": "2026-10-05T22:02:03Z"
+}
