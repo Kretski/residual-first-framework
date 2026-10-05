@@ -1,0 +1,9 @@
+{
+  "addendum": "C",
+  "wrapper": "module1_diag_calibration.py",
+  "wrapper_sha256": "6ff9abe5b9b77689a78e83b4664d7e778cbf964e5c1ea2789077d023ef7d8b9d",
+  "frozen_core": "v1.0-module1 (unchanged, imported)",
+  "events": "GW170608,GW190707_093326,GW190728_064510,GW190924_021846",
+  "written": "2026-10-05T17:28:53",
+  "note": "written before any diagnostic or primary on-source estimate"
+}
