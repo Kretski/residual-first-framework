@@ -37,3 +37,4 @@ the pooled coverage of the four controls does not fall by more than 3/32 from it
 recomputed baseline. Otherwise it is not supported. Both variants are reported
 whatever the outcome. Neither variant is adopted on the basis of this diagnostic
 alone; a fix is a new version with its own registration and full validation.
+Clarification (2026-10-07, before Gate 2 is run): the medoid of variant (a) is taken among the same 200 set-B samples used in Measurement 1(ii), with the raw whitened distance (no alignment), as written above. The reading threshold remains 24/32.
