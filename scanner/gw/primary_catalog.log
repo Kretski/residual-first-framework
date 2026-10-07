@@ -1,0 +1,285 @@
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+catalog: 24 pairs, grid ±8 x 6.508e-11 m^2 (321 points), N_eff 3.07
+  GW150914 C01:IMRPhenomXPHM: 46 s (subspaces A, B)
+  GW170104 C01:IMRPhenomXPHM: 96 s (subspaces A, B)
+  GW170809 C01:IMRPhenomXPHM: 49 s (subspaces A, B)
+  GW170814 C01:IMRPhenomXPHM: 72 s (subspaces A, B)
+  GW170818 C01:IMRPhenomXPHM: 73 s (subspaces A, B)
+  GW170823 C01:IMRPhenomXPHM: 48 s (subspaces A, B)
+  GW190408_181802 C01:IMRPhenomXPHM: 151 s (subspaces A, B)
+  GW190412 C01:IMRPhenomXPHM: 307 s (subspaces A, B)
+  GW190503_185404 C01:IMRPhenomXPHM: 75 s (subspaces A, B)
+  GW190513_205428 C01:IMRPhenomXPHM: 81 s (subspaces A, B)
+  GW190519_153544 C01:IMRPhenomXPHM: 43 s (subspaces A, B)
+  GW190521_074359 C01:IMRPhenomXPHM: 16 s (subspaces A, B)
+  GW190630_185205 C01:IMRPhenomXPHM: 51 s (subspaces A, B)
+  GW190706_222641 C01:IMRPhenomXPHM: 51 s (subspaces A, B)
+  GW190708_232457 C01:IMRPhenomXPHM: 220 s (subspaces A, B)
+  GW190910_112807 C01:IMRPhenomXPHM: 27 s (subspaces A, B)
+  GW191109_010717 C01:IMRPhenomXPHM: 28 s (subspaces A, B)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+  GW191129_134029 C01:IMRPhenomXPHM: 475 s (subspaces A, B)
+  GW191216_213338 C01:IMRPhenomXPHM: 464 s (subspaces A, B)
+  GW191222_033537 C01:IMRPhenomXPHM: 49 s (subspaces A, B)
+  GW200112_155838 C01:IMRPhenomXPHM: 52 s (subspaces A, B)
+  GW200129_065458 C01:IMRPhenomXPHM: 145 s (subspaces A, B)
+  GW200224_222234 C01:IMRPhenomXPHM: 42 s (subspaces A, B)
+  GW200311_115853 C01:IMRPhenomXPHM: 75 s (subspaces A, B)
+
+leave-one-out without GW191129_134029: own grid ±8 x 1.108e-10 m^2
+
+[all] expected 90% interval [-1.01e-10, +1.14e-10] m^2; contiguous 0.57; edge 0.001; critical values 1.85–4.74
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -2.603e-10: Neyman 0.928  Wilks 0.901
+   true -1.041e-10: Neyman 0.924  Wilks 0.826
+   true -0.000e+00: Neyman 0.943  Wilks 0.794
+   true +1.041e-10: Neyman 0.934  Wilks 0.825
+   true +2.603e-10: Neyman 0.920  Wilks 0.887
+
+[leave_one_out without GW191129_134029] expected 90% interval [-1.22e-10, +1.61e-10] m^2; contiguous 0.77; edge 0.000; critical values 1.71–4.45
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -4.433e-10: Neyman 0.924  Wilks 0.911
+   true -1.773e-10: Neyman 0.943  Wilks 0.881
+   true -0.000e+00: Neyman 0.951  Wilks 0.869
+   true +1.773e-10: Neyman 0.950  Wilks 0.861
+   true +4.433e-10: Neyman 0.939  Wilks 0.922
+
+joint f2/f3/f4 condition 463, f3 inflation x10.4; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official
+written primary_catalog_search_xphm.json
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+catalog: 25 pairs, grid ±8 x 3.043e-11 m^2 (321 points), N_eff 4.02
+  GW150914 C01:SEOBNRv4PHM: 49 s (subspaces A, B)
+  GW170104 C01:SEOBNRv4PHM: 100 s (subspaces A, B)
+  GW170809 C01:SEOBNRv4PHM: 46 s (subspaces A, B)
+  GW170814 C01:SEOBNRv4PHM: 69 s (subspaces A, B)
+  GW170818 C01:SEOBNRv4PHM: 70 s (subspaces A, B)
+  GW190408_181802 C01:SEOBNRv4PHM: 136 s (subspaces A, B)
+  GW190412 C01:SEOBNRv4PHM: 284 s (subspaces A, B)
+  GW190503_185404 C01:SEOBNRv4PHM: 70 s (subspaces A, B)
+  GW190512_180714 C01:SEOBNRv4PHM: 137 s (subspaces A, B)
+  GW190513_205428 C01:SEOBNRv4PHM: 71 s (subspaces A, B)
+  GW190519_153544 C01:SEOBNRv4PHM: 38 s (subspaces A, B)
+  GW190521_074359 C01:SEOBNRv4PHM: 16 s (subspaces A, B)
+  GW190620_030421 C01:SEOBNRv4PHM: 27 s (subspaces A, B)
+  GW190630_185205 C01:SEOBNRv4PHM: 50 s (subspaces A, B)
+  GW190706_222641 C01:SEOBNRv4PHM: 49 s (subspaces A, B)
+  GW190708_232457 C01:SEOBNRv4PHM: 200 s (subspaces A, B)
+  GW190910_112807 C01:SEOBNRv4PHM: 28 s (subspaces A, B)
+  GW190915_235702 C01:SEOBNRv4PHM: 136 s (subspaces A, B)
+  GW191129_134029 C01:SEOBNRv4PHM: 839 s (subspaces A, B)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+  GW191216_213338 C01:SEOBNRv4PHM: 845 s (subspaces A, B)
+  GW191222_033537 C01:SEOBNRv4PHM: 45 s (subspaces A, B)
+  GW200112_155838 C01:SEOBNRv4PHM: 45 s (subspaces A, B)
+  GW200129_065458 C01:SEOBNRv4PHM: 121 s (subspaces A, B)
+  GW200224_222234 C01:SEOBNRv4PHM: 35 s (subspaces A, B)
+  GW200311_115853 C01:SEOBNRv4PHM: 64 s (subspaces A, B)
+
+leave-one-out without GW191129_134029: own grid ±8 x 5.315e-11 m^2
+
+[all] expected 90% interval [-3.65e-11, +3.80e-11] m^2; contiguous 0.71; edge 0.002; critical values 1.89–4.66
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -1.217e-10: Neyman 0.923  Wilks 0.863
+   true -4.869e-11: Neyman 0.928  Wilks 0.833
+   true -0.000e+00: Neyman 0.930  Wilks 0.865
+   true +4.869e-11: Neyman 0.933  Wilks 0.839
+   true +1.217e-10: Neyman 0.922  Wilks 0.868
+
+[leave_one_out without GW191129_134029] expected 90% interval [-5.05e-11, +5.05e-11] m^2; contiguous 0.82; edge 0.000; critical values 1.79–4.32
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -2.126e-10: Neyman 0.919  Wilks 0.885
+   true -8.503e-11: Neyman 0.932  Wilks 0.846
+   true -0.000e+00: Neyman 0.928  Wilks 0.873
+   true +8.503e-11: Neyman 0.926  Wilks 0.853
+   true +2.126e-10: Neyman 0.934  Wilks 0.914
+
+joint f2/f3/f4 condition 222, f3 inflation x7.3; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official
+written primary_catalog_search_eob.json
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+catalog: 20 pairs, grid ±8 x 2.337e-11 m^2 (321 points), N_eff 2.39
+  GW230601_224134 C00:IMRPhenomXPHM-SpinTaylor: 27 s (subspaces A, B)
+  GW230627_015337 C00:IMRPhenomXPHM-SpinTaylor: 1635 s (subspaces A, B)
+  GW230628_231200 C00:IMRPhenomXPHM-SpinTaylor: 47 s (subspaces A, B)
+  GW230731_215307 C00:IMRPhenomXPHM-SpinTaylor: 794 s (subspaces A, B)
+  GW230811_032116 C00:IMRPhenomXPHM-SpinTaylor: 47 s (subspaces A, B)
+  GW230914_111401 C00:IMRPhenomXPHM-SpinTaylor: 48 s (subspaces A, B)
+  GW230919_215712 C00:IMRPhenomXPHM-SpinTaylor: 95 s (subspaces A, B)
+  GW230922_020344 C00:IMRPhenomXPHM-SpinTaylor: 49 s (subspaces A, B)
+  GW230922_040658 C00:IMRPhenomXPHM-SpinTaylor: 47 s (subspaces A, B)
+  GW230924_124453 C00:IMRPhenomXPHM-SpinTaylor: 47 s (subspaces A, B)
+  GW230927_043729 C00:IMRPhenomXPHM-SpinTaylor: 49 s (subspaces A, B)
+  GW230927_153832 C00:IMRPhenomXPHM-SpinTaylor: 94 s (subspaces A, B)
+  GW231020_142947 C00:IMRPhenomXPHM-SpinTaylor: 855 s (subspaces A, B)
+  GW231028_153006 C00:IMRPhenomXPHM-SpinTaylor: 48 s (subspaces A, B)
+  GW231102_071736 C00:IMRPhenomXPHM-SpinTaylor: 27 s (subspaces A, B)
+  GW231108_125142 C00:IMRPhenomXPHM-SpinTaylor: 88 s (subspaces A, B)
+  GW231206_233134 C00:IMRPhenomXPHM-SpinTaylor: 45 s (subspaces A, B)
+  GW231206_233901 C00:IMRPhenomXPHM-SpinTaylor: 47 s (subspaces A, B)
+  GW231224_024321 C00:IMRPhenomXPHM-SpinTaylor: 779 s (subspaces A, B)
+  GW231226_101520 C00:IMRPhenomXPHM-SpinTaylor: 27 s (subspaces A, B)
+
+leave-one-out without GW231224_024321: own grid ±8 x 3.695e-11 m^2
+
+[all] expected 90% interval [-2.92e-11, +3.39e-11] m^2; contiguous 0.86; edge 0.000; critical values 1.64–4.01
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -9.349e-11: Neyman 0.926  Wilks 0.913
+   true -3.740e-11: Neyman 0.931  Wilks 0.888
+   true -0.000e+00: Neyman 0.951  Wilks 0.891
+   true +3.740e-11: Neyman 0.942  Wilks 0.899
+   true +9.349e-11: Neyman 0.917  Wilks 0.910
+
+[leave_one_out without GW231224_024321] expected 90% interval [-4.06e-11, +4.25e-11] m^2; contiguous 0.89; edge 0.000; critical values 1.51–4.46
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -1.478e-10: Neyman 0.916  Wilks 0.914
+   true -5.912e-11: Neyman 0.929  Wilks 0.897
+   true -0.000e+00: Neyman 0.950  Wilks 0.922
+   true +5.912e-11: Neyman 0.950  Wilks 0.906
+   true +1.478e-10: Neyman 0.920  Wilks 0.910
+
+joint f2/f3/f4 condition 331, f3 inflation x8.7; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official
+written primary_catalog_confirm_xphm.json
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+catalog: 20 pairs, grid ±8 x 2.238e-11 m^2 (321 points), N_eff 2.08
+  GW230601_224134 C00:SEOBNRv5PHM: 23 s (subspaces A, B)
+  GW230627_015337 C00:SEOBNRv5PHM: 1495 s (subspaces A, B)
+  GW230628_231200 C00:SEOBNRv5PHM: 42 s (subspaces A, B)
+  GW230731_215307 C00:SEOBNRv5PHM: 703 s (subspaces A, B)
+  GW230811_032116 C00:SEOBNRv5PHM: 42 s (subspaces A, B)
+  GW230914_111401 C00:SEOBNRv5PHM: 41 s (subspaces A, B)
+  GW230919_215712 C00:SEOBNRv5PHM: 87 s (subspaces A, B)
+  GW230922_020344 C00:SEOBNRv5PHM: 41 s (subspaces A, B)
+  GW230922_040658 C00:SEOBNRv5PHM: 40 s (subspaces A, B)
+  GW230924_124453 C00:SEOBNRv5PHM: 43 s (subspaces A, B)
+  GW230927_043729 C00:SEOBNRv5PHM: 43 s (subspaces A, B)
+  GW230927_153832 C00:SEOBNRv5PHM: 81 s (subspaces A, B)
+  GW231020_142947 C00:SEOBNRv5PHM: 735 s (subspaces A, B)
+  GW231028_153006 C00:SEOBNRv5PHM: 41 s (subspaces A, B)
+  GW231102_071736 C00:SEOBNRv5PHM: 23 s (subspaces A, B)
+  GW231108_125142 C00:SEOBNRv5PHM: 84 s (subspaces A, B)
+  GW231206_233134 C00:SEOBNRv5PHM: 41 s (subspaces A, B)
+  GW231206_233901 C00:SEOBNRv5PHM: 42 s (subspaces A, B)
+  GW231224_024321 C00:SEOBNRv5PHM: 730 s (subspaces A, B)
+  GW231226_101520 C00:SEOBNRv5PHM: 25 s (subspaces A, B)
+
+leave-one-out without GW230627_015337: own grid ±8 x 4.464e-11 m^2
+
+[all] expected 90% interval [-2.91e-11, +3.47e-11] m^2; contiguous 0.82; edge 0.000; critical values 1.71–4.09
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -8.953e-11: Neyman 0.910  Wilks 0.905
+   true -3.581e-11: Neyman 0.929  Wilks 0.880
+   true -0.000e+00: Neyman 0.948  Wilks 0.875
+   true +3.581e-11: Neyman 0.931  Wilks 0.881
+   true +8.953e-11: Neyman 0.927  Wilks 0.921
+
+[leave_one_out without GW230627_015337] expected 90% interval [-4.24e-11, +5.80e-11] m^2; contiguous 0.62; edge 0.000; critical values 1.76–4.72
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -1.786e-10: Neyman 0.915  Wilks 0.907
+   true -7.143e-11: Neyman 0.919  Wilks 0.884
+   true -0.000e+00: Neyman 0.959  Wilks 0.828
+   true +7.143e-11: Neyman 0.942  Wilks 0.893
+   true +1.786e-10: Neyman 0.921  Wilks 0.898
+
+joint f2/f3/f4 condition 322, f3 inflation x8.6; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official
+written primary_catalog_confirm_eob.json
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+catalog: 22 pairs, grid ±8 x 6.508e-11 m^2 (321 points), N_eff 3.06
+  GW150914 C01:IMRPhenomXPHM: 42 s (subspaces A, B)
+  GW170104 C01:IMRPhenomXPHM: 82 s (subspaces A, B)
+  GW170809 C01:IMRPhenomXPHM: 43 s (subspaces A, B)
+  GW170814 C01:IMRPhenomXPHM: 64 s (subspaces A, B)
+  GW170818 C01:IMRPhenomXPHM: 64 s (subspaces A, B)
+  GW190408_181802 C01:IMRPhenomXPHM: 132 s (subspaces A, B)
+  GW190412 C01:IMRPhenomXPHM: 261 s (subspaces A, B)
+  GW190503_185404 C01:IMRPhenomXPHM: 66 s (subspaces A, B)
+  GW190513_205428 C01:IMRPhenomXPHM: 71 s (subspaces A, B)
+  GW190519_153544 C01:IMRPhenomXPHM: 37 s (subspaces A, B)
+  GW190521_074359 C01:IMRPhenomXPHM: 12 s (subspaces A, B)
+  GW190630_185205 C01:IMRPhenomXPHM: 43 s (subspaces A, B)
+  GW190706_222641 C01:IMRPhenomXPHM: 43 s (subspaces A, B)
+  GW190708_232457 C01:IMRPhenomXPHM: 186 s (subspaces A, B)
+  GW190910_112807 C01:IMRPhenomXPHM: 24 s (subspaces A, B)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+  GW191129_134029 C01:IMRPhenomXPHM: 420 s (subspaces A, B)
+  GW191216_213338 C01:IMRPhenomXPHM: 406 s (subspaces A, B)
+  GW191222_033537 C01:IMRPhenomXPHM: 43 s (subspaces A, B)
+  GW200112_155838 C01:IMRPhenomXPHM: 44 s (subspaces A, B)
+  GW200129_065458 C01:IMRPhenomXPHM: 123 s (subspaces A, B)
+  GW200224_222234 C01:IMRPhenomXPHM: 34 s (subspaces A, B)
+  GW200311_115853 C01:IMRPhenomXPHM: 65 s (subspaces A, B)
+
+leave-one-out without GW191129_134029: own grid ±8 x 1.108e-10 m^2
+
+[all] expected 90% interval [-1.04e-10, +1.17e-10] m^2; contiguous 0.55; edge 0.001; critical values 1.93–4.76
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -2.603e-10: Neyman 0.928  Wilks 0.898
+   true -1.041e-10: Neyman 0.925  Wilks 0.824
+   true -0.000e+00: Neyman 0.942  Wilks 0.816
+   true +1.041e-10: Neyman 0.921  Wilks 0.826
+   true +2.603e-10: Neyman 0.921  Wilks 0.875
+
+[leave_one_out without GW191129_134029] expected 90% interval [-1.27e-10, +1.61e-10] m^2; contiguous 0.75; edge 0.000; critical values 1.62–4.38
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -4.433e-10: Neyman 0.922  Wilks 0.911
+   true -1.773e-10: Neyman 0.938  Wilks 0.880
+   true -0.000e+00: Neyman 0.940  Wilks 0.858
+   true +1.773e-10: Neyman 0.925  Wilks 0.856
+   true +4.433e-10: Neyman 0.931  Wilks 0.915
+
+joint f2/f3/f4 condition 487, f3 inflation x10.6; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official
+written diag_D_catalog_search_xphm_intersection.json
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+catalog: 22 pairs, grid ±8 x 3.043e-11 m^2 (321 points), N_eff 3.28
+  GW150914 C01:SEOBNRv4PHM: 39 s (subspaces A, B)
+  GW170104 C01:SEOBNRv4PHM: 83 s (subspaces A, B)
+  GW170809 C01:SEOBNRv4PHM: 40 s (subspaces A, B)
+  GW170814 C01:SEOBNRv4PHM: 60 s (subspaces A, B)
+  GW170818 C01:SEOBNRv4PHM: 58 s (subspaces A, B)
+  GW190408_181802 C01:SEOBNRv4PHM: 118 s (subspaces A, B)
+  GW190412 C01:SEOBNRv4PHM: 242 s (subspaces A, B)
+  GW190503_185404 C01:SEOBNRv4PHM: 60 s (subspaces A, B)
+  GW190513_205428 C01:SEOBNRv4PHM: 60 s (subspaces A, B)
+  GW190519_153544 C01:SEOBNRv4PHM: 33 s (subspaces A, B)
+  GW190521_074359 C01:SEOBNRv4PHM: 12 s (subspaces A, B)
+  GW190630_185205 C01:SEOBNRv4PHM: 41 s (subspaces A, B)
+  GW190706_222641 C01:SEOBNRv4PHM: 42 s (subspaces A, B)
+  GW190708_232457 C01:SEOBNRv4PHM: 170 s (subspaces A, B)
+  GW190910_112807 C01:SEOBNRv4PHM: 23 s (subspaces A, B)
+  GW191129_134029 C01:SEOBNRv4PHM: 703 s (subspaces A, B)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+  GW191216_213338 C01:SEOBNRv4PHM: 729 s (subspaces A, B)
+  GW191222_033537 C01:SEOBNRv4PHM: 41 s (subspaces A, B)
+  GW200112_155838 C01:SEOBNRv4PHM: 41 s (subspaces A, B)
+  GW200129_065458 C01:SEOBNRv4PHM: 112 s (subspaces A, B)
+  GW200224_222234 C01:SEOBNRv4PHM: 32 s (subspaces A, B)
+  GW200311_115853 C01:SEOBNRv4PHM: 58 s (subspaces A, B)
+
+leave-one-out without GW191129_134029: own grid ±8 x 5.315e-11 m^2
+
+[all] expected 90% interval [-4.56e-11, +4.56e-11] m^2; contiguous 0.62; edge 0.006; critical values 2.17–4.89
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -1.217e-10: Neyman 0.925  Wilks 0.841
+   true -4.869e-11: Neyman 0.925  Wilks 0.815
+   true -0.000e+00: Neyman 0.924  Wilks 0.822
+   true +4.869e-11: Neyman 0.924  Wilks 0.801
+   true +1.217e-10: Neyman 0.921  Wilks 0.861
+
+[leave_one_out without GW191129_134029] expected 90% interval [-6.38e-11, +5.85e-11] m^2; contiguous 0.77; edge 0.000; critical values 1.79–4.68
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -2.126e-10: Neyman 0.917  Wilks 0.857
+   true -8.503e-11: Neyman 0.929  Wilks 0.810
+   true -0.000e+00: Neyman 0.931  Wilks 0.849
+   true +8.503e-11: Neyman 0.927  Wilks 0.831
+   true +2.126e-10: Neyman 0.929  Wilks 0.891
+
+joint f2/f3/f4 condition 215, f3 inflation x7.1; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official
+written diag_D_catalog_search_eob_intersection.json

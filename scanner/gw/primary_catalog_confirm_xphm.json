@@ -1,0 +1,188 @@
+{
+ "status": "official",
+ "code_sha256": "22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9",
+ "pairs": [
+  [
+   "GW230601_224134",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   5.804901467291108e-10
+  ],
+  [
+   "GW230627_015337",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   3.694953419249184e-11
+  ],
+  [
+   "GW230628_231200",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   3.9817037980332883e-10
+  ],
+  [
+   "GW230731_215307",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   1.0677741790966632e-10
+  ],
+  [
+   "GW230811_032116",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   5.209650001767907e-10
+  ],
+  [
+   "GW230914_111401",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   1.5737513891834028e-09
+  ],
+  [
+   "GW230919_215712",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   2.6845058235314907e-10
+  ],
+  [
+   "GW230922_020344",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   3.9814641292849963e-10
+  ],
+  [
+   "GW230922_040658",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   6.117662893493972e-10
+  ],
+  [
+   "GW230924_124453",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   4.796102623578659e-10
+  ],
+  [
+   "GW230927_043729",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   4.83158755195836e-10
+  ],
+  [
+   "GW230927_153832",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   2.4557000150205526e-10
+  ],
+  [
+   "GW231020_142947",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   5.6525735871797447e-11
+  ],
+  [
+   "GW231028_153006",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   4.88462337959327e-09
+  ],
+  [
+   "GW231102_071736",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   1.2773579585499113e-09
+  ],
+  [
+   "GW231108_125142",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   1.4075567046135578e-10
+  ],
+  [
+   "GW231206_233134",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   3.65074364975746e-10
+  ],
+  [
+   "GW231206_233901",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   6.772669078152116e-10
+  ],
+  [
+   "GW231224_024321",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   2.3373615185674025e-11
+  ],
+  [
+   "GW231226_101520",
+   "C00:IMRPhenomXPHM-SpinTaylor",
+   5.721183161897147e-10
+  ]
+ ],
+ "N_eff": 2.3877723312782,
+ "grid": [
+  -1.869889214853922e-10,
+  1.869889214853922e-10,
+  1.16868075928371e-12
+ ],
+ "joint_condition": 330.95083890398655,
+ "joint_inflation_f3": 8.726457348533122,
+ "belt_trials": 5000,
+ "exp_trials": 2000,
+ "all": {
+  "exp_lower_median": -2.921701898209253e-11,
+  "exp_upper_median": 3.389174201922734e-11,
+  "contiguous": 0.856,
+  "edge": 0.0,
+  "coverage": {
+   "-9.349e-11": {
+    "neyman": 0.9265,
+    "wilks": 0.913
+   },
+   "-3.740e-11": {
+    "neyman": 0.9315,
+    "wilks": 0.888
+   },
+   "-0.000e+00": {
+    "neyman": 0.951,
+    "wilks": 0.891
+   },
+   "+3.740e-11": {
+    "neyman": 0.942,
+    "wilks": 0.8995
+   },
+   "+9.349e-11": {
+    "neyman": 0.9175,
+    "wilks": 0.91
+   }
+  },
+  "subspaces": 2,
+  "critical_values": [
+   1.6407066521853395,
+   4.008399317104143
+  ]
+ },
+ "leave_one_out": {
+  "left_out": "GW231224_024321",
+  "grid": [
+   -2.955962735399347e-10,
+   2.955962735399347e-10,
+   1.8474767096245625e-12
+  ],
+  "exp_lower_median": -4.064448761174103e-11,
+  "exp_upper_median": 4.249196432136561e-11,
+  "contiguous": 0.893,
+  "edge": 0.0,
+  "coverage": {
+   "-1.478e-10": {
+    "neyman": 0.9165,
+    "wilks": 0.9145
+   },
+   "-5.912e-11": {
+    "neyman": 0.9295,
+    "wilks": 0.897
+   },
+   "-0.000e+00": {
+    "neyman": 0.95,
+    "wilks": 0.922
+   },
+   "+5.912e-11": {
+    "neyman": 0.9495,
+    "wilks": 0.906
+   },
+   "+1.478e-10": {
+    "neyman": 0.92,
+    "wilks": 0.9105
+   }
+  },
+  "subspaces": 2,
+  "critical_values": [
+   1.5138224449250055,
+   4.461626611998202
+  ]
+ }
+}

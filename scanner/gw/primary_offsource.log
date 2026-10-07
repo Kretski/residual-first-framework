@@ -1,0 +1,193 @@
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+GW150914           C01:IMRPhenomXPHM              segments 8  c0 3.26  (25 s)
+GW170104           C01:IMRPhenomXPHM              segments 8  c0 4.90  (42 s)
+GW170809           C01:IMRPhenomXPHM              segments 8  c0 5.14  (27 s)
+GW170814           C01:IMRPhenomXPHM              segments 8  c0 4.28  (36 s)
+GW170818           C01:IMRPhenomXPHM              segments 8  c0 5.03  (35 s)
+GW170823           C01:IMRPhenomXPHM              segments 8  c0 4.40  (25 s)
+GW190408_181802    C01:IMRPhenomXPHM              segments 8  c0 4.12  (66 s)
+GW190412           C01:IMRPhenomXPHM              segments 8  c0 4.75  (130 s)
+GW190503_185404    C01:IMRPhenomXPHM              segments 8  c0 5.58  (36 s)
+GW190513_205428    C01:IMRPhenomXPHM              segments 8  c0 5.78  (37 s)
+GW190519_153544    C01:IMRPhenomXPHM              segments 8  c0 5.70  (21 s)
+GW190521_074359    C01:IMRPhenomXPHM              segments 8  c0 2.84  (12 s)
+GW190630_185205    C01:IMRPhenomXPHM              segments 8  c0 4.69  (25 s)
+GW190706_222641    C01:IMRPhenomXPHM              segments 8  c0 6.68  (25 s)
+GW190708_232457    C01:IMRPhenomXPHM              segments 8  c0 6.20  (92 s)
+GW190910_112807    C01:IMRPhenomXPHM              segments 8  c0 4.17  (15 s)
+GW191109_010717    C01:IMRPhenomXPHM              segments 8  c0 6.77  (16 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/module1_run.py:495: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+GW191129_134029    C01:IMRPhenomXPHM              segments 8  c0 6.67  (217 s)
+GW191216_213338    C01:IMRPhenomXPHM              segments 8  c0 5.13  (225 s)
+GW191222_033537    C01:IMRPhenomXPHM              segments 8  c0 5.07  (24 s)
+GW200112_155838    C01:IMRPhenomXPHM              segments 8  c0 3.56  (25 s)
+GW200129_065458    C01:IMRPhenomXPHM              segments 8  c0 4.31  (59 s)
+GW200224_222234    C01:IMRPhenomXPHM              segments 8  c0 4.71  (23 s)
+GW200311_115853    C01:IMRPhenomXPHM              segments 8  c0 5.00  (35 s)
+C    coverage 167/192 = 0.870; 99% interval around 0.90: 0.844–0.956 -> within the interval
+ref  coverage 166/192 = 0.865; 99% interval around 0.90: 0.844–0.956 -> diagnostic
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+GW150914           C01:SEOBNRv4PHM                segments 8  c0 3.31  (49 s)
+GW170104           C01:SEOBNRv4PHM                segments 8  c0 5.57  (71 s)
+GW170809           C01:SEOBNRv4PHM                segments 8  c0 4.82  (50 s)
+GW170814           C01:SEOBNRv4PHM                segments 8  c0 4.10  (61 s)
+GW170818           C01:SEOBNRv4PHM                segments 8  c0 3.71  (61 s)
+GW190408_181802    C01:SEOBNRv4PHM                segments 8  c0 4.56  (88 s)
+GW190412           C01:SEOBNRv4PHM                segments 8  c0 5.34  (157 s)
+GW190503_185404    C01:SEOBNRv4PHM                segments 8  c0 5.27  (57 s)
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+GW190512_180714    C01:SEOBNRv4PHM                segments 8  c0 5.05  (97 s)
+GW190513_205428    C01:SEOBNRv4PHM                segments 8  c0 4.71  (59 s)
+GW190519_153544    C01:SEOBNRv4PHM                segments 8  c0 6.25  (45 s)
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+GW190521_074359    C01:SEOBNRv4PHM                segments 8  c0 3.73  (35 s)
+GW190620_030421    C01:SEOBNRv4PHM                segments 8  c0 5.93  (43 s)
+GW190630_185205    C01:SEOBNRv4PHM                segments 8  c0 5.72  (54 s)
+GW190706_222641    C01:SEOBNRv4PHM                segments 8  c0 6.09  (53 s)
+GW190708_232457    C01:SEOBNRv4PHM                segments 8  c0 5.24  (143 s)
+GW190910_112807    C01:SEOBNRv4PHM                segments 8  c0 5.04  (44 s)
+GW190915_235702    C01:SEOBNRv4PHM                segments 8  c0 5.42  (89 s)
+GW191129_134029    C01:SEOBNRv4PHM                segments 8  c0 5.95  (470 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/module1_run.py:495: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+GW191216_213338    C01:SEOBNRv4PHM                segments 8  c0 5.63  (436 s)
+GW191222_033537    C01:SEOBNRv4PHM                segments 8  c0 5.83  (51 s)
+GW200112_155838    C01:SEOBNRv4PHM                segments 8  c0 4.08  (48 s)
+GW200129_065458    C01:SEOBNRv4PHM                segments 8  c0 3.79  (79 s)
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+GW200224_222234    C01:SEOBNRv4PHM                segments 8  c0 4.59  (43 s)
+GW200311_115853    C01:SEOBNRv4PHM                segments 8  c0 3.93  (57 s)
+C    coverage 155/200 = 0.775; 99% interval around 0.90: 0.845–0.955 -> STOP: below the 99% binomial interval around 0.90
+ref  coverage 170/200 = 0.850; 99% interval around 0.90: 0.845–0.955 -> diagnostic
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+GW230601_224134    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 6.36  (17 s)
+GW230627_015337    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 3.56  (769 s)
+GW230628_231200    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 4.97  (25 s)
+GW230731_215307    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 8.11  (370 s)
+GW230811_032116    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 5.95  (26 s)
+GW230914_111401    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 5.86  (26 s)
+GW230919_215712    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 4.21  (46 s)
+GW230922_020344    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 5.62  (25 s)
+GW230922_040658    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 6.56  (24 s)
+GW230924_124453    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 3.31  (24 s)
+GW230927_043729    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 5.74  (24 s)
+GW230927_153832    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 3.66  (47 s)
+GW231020_142947    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 6.03  (387 s)
+GW231028_153006    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 4.89  (25 s)
+GW231102_071736    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 6.46  (15 s)
+GW231108_125142    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 4.26  (43 s)
+GW231206_233134    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 5.29  (23 s)
+GW231206_233901    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 4.59  (24 s)
+GW231224_024321    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 5.16  (352 s)
+GW231226_101520    C00:IMRPhenomXPHM-SpinTaylor   segments 8  c0 3.67  (16 s)
+C    coverage 146/160 = 0.912; 99% interval around 0.90: 0.839–0.961 -> within the interval
+ref  coverage 146/160 = 0.912; 99% interval around 0.90: 0.839–0.961 -> diagnostic
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+status: official (code hash matches v1.0-module1)
+GW230601_224134    C00:SEOBNRv5PHM                segments 8  c0 5.19  (24 s)
+GW230627_015337    C00:SEOBNRv5PHM                segments 8  c0 4.22  (747 s)
+GW230628_231200    C00:SEOBNRv5PHM                segments 8  c0 5.19  (25 s)
+GW230731_215307    C00:SEOBNRv5PHM                segments 8  c0 6.25  (353 s)
+GW230811_032116    C00:SEOBNRv5PHM                segments 8  c0 5.75  (24 s)
+GW230914_111401    C00:SEOBNRv5PHM                segments 8  c0 5.35  (25 s)
+GW230919_215712    C00:SEOBNRv5PHM                segments 8  c0 5.09  (44 s)
+GW230922_020344    C00:SEOBNRv5PHM                segments 8  c0 4.90  (24 s)
+GW230922_040658    C00:SEOBNRv5PHM                segments 8  c0 5.22  (23 s)
+GW230924_124453    C00:SEOBNRv5PHM                segments 8  c0 4.04  (23 s)
+GW230927_043729    C00:SEOBNRv5PHM                segments 8  c0 5.59  (23 s)
+GW230927_153832    C00:SEOBNRv5PHM                segments 8  c0 4.13  (42 s)
+GW231020_142947    C00:SEOBNRv5PHM                segments 8  c0 7.35  (353 s)
+GW231028_153006    C00:SEOBNRv5PHM                segments 8  c0 4.63  (25 s)
+GW231102_071736    C00:SEOBNRv5PHM                segments 8  c0 5.24  (15 s)
+GW231108_125142    C00:SEOBNRv5PHM                segments 8  c0 5.39  (44 s)
+GW231206_233134    C00:SEOBNRv5PHM                segments 8  c0 5.68  (23 s)
+GW231206_233901    C00:SEOBNRv5PHM                segments 8  c0 5.20  (24 s)
+GW231224_024321    C00:SEOBNRv5PHM                segments 8  c0 6.73  (352 s)
+GW231226_101520    C00:SEOBNRv5PHM                segments 8  c0 4.68  (17 s)
+C    coverage 145/160 = 0.906; 99% interval around 0.90: 0.839–0.961 -> within the interval
+ref  coverage 144/160 = 0.900; 99% interval around 0.90: 0.839–0.961 -> diagnostic
