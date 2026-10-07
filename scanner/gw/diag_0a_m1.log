@@ -1,0 +1,32 @@
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+controls (smallest |dt_ms|, SEOBNRv4PHM): ['GW190408_181802', 'GW191216_213338', 'GW200112_155838', 'GW190519_153544']
+  GW150914           C01:SEOBNRv4PHM        failing       shift median   +2.95 ms  sd   3.36  |shift|>10ms 0.00  |a| 0.837  coverage 4/8  (200 samples, 680 s)
+  GW170814           C01:SEOBNRv4PHM        failing       shift median   -0.35 ms  sd   2.68  |shift|>10ms 0.04  |a| 1.043  coverage 4/8  (200 samples, 756 s)
+  GW190706_222641    C01:SEOBNRv4PHM        failing       shift median  -22.50 ms  sd  17.26  |shift|>10ms 0.81  |a| 0.815  coverage 4/8  (200 samples, 659 s)
+  GW200129_065458    C01:SEOBNRv4PHM        failing       shift median   +0.20 ms  sd   1.96  |shift|>10ms 0.00  |a| 0.762  coverage 4/8  (200 samples, 833 s)
+  GW190408_181802    C01:SEOBNRv4PHM        control       shift median   +0.15 ms  sd   8.65  |shift|>10ms 0.06  |a| 0.919  coverage 6/8  (200 samples, 918 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/diag_0a_m1.py:94: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+  GW191216_213338    C01:SEOBNRv4PHM        control       shift median   -0.73 ms  sd  12.69  |shift|>10ms 0.14  |a| 0.871  coverage 8/8  (200 samples, 3395 s)
+  GW200112_155838    C01:SEOBNRv4PHM        control       shift median  +37.45 ms  sd  14.97  |shift|>10ms 0.78  |a| 0.882  coverage 7/8  (200 samples, 637 s)
+  GW190519_153544    C01:SEOBNRv4PHM        control       shift median   +0.05 ms  sd  17.93  |shift|>10ms 0.30  |a| 0.869  coverage 6/8  (200 samples, 608 s)
+  GW150914           C01:IMRPhenomXPHM      failing-XPHM  shift median   +0.20 ms  sd   0.10  |shift|>10ms 0.00  |a| 1.078  coverage 7/8  (200 samples, 142 s)
+  GW170814           C01:IMRPhenomXPHM      failing-XPHM  shift median   -0.15 ms  sd   0.14  |shift|>10ms 0.00  |a| 1.016  coverage 8/8  (200 samples, 193 s)
+  GW190706_222641    C01:IMRPhenomXPHM      failing-XPHM  shift median   -0.00 ms  sd   0.57  |shift|>10ms 0.00  |a| 0.885  coverage 7/8  (200 samples, 164 s)
+  GW200129_065458    C01:IMRPhenomXPHM      failing-XPHM  shift median   -0.10 ms  sd   0.10  |shift|>10ms 0.00  |a| 0.983  coverage 8/8  (200 samples, 301 s)
+
+Measurement 1(ii) summary (reported whatever the outcome):
+  GW150914           failing       median   +2.95 ms  sd   3.36  frac>10ms 0.00  |a| 0.837  coverage 4/8
+  GW170814           failing       median   -0.35 ms  sd   2.68  frac>10ms 0.04  |a| 1.043  coverage 4/8
+  GW190706_222641    failing       median  -22.50 ms  sd  17.26  frac>10ms 0.81  |a| 0.815  coverage 4/8
+  GW200129_065458    failing       median   +0.20 ms  sd   1.96  frac>10ms 0.00  |a| 0.762  coverage 4/8
+  GW190408_181802    control       median   +0.15 ms  sd   8.65  frac>10ms 0.06  |a| 0.919  coverage 6/8
+  GW191216_213338    control       median   -0.73 ms  sd  12.69  frac>10ms 0.14  |a| 0.871  coverage 8/8
+  GW200112_155838    control       median  +37.45 ms  sd  14.97  frac>10ms 0.78  |a| 0.882  coverage 7/8
+  GW190519_153544    control       median   +0.05 ms  sd  17.93  frac>10ms 0.30  |a| 0.869  coverage 6/8
+  GW150914           failing-XPHM  median   +0.20 ms  sd   0.10  frac>10ms 0.00  |a| 1.078  coverage 7/8
+  GW170814           failing-XPHM  median   -0.15 ms  sd   0.14  frac>10ms 0.00  |a| 1.016  coverage 8/8
+  GW190706_222641    failing-XPHM  median   -0.00 ms  sd   0.57  frac>10ms 0.00  |a| 0.885  coverage 7/8
+  GW200129_065458    failing-XPHM  median   -0.10 ms  sd   0.10  frac>10ms 0.00  |a| 0.983  coverage 8/8
