@@ -38,6 +38,30 @@ import tempfile
 
 import numpy as np
 
+# ---- light batch worker: dispatched BEFORE the heavy imports (no bilby, no driver, no PE read)
+if __name__ == "__main__" and len(sys.argv) >= 2 and sys.argv[1] == "_lworker":
+    import residual_check as _rcw
+    _job = json.load(open(sys.argv[2], encoding="utf-8"))
+    _st = _job["st"]
+    _out = {"ok": [], "f": None, "hp": [], "hc": [], "err": []}
+    for _s in _job["samples"]:
+        try:
+            _f, _hp, _hc = _rcw.polarizations(_job["label"], _s, _st)
+            if _out["f"] is None:
+                _out["f"] = _f
+            _out["ok"].append(True); _out["hp"].append(_hp); _out["hc"].append(_hc); _out["err"].append("")
+        except Exception as _exc:
+            _out["ok"].append(False); _out["hp"].append(None); _out["hc"].append(None)
+            _out["err"].append(f"{type(_exc).__name__}: {_exc}"[:200])
+    _nf = len(_out["f"]) if _out["f"] is not None else 0
+    _HP = np.zeros((len(_out["ok"]), _nf), complex); _HC = np.zeros_like(_HP)
+    for _k, _ok in enumerate(_out["ok"]):
+        if _ok:
+            _HP[_k] = _out["hp"][_k]; _HC[_k] = _out["hc"][_k]
+    np.savez(sys.argv[3], f=(_out["f"] if _out["f"] is not None else np.zeros(0)), hp=_HP, hc=_HC,
+             ok=np.array(_out["ok"]), err=np.array(_out["err"]))
+    sys.exit(0)
+
 import module1_run as run                     # installs the on-source safeguard
 import h5py                                   # noqa: E402
 import module1_catalog as mc                  # noqa: E402
@@ -109,42 +133,52 @@ def _dworker(pe_file, label, sample_json, out_npz):
     np.savez(out_npz, f=f, hp=hp, hc=hc)
 
 
-def _run_dworker(pe_file, label, sample, timeout_s=120):
-    """Run one waveform generation in a fresh interpreter and return (ok, arrays, reason)."""
-    fd, out_npz = tempfile.mkstemp(prefix="v2_d_", suffix=".npz")
-    os.close(fd)
+def _run_lworker(label, st, samples, timeout_s):
+    """One light worker for a batch of samples. Returns (crashed, results) where results is a
+    list of (ok, (f, hp, hc) or None, reason)."""
+    fdj, job = tempfile.mkstemp(prefix="v2_job_", suffix=".json"); os.close(fdj)
+    fdo, out = tempfile.mkstemp(prefix="v2_out_", suffix=".npz"); os.close(fdo)
     try:
-        cmd = [
-            sys.executable, os.path.abspath(__file__), "_dworker",
-            pe_file, label, json.dumps(sample, sort_keys=True, separators=(",", ":")),
-            out_npz,
-        ]
-        p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                           timeout=timeout_s, check=False, text=True)
-        if p.returncode != 0:
-            tail = (p.stderr or p.stdout or "").strip().splitlines()
-            reason = f"worker_returncode={p.returncode}"
-            if tail:
-                reason += " | " + " | ".join(tail[-3:])
-            return False, None, reason
-        if not os.path.exists(out_npz):
-            return False, None, "worker_no_output"
-        with np.load(out_npz) as z:
-            f = z["f"]
-            hp = z["hp"]
-            hc = z["hc"]
-        if not (np.all(np.isfinite(f)) and np.all(np.isfinite(hp)) and np.all(np.isfinite(hc))):
-            return False, None, "worker_nonfinite"
-        return True, (f, hp, hc), ""
+        json.dump({"label": label, "st": st, "samples": samples}, open(job, "w", encoding="utf-8"))
+        p = subprocess.run([sys.executable, os.path.abspath(__file__), "_lworker", job, out],
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                           timeout=timeout_s * max(1, len(samples)), check=False)
+        if p.returncode != 0 or not os.path.exists(out) or os.path.getsize(out) == 0:
+            tail = (p.stderr or "").strip().splitlines()
+            return True, f"returncode={p.returncode}" + (" | " + " | ".join(tail[-2:]) if tail else "")
+        with np.load(out) as z:
+            f, HP, HC, ok, err = z["f"], z["hp"], z["hc"], z["ok"], z["err"]
+        res = []
+        for k in range(len(samples)):
+            if ok[k] and np.all(np.isfinite(HP[k])) and np.all(np.isfinite(HC[k])):
+                res.append((True, (f, HP[k], HC[k]), ""))
+            else:
+                res.append((False, None, str(err[k]) or "nonfinite"))
+        return False, res
     except subprocess.TimeoutExpired:
-        return False, None, f"worker_timeout>{timeout_s}s"
-    except Exception as exc:
-        return False, None, f"worker_parent_error:{type(exc).__name__}:{exc}"
+        return True, f"timeout>{timeout_s * max(1, len(samples))}s"
     finally:
-        try:
-            os.unlink(out_npz)
-        except FileNotFoundError:
-            pass
+        for fn in (job, out):
+            try:
+                os.unlink(fn)
+            except FileNotFoundError:
+                pass
+
+
+def generate_isolated(label, st, samples, timeout_s, batch=25):
+    """Polarizations for a list of samples in light workers, batch by batch; a crashed batch is
+    re-run one sample per worker, so a native crash only ever removes the crashing sample."""
+    out = []
+    for b0 in range(0, len(samples), batch):
+        chunk = samples[b0:b0 + batch]
+        crashed, res = _run_lworker(label, st, chunk, timeout_s)
+        if not crashed:
+            out.extend(res)
+            continue
+        for s1 in chunk:
+            c1, r1 = _run_lworker(label, st, [s1], timeout_s)
+            out.append((False, None, f"native_crash:{r1}") if c1 else r1[0])
+    return out
 
 
 def stage_dset(args, chash1, h2, status):
@@ -163,7 +197,7 @@ def stage_dset(args, chash1, h2, status):
             m = json.load(open(js))
             if (m.get("code_sha256_v1") == chash1 and
                     m.get("n_D") == args.dset_n and
-                    m.get("rule") == "cross-sets-isolated-v1-permutation"):
+                    m.get("rule") == "cross-sets-refined-isolated-v2"):
                 print(f"=== {ev} {label}: cross-set samples cached, skipped", flush=True)
                 continue
 
@@ -198,69 +232,56 @@ def stage_dset(args, chash1, h2, status):
         if not by_position:
             print(f"  WARNING: {ev} {label}: the v1.0 build had {e['meta']['fails']} failures; A/B "
                   f"membership follows the sequential rule and may differ from the build", flush=True)
+        st_json = json.loads(json.dumps(st))
+        Seff = {ii: 4 * (e["fb"][1] - e["fb"][0]) / e["net"].sw[ii] ** 2 for ii in e["meta"]["ifos"]}
+        calf = {ii: e["sb"][ii].mean_factor(e["fb"]) for ii in e["meta"]["ifos"]}
+        BATCH = 25
         while (mA < n_target or mB < n_target) and pos < max_scan:
             if by_position:
                 if mA >= n_target and pos < n:
-                    pos = n                                   # A complete: jump to the start of B
+                    pos = n
                 if pos >= 2 * n:
-                    break                                     # beyond set B
-            j = int(idx[pos])
-            pos += 1
-            in_A = (pos - 1) < n if by_position else usable < n
-
-            # Once a set has enough samples, continue walking only until the other set
-            # reaches its target; the usable counter still follows the original A/B rule.
-            s = {k: float(tab[k][j]) for k in me.NEED}
-            ok, pol, reason = _run_dworker(pe_file, label, s, timeout_s=args.worker_timeout)
-
-            if not ok:
-                failures.append({
-                    "perm_pos": pos - 1,
-                    "posterior_index": j,
-                    "set": "A" if in_A else "B",
-                    "reason": reason,
-                })
-                continue
-
-            f, hp, hc = pol
-            # Exact parent-side projection/calibration path from the original code.
-            try:
-                if not np.allclose(f[band], e["fb"]):
-                    raise RuntimeError("worker frequency band differs from cache")
-                calf = {ii: e["sb"][ii].mean_factor(e["fb"]) for ii in e["meta"]["ifos"]}
-                net_h = {
-                    ii: me.rc.project(f, hp, hc, ii, s, seg_on)[band] * calf[ii]
-                    for ii in e["meta"]["ifos"]
-                }
-                vec = e["net"].stack(net_h) - href_s
-                if not np.all(np.isfinite(vec)):
-                    raise RuntimeError("projected mismatch is nonfinite")
-            except Exception as exc:
-                failures.append({
-                    "perm_pos": pos - 1,
-                    "posterior_index": j,
-                    "set": "A" if in_A else "B",
-                    "reason": f"parent_projection:{type(exc).__name__}:{exc}",
-                })
-                continue
-
-            if in_A and mA < n_target:
-                LA[mA] = vec
-                mA += 1
-            elif (not in_A) and mB < n_target:
-                LB[mB] = vec
-                mB += 1
-
-            usable += 1
-
-            if (mA + mB) % 10 == 0 or (mA + mB) == 1:
-                print(
-                    f"    cross-set samples {mA + mB}/{2 * n_target} "
-                    f"(A {mA}/{n_target}, B {mB}/{n_target}; "
-                    f"scan {pos}; failures {len(failures)}) "
-                    f"({time.time() - t0:.0f} s)",
-                    flush=True,
-                )
+                    break
+                lim = n if pos < n else 2 * n                   # stay inside the current set
+                need = (n_target - mA) if pos < n else (n_target - mB)
+                nb = min(BATCH, need, lim - pos)
+            else:
+                nb = min(BATCH, max_scan - pos)
+            positions = list(range(pos, pos + nb))
+            samples = [{k: float(tab[k][int(idx[q])]) for k in me.NEED} for q in positions]
+            results = generate_isolated(label, st_json, samples, args.worker_timeout, batch=BATCH)
+            pos += nb
+            for q, s, (ok, pol, reason) in zip(positions, samples, results):
+                j = int(idx[q])
+                in_A = (q < n) if by_position else (usable < n)
+                if not ok:
+                    failures.append({"perm_pos": q, "posterior_index": j, "set": "A" if in_A else "B",
+                                     "reason": reason})
+                    continue
+                f, hp, hc = pol
+                try:
+                    if not np.allclose(f[band], e["fb"]):
+                        raise RuntimeError("worker frequency band differs from cache")
+                    net_h = {ii: me.rc.project(f, hp, hc, ii, s, seg_on)[band] * calf[ii]
+                             for ii in e["meta"]["ifos"]}
+                    # the same refinement as the analysis chain (time shift, complex amplitude)
+                    r, _, _ = mo.refine(net_h, e["href"], Seff, e["fb"][1] - e["fb"][0], fb=e["fb"])
+                    vec = e["net"].stack(r)
+                    if not np.all(np.isfinite(vec)):
+                        raise RuntimeError("refined residual is nonfinite")
+                except Exception as exc:
+                    failures.append({"perm_pos": q, "posterior_index": j, "set": "A" if in_A else "B",
+                                     "reason": f"parent:{type(exc).__name__}:{exc}"})
+                    continue
+                if in_A and mA < n_target:
+                    LA[mA] = vec
+                    mA += 1
+                elif (not in_A) and mB < n_target:
+                    LB[mB] = vec
+                    mB += 1
+                usable += 1
+            print(f"    cross-set samples {mA + mB}/{2 * n_target} (A {mA}/{n_target}, B {mB}/{n_target}; "
+                  f"scan {pos}; failures {len(failures)}) ({time.time() - t0:.0f} s)", flush=True)
 
         if mA < n_target or mB < n_target:
             fail_json = os.path.join(
@@ -293,7 +314,7 @@ def stage_dset(args, chash1, h2, status):
             {
                 "event": ev,
                 "label": label,
-                "rule": "cross-sets-isolated-v1-permutation",
+                "rule": "cross-sets-refined-isolated-v2",
                 "n_D": n_target,
                 "fails": len(failures),
                 "build_fails": e["meta"]["fails"],
