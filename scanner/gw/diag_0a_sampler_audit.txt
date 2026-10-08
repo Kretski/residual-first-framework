@@ -1,0 +1,4 @@
+Post-result descriptive audit (cannot change v1.0 or Gate 2): sampler of each search SEOBNRv4PHM label
+All 25 search SEOBNRv4PHM labels: LALInference. Within the cohort the sampler does not vary.
+Across cohorts: SEOBNRv4PHM/LALInference 155/200; SEOBNRv5PHM/bilby 145/160; IMRPhenomXPHM/bilby 313/352.
+Model and sampler are fully confounded; the public O1-O3 release has no other EOB label to separate them.
