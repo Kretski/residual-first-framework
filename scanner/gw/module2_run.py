@@ -33,6 +33,8 @@ import json
 import os
 import sys
 import time
+import subprocess
+import tempfile
 
 import numpy as np
 
@@ -91,60 +93,235 @@ def pair_setup(args, ev, label, r5, e):
     return st, tab, idx, seg_on, band, network_h
 
 
+def _dworker(pe_file, label, sample_json, out_npz):
+    """Native-isolation worker: generate only the polarizations for one posterior sample.
+
+    This process intentionally does not call module1_event.build() or the parent process'
+    network/projection objects. A native LALSimulation abort therefore terminates only this
+    worker; the parent records the sample as unusable and continues.
+    """
+    import f3_derivatives as f3
+    with h5py.File(pe_file, "r") as fh:
+        sample0, cfg, _ = f3.read_label(fh, label)
+        st = f3.settings(cfg)
+    sample = json.loads(sample_json)
+    f, hp, hc = me.rc.polarizations(label, sample, st)
+    np.savez(out_npz, f=f, hp=hp, hc=hc)
+
+
+def _run_dworker(pe_file, label, sample, timeout_s=120):
+    """Run one waveform generation in a fresh interpreter and return (ok, arrays, reason)."""
+    fd, out_npz = tempfile.mkstemp(prefix="v2_d_", suffix=".npz")
+    os.close(fd)
+    try:
+        cmd = [
+            sys.executable, os.path.abspath(__file__), "_dworker",
+            pe_file, label, json.dumps(sample, sort_keys=True, separators=(",", ":")),
+            out_npz,
+        ]
+        p = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                           timeout=timeout_s, check=False, text=True)
+        if p.returncode != 0:
+            tail = (p.stderr or p.stdout or "").strip().splitlines()
+            reason = f"worker_returncode={p.returncode}"
+            if tail:
+                reason += " | " + " | ".join(tail[-3:])
+            return False, None, reason
+        if not os.path.exists(out_npz):
+            return False, None, "worker_no_output"
+        with np.load(out_npz) as z:
+            f = z["f"]
+            hp = z["hp"]
+            hc = z["hc"]
+        if not (np.all(np.isfinite(f)) and np.all(np.isfinite(hp)) and np.all(np.isfinite(hc))):
+            return False, None, "worker_nonfinite"
+        return True, (f, hp, hc), ""
+    except subprocess.TimeoutExpired:
+        return False, None, f"worker_timeout>{timeout_s}s"
+    except Exception as exc:
+        return False, None, f"worker_parent_error:{type(exc).__name__}:{exc}"
+    finally:
+        try:
+            os.unlink(out_npz)
+        except FileNotFoundError:
+            pass
+
+
 def stage_dset(args, chash1, h2, status):
-    """First N_D samples of set A and of set B, exactly at the positions used by
-    module1_event.build (A = first n usable samples, B = next n usable)."""
+    """Build the registered cross-set D vectors with native waveform isolation.
+
+    Selection is deterministic: walk the exact v1.0 posterior permutation and retain the
+    first N_D usable samples for A, then the first N_D usable samples for B. A sample is
+    usable only if its isolated worker exits successfully and produces finite polarizations
+    on the registered frequency grid. Native failures are logged, never silently retried
+    in-process, and never used as a post-hoc selection criterion.
+    """
     os.makedirs(args.cache2, exist_ok=True)
     for ev, label, r5 in run.select(args):
         npz, js = d_paths(args, ev, label)
         if os.path.exists(npz) and os.path.exists(js):
             m = json.load(open(js))
-            if m.get("code_sha256_v1") == chash1 and m.get("n_D") == N_D and m.get("rule") == "cross-sets":
+            if (m.get("code_sha256_v1") == chash1 and
+                    m.get("n_D") == args.dset_n and
+                    m.get("rule") == "cross-sets-isolated-v1-permutation"):
                 print(f"=== {ev} {label}: cross-set samples cached, skipped", flush=True)
                 continue
+
         t0 = time.time()
         e = _ORIG_LOAD(args, ev, label, r5, chash1)
-        st, tab, idx, seg_on, band, network_h = pair_setup(args, ev, label, r5, e)
-        n, fails0 = e["meta"]["n"], e["meta"]["fails"]
+        st, tab, idx, seg_on, band, network_h_unused = pair_setup(args, ev, label, r5, e)
+        n = e["meta"]["n"]
         href_s = e["net"].stack(e["href"])
         rows = len(href_s)
-        LA = np.empty((N_D, rows), np.float32)    # from set A, used in the belts of subspace B
-        LB = np.empty((N_D, rows), np.float32)    # from set B, used in the belts of subspace A
-        pos, usable, fails, mA, mB = 0, 0, 0, 0, 0
-        # walk the permutation as build() did; without build failures A = idx[:n], B = idx[n:2n]
-        while (mA < N_D or mB < N_D) and pos < len(idx):
+
+        pe_file = os.path.join(args.pe_dir, r5["file"].split(" ")[0])
+        n_target = int(args.dset_n)
+        LA = np.empty((n_target, rows), np.float32)
+        LB = np.empty((n_target, rows), np.float32)
+
+        # Preserve the exact posterior permutation. Unlike the old implementation, no
+        # in-process call to rc.polarizations() is made here.
+        pos = 0
+        usable = 0
+        mA = 0
+        mB = 0
+        failures = []
+        max_scan = len(idx)
+
+        # Membership of A and B is that of the v1.0 build. With no build failures it is known
+        # exactly by permutation position (A = positions 0..n-1, B = n..2n-1), so a worker
+        # failure now cannot shift the A/B boundary, and positions that are not needed are
+        # skipped without generating them. With build failures, the boundary cannot be
+        # reconstructed without the v1.0 failure positions; the sequential rule is kept and
+        # flagged in the metadata.
+        by_position = (e["meta"]["fails"] == 0)
+        if not by_position:
+            print(f"  WARNING: {ev} {label}: the v1.0 build had {e['meta']['fails']} failures; A/B "
+                  f"membership follows the sequential rule and may differ from the build", flush=True)
+        while (mA < n_target or mB < n_target) and pos < max_scan:
+            if by_position:
+                if mA >= n_target and pos < n:
+                    pos = n                                   # A complete: jump to the start of B
+                if pos >= 2 * n:
+                    break                                     # beyond set B
             j = int(idx[pos])
             pos += 1
-            in_A = usable < n
-            if fails0 == 0:
-                if (in_A and mA >= N_D) or (not in_A and usable >= n + N_D):
-                    usable += 1
-                    continue
+            in_A = (pos - 1) < n if by_position else usable < n
+
+            # Once a set has enough samples, continue walking only until the other set
+            # reaches its target; the usable counter still follows the original A/B rule.
             s = {k: float(tab[k][j]) for k in me.NEED}
-            try:
-                vec = e["net"].stack(network_h(s)) - href_s
-            except Exception:
-                fails += 1
+            ok, pol, reason = _run_dworker(pe_file, label, s, timeout_s=args.worker_timeout)
+
+            if not ok:
+                failures.append({
+                    "perm_pos": pos - 1,
+                    "posterior_index": j,
+                    "set": "A" if in_A else "B",
+                    "reason": reason,
+                })
                 continue
-            if in_A and mA < N_D:
+
+            f, hp, hc = pol
+            # Exact parent-side projection/calibration path from the original code.
+            try:
+                if not np.allclose(f[band], e["fb"]):
+                    raise RuntimeError("worker frequency band differs from cache")
+                calf = {ii: e["sb"][ii].mean_factor(e["fb"]) for ii in e["meta"]["ifos"]}
+                net_h = {
+                    ii: me.rc.project(f, hp, hc, ii, s, seg_on)[band] * calf[ii]
+                    for ii in e["meta"]["ifos"]
+                }
+                vec = e["net"].stack(net_h) - href_s
+                if not np.all(np.isfinite(vec)):
+                    raise RuntimeError("projected mismatch is nonfinite")
+            except Exception as exc:
+                failures.append({
+                    "perm_pos": pos - 1,
+                    "posterior_index": j,
+                    "set": "A" if in_A else "B",
+                    "reason": f"parent_projection:{type(exc).__name__}:{exc}",
+                })
+                continue
+
+            if in_A and mA < n_target:
                 LA[mA] = vec
                 mA += 1
-            elif not in_A and mB < N_D:
+            elif (not in_A) and mB < n_target:
                 LB[mB] = vec
                 mB += 1
+
             usable += 1
-            if (mA + mB) % 100 == 0:
-                print(f"    cross-set samples {mA + mB}/{2 * N_D}  ({time.time() - t0:.0f} s)", flush=True)
-        if mA < N_D or mB < N_D:
-            raise RuntimeError(f"{ev} {label}: only {mA} set-A and {mB} set-B samples")
+
+            if (mA + mB) % 10 == 0 or (mA + mB) == 1:
+                print(
+                    f"    cross-set samples {mA + mB}/{2 * n_target} "
+                    f"(A {mA}/{n_target}, B {mB}/{n_target}; "
+                    f"scan {pos}; failures {len(failures)}) "
+                    f"({time.time() - t0:.0f} s)",
+                    flush=True,
+                )
+
+        if mA < n_target or mB < n_target:
+            fail_json = os.path.join(
+                args.cache2, f"{ev}__{label.replace(':', '_')}_D_failures.json"
+            )
+            json.dump(
+                {
+                    "event": ev,
+                    "label": label,
+                    "target": n_target,
+                    "A": mA,
+                    "B": mB,
+                    "scanned": pos,
+                    "failures": failures,
+                    "code_sha256_v1": chash1,
+                    "code_sha256_v2": h2,
+                },
+                open(fail_json, "w", encoding="utf-8"),
+                indent=1,
+            )
+            raise RuntimeError(
+                f"{ev} {label}: only {mA} set-A and {mB} set-B samples; "
+                f"scanned {pos}, failures {len(failures)}; details {fail_json}"
+            )
+
         rmsA = float(np.sqrt(np.mean(np.sum(LA.astype(np.float64) ** 2, axis=1))))
         rmsB = float(np.sqrt(np.mean(np.sum(LB.astype(np.float64) ** 2, axis=1))))
         np.savez_compressed(npz, LA=LA, LB=LB)
-        json.dump({"event": ev, "label": label, "rule": "cross-sets", "n_D": N_D, "fails": fails,
-                   "build_fails": fails0, "code_sha256_v1": chash1, "code_sha256_v2": h2, "status": status,
-                   "rms_mismatch_A": rmsA, "rms_mismatch_B": rmsB}, open(js, "w"), indent=1)
-        print(f"=== {ev} {label}: cross-set samples {N_D} + {N_D} (failures {fails}), rms mismatch "
-              f"A {rmsA:.2f}  B {rmsB:.2f}  ({time.time() - t0:.0f} s)", flush=True)
+        json.dump(
+            {
+                "event": ev,
+                "label": label,
+                "rule": "cross-sets-isolated-v1-permutation",
+                "n_D": n_target,
+                "fails": len(failures),
+                "build_fails": e["meta"]["fails"],
+                "failure_provenance_file": (
+                    f"{ev}__{label.replace(':', '_')}_D_failures.json"
+                    if failures else None
+                ),
+                "code_sha256_v1": chash1,
+                "code_sha256_v2": h2,
+                "status": status,
+                "rms_mismatch_A": rmsA,
+                "rms_mismatch_B": rmsB,
+                "worker_timeout_s": args.worker_timeout,
+                "selection": ("fixed SEED permutation; first usable N_D in A then B; membership by "
+                              "v1.0 permutation position" if by_position else
+                              "fixed SEED permutation; first usable N_D in A then B; membership by the "
+                              "sequential usable count (v1.0 build had failures)"),
+                "membership_by_position": by_position,
+            },
+            open(js, "w", encoding="utf-8"),
+            indent=1,
+        )
+        print(
+            f"=== {ev} {label}: cross-set samples {n_target} + {n_target} "
+            f"(native failures {len(failures)}), rms mismatch "
+            f"A {rmsA:.2f}  B {rmsB:.2f}  ({time.time() - t0:.0f} s)",
+            flush=True,
+        )
 
 
 # ---------------------------------------------------------------- patched pieces -----
@@ -316,6 +493,13 @@ def stage_offsource(args, chash1, h2, status):
 
 
 def main():
+    # Internal mode used only by the isolated D-set waveform worker.
+    if len(sys.argv) >= 2 and sys.argv[1] == "_dworker":
+        if len(sys.argv) != 6:
+            raise SystemExit("usage: module2_run.py _dworker PE_FILE LABEL SAMPLE_JSON OUT_NPZ")
+        _dworker(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+        return
+
     ap = argparse.ArgumentParser()
     ap.add_argument("stage", choices=["dset", "catalog", "offsource", "hash"])
     ap.add_argument("--events", default="GW150914,GW230627_015337")
@@ -326,6 +510,8 @@ def main():
     ap.add_argument("--cache", default=os.path.expanduser("~/gw/cache_module1"))
     ap.add_argument("--cache2", default=os.path.expanduser("~/gw/cache_module2"))
     ap.add_argument("--n", type=int, default=800)
+    ap.add_argument("--dset-n", type=int, default=N_D, help="D-set size per cross-set (smoke-testable)")
+    ap.add_argument("--worker-timeout", type=int, default=180, help="seconds per isolated waveform worker")
     ap.add_argument("--belt-trials", type=int, default=5000)
     ap.add_argument("--exp-trials", type=int, default=2000)
     ap.add_argument("--half-width", type=float, default=8.0)
