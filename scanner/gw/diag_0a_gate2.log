@@ -1,0 +1,281 @@
+code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+controls: ['GW190408_181802', 'GW191216_213338', 'GW200112_155838', 'GW190519_153544']
+
+=== GW150914 C01:SEOBNRv4PHM (failing)
+  v1.0 baseline: C coverage 4/8; reproduction mismatches 0
+    samples 100/1600  (311 s)
+    samples 200/1600  (613 s)
+    samples 300/1600  (916 s)
+    samples 400/1600  (1216 s)
+    samples 500/1600  (1517 s)
+    samples 600/1600  (1817 s)
+    samples 700/1600  (2118 s)
+    samples 800/1600  (2419 s)
+    samples 900/1600  (2719 s)
+    samples 1000/1600  (3019 s)
+    samples 1100/1600  (3320 s)
+    samples 1200/1600  (3619 s)
+    samples 1300/1600  (3920 s)
+    samples 1400/1600  (4220 s)
+    samples 1500/1600  (4521 s)
+    samples 1600/1600  (4822 s)
+  (b) aligned: C coverage 6/8, k_A 13, sigma_lin 6.243e-10
+  (a) medoid (set-B sample 64, distance of v1.0 reference to it 39.89): C coverage 6/8, k_A 10, sigma_lin 9.909e-10
+  (4903 s)
+
+=== GW170814 C01:SEOBNRv4PHM (failing)
+  v1.0 baseline: C coverage 4/8; reproduction mismatches 0
+    samples 100/1600  (345 s)
+    samples 200/1600  (690 s)
+    samples 300/1600  (1036 s)
+    samples 400/1600  (1381 s)
+    samples 500/1600  (1727 s)
+    samples 600/1600  (2075 s)
+    samples 700/1600  (2423 s)
+    samples 800/1600  (2773 s)
+    samples 900/1600  (3127 s)
+    samples 1000/1600  (3473 s)
+    samples 1100/1600  (3821 s)
+    samples 1200/1600  (4164 s)
+    samples 1300/1600  (4509 s)
+    samples 1400/1600  (4853 s)
+    samples 1500/1600  (5200 s)
+    samples 1600/1600  (5545 s)
+  (b) aligned: C coverage 7/8, k_A 26, sigma_lin 3.940e-10
+  (a) medoid (set-B sample 138, distance of v1.0 reference to it 13.15): C coverage 5/8, k_A 14, sigma_lin 7.292e-10
+  (5649 s)
+
+=== GW190706_222641 C01:SEOBNRv4PHM (failing)
+  v1.0 baseline: C coverage 4/8; reproduction mismatches 0
+    samples 100/1600  (308 s)
+    samples 200/1600  (615 s)
+    samples 300/1600  (921 s)
+    samples 400/1600  (1228 s)
+    samples 500/1600  (1529 s)
+    samples 600/1600  (1832 s)
+    samples 700/1600  (2132 s)
+    samples 800/1600  (2437 s)
+    samples 900/1600  (2741 s)
+    samples 1000/1600  (3042 s)
+    samples 1100/1600  (3343 s)
+    samples 1200/1600  (3643 s)
+    samples 1300/1600  (3943 s)
+    samples 1400/1600  (4242 s)
+    samples 1500/1600  (4541 s)
+    samples 1600/1600  (4842 s)
+  (b) aligned: C coverage 4/8, k_A 27, sigma_lin 5.691e-10
+  (a) medoid (set-B sample 131, distance of v1.0 reference to it 18.11): C coverage 7/8, k_A 25, sigma_lin 1.314e-09
+  (4923 s)
+
+=== GW200129_065458 C01:SEOBNRv4PHM (failing)
+  v1.0 baseline: C coverage 4/8; reproduction mismatches 0
+    samples 100/1600  (387 s)
+    samples 200/1600  (773 s)
+    samples 300/1600  (1160 s)
+    samples 400/1600  (1542 s)
+    samples 500/1600  (1925 s)
+    samples 600/1600  (2306 s)
+    samples 700/1600  (2687 s)
+    samples 800/1600  (3067 s)
+    samples 900/1600  (3451 s)
+    samples 1000/1600  (3834 s)
+    samples 1100/1600  (4215 s)
+    samples 1200/1600  (4597 s)
+    samples 1300/1600  (4981 s)
+    samples 1400/1600  (5366 s)
+    samples 1500/1600  (5750 s)
+    samples 1600/1600  (6132 s)
+  (b) aligned: C coverage 6/8, k_A 12, sigma_lin 1.854e-10
+  (a) medoid (set-B sample 15, distance of v1.0 reference to it 40.24): C coverage 2/8, k_A 8, sigma_lin 2.909e-10
+  (6300 s)
+
+=== GW190408_181802 C01:SEOBNRv4PHM (control)
+  v1.0 baseline: C coverage 6/8; reproduction mismatches 0
+    samples 100/1600  (423 s)
+    samples 200/1600  (846 s)
+    samples 300/1600  (1268 s)
+    samples 400/1600  (1689 s)
+    samples 500/1600  (2110 s)
+    samples 600/1600  (2528 s)
+    samples 700/1600  (2947 s)
+    samples 800/1600  (3368 s)
+    samples 900/1600  (3789 s)
+    samples 1000/1600  (4210 s)
+    samples 1100/1600  (4631 s)
+    samples 1200/1600  (5050 s)
+    samples 1300/1600  (5470 s)
+    samples 1400/1600  (5889 s)
+    samples 1500/1600  (6311 s)
+    samples 1600/1600  (6731 s)
+  (b) aligned: C coverage 7/8, k_A 41, sigma_lin 6.925e-11
+  (a) medoid (set-B sample 186, distance of v1.0 reference to it 8.82): C coverage 7/8, k_A 19, sigma_lin 1.642e-10
+  (6900 s)
+
+=== GW191216_213338 C01:SEOBNRv4PHM (control)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/diag_0a_gate2.py:165: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / net.sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/diag_0a_gate2.py:104: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+  v1.0 baseline: C coverage 8/8; reproduction mismatches 0
+    samples 100/1600  (1573 s)
+    samples 200/1600  (3133 s)
+    samples 300/1600  (4703 s)
+    samples 400/1600  (6270 s)
+    samples 500/1600  (7839 s)
+    samples 600/1600  (9422 s)
+    samples 700/1600  (11114 s)
+    samples 800/1600  (12698 s)
+    samples 900/1600  (14183 s)
+    samples 1000/1600  (15662 s)
+    samples 1100/1600  (17151 s)
+    samples 1200/1600  (18729 s)
+    samples 1300/1600  (20326 s)
+    samples 1400/1600  (21856 s)
+    samples 1500/1600  (23385 s)
+    samples 1600/1600  (24918 s)
+  (b) aligned: C coverage 7/8, k_A 37, sigma_lin 4.640e-11
+  (a) medoid (set-B sample 2, distance of v1.0 reference to it 19.61): C coverage 8/8, k_A 39, sigma_lin 8.485e-11
+  (25950 s)
+
+=== GW200112_155838 C01:SEOBNRv4PHM (control)
+  v1.0 baseline: C coverage 7/8; reproduction mismatches 0
+    samples 100/1600  (297 s)
+    samples 200/1600  (586 s)
+    samples 300/1600  (882 s)
+    samples 400/1600  (1173 s)
+    samples 500/1600  (1466 s)
+    samples 600/1600  (1753 s)
+    samples 700/1600  (2043 s)
+    samples 800/1600  (2334 s)
+    samples 900/1600  (2625 s)
+    samples 1000/1600  (2914 s)
+    samples 1100/1600  (3198 s)
+    samples 1200/1600  (3494 s)
+    samples 1300/1600  (3787 s)
+    samples 1400/1600  (4079 s)
+    samples 1500/1600  (4368 s)
+    samples 1600/1600  (4661 s)
+  (b) aligned: C coverage 8/8, k_A 29, sigma_lin 5.998e-10
+  (a) medoid (set-B sample 4, distance of v1.0 reference to it 24.61): C coverage 6/8, k_A 20, sigma_lin 3.896e-10
+  (4741 s)
+
+=== GW190519_153544 C01:SEOBNRv4PHM (control)
+  v1.0 baseline: C coverage 6/8; reproduction mismatches 0
+    samples 100/1600  (277 s)
+    samples 200/1600  (548 s)
+    samples 300/1600  (821 s)
+    samples 400/1600  (1091 s)
+    samples 500/1600  (1368 s)
+    samples 600/1600  (1637 s)
+    samples 700/1600  (1929 s)
+    samples 800/1600  (2236 s)
+    samples 900/1600  (2538 s)
+    samples 1000/1600  (2836 s)
+    samples 1100/1600  (3127 s)
+    samples 1200/1600  (3416 s)
+    samples 1300/1600  (3703 s)
+    samples 1400/1600  (4001 s)
+    samples 1500/1600  (4307 s)
+    samples 1600/1600  (4609 s)
+  (b) aligned: C coverage 8/8, k_A 40, sigma_lin 5.533e-10
+  (a) medoid (set-B sample 191, distance of v1.0 reference to it 19.30): C coverage 7/8, k_A 28, sigma_lin 6.693e-10
+  (4682 s)
+
+=== GW150914 C01:IMRPhenomXPHM (failing-XPHM)
+  v1.0 baseline: C coverage 7/8; reproduction mismatches 0
+    samples 100/1600  (74 s)
+    samples 200/1600  (147 s)
+    samples 300/1600  (219 s)
+    samples 400/1600  (294 s)
+    samples 500/1600  (369 s)
+    samples 600/1600  (442 s)
+    samples 700/1600  (514 s)
+    samples 800/1600  (585 s)
+    samples 900/1600  (656 s)
+    samples 1000/1600  (729 s)
+    samples 1100/1600  (803 s)
+    samples 1200/1600  (877 s)
+    samples 1300/1600  (952 s)
+    samples 1400/1600  (1025 s)
+    samples 1500/1600  (1098 s)
+    samples 1600/1600  (1171 s)
+  (b) aligned: C coverage 8/8, k_A 19, sigma_lin 8.872e-10
+  (a) medoid (set-B sample 181, distance of v1.0 reference to it 4.45): C coverage 8/8, k_A 22, sigma_lin 2.259e-09
+  (1239 s)
+
+=== GW170814 C01:IMRPhenomXPHM (failing-XPHM)
+  v1.0 baseline: C coverage 8/8; reproduction mismatches 0
+    samples 100/1600  (88 s)
+    samples 200/1600  (175 s)
+    samples 300/1600  (262 s)
+    samples 400/1600  (348 s)
+    samples 500/1600  (436 s)
+    samples 600/1600  (524 s)
+    samples 700/1600  (614 s)
+    samples 800/1600  (702 s)
+    samples 900/1600  (792 s)
+    samples 1000/1600  (895 s)
+    samples 1100/1600  (993 s)
+    samples 1200/1600  (1095 s)
+    samples 1300/1600  (1188 s)
+    samples 1400/1600  (1280 s)
+    samples 1500/1600  (1371 s)
+    samples 1600/1600  (1462 s)
+  (b) aligned: C coverage 6/8, k_A 31, sigma_lin 6.532e-10
+  (a) medoid (set-B sample 161, distance of v1.0 reference to it 3.18): C coverage 7/8, k_A 32, sigma_lin 2.048e-09
+  (1551 s)
+
+=== GW190706_222641 C01:IMRPhenomXPHM (failing-XPHM)
+  v1.0 baseline: C coverage 7/8; reproduction mismatches 0
+    samples 100/1600  (74 s)
+    samples 200/1600  (148 s)
+    samples 300/1600  (222 s)
+    samples 400/1600  (296 s)
+    samples 500/1600  (370 s)
+    samples 600/1600  (445 s)
+    samples 700/1600  (519 s)
+    samples 800/1600  (593 s)
+    samples 900/1600  (667 s)
+    samples 1000/1600  (742 s)
+    samples 1100/1600  (819 s)
+    samples 1200/1600  (894 s)
+    samples 1300/1600  (969 s)
+    samples 1400/1600  (1044 s)
+    samples 1500/1600  (1116 s)
+    samples 1600/1600  (1194 s)
+  (b) aligned: C coverage 5/8, k_A 24, sigma_lin 2.693e-09
+  (a) medoid (set-B sample 124, distance of v1.0 reference to it 3.13): C coverage 7/8, k_A 29, sigma_lin 3.315e-09
+  (1266 s)
+
+=== GW200129_065458 C01:IMRPhenomXPHM (failing-XPHM)
+  v1.0 baseline: C coverage 8/8; reproduction mismatches 0
+    samples 100/1600  (172 s)
+    samples 200/1600  (354 s)
+    samples 300/1600  (529 s)
+    samples 400/1600  (699 s)
+    samples 500/1600  (868 s)
+    samples 600/1600  (1037 s)
+    samples 700/1600  (1207 s)
+    samples 800/1600  (1374 s)
+    samples 900/1600  (1551 s)
+    samples 1000/1600  (1713 s)
+    samples 1100/1600  (1865 s)
+    samples 1200/1600  (2018 s)
+    samples 1300/1600  (2171 s)
+    samples 1400/1600  (2322 s)
+    samples 1500/1600  (2471 s)
+    samples 1600/1600  (2620 s)
+  (b) aligned: C coverage 7/8, k_A 26, sigma_lin 3.116e-10
+  (a) medoid (set-B sample 155, distance of v1.0 reference to it 4.55): C coverage 7/8, k_A 33, sigma_lin 1.790e-09
+  (2781 s)
+
+Gate 2 summary (set-C coverage, pooled):
+  variant     failing   controls   failing-XPHM
+  v1.0       16/32      27/32        30/32     
+  a          20/32      28/32        29/32     
+  b          23/32      30/32        26/32     
+  (a) mis-centred reference: failing 20/32 (needs >= 24/32), controls 28 vs baseline 27 (drop <= 3) -> NOT SUPPORTED
+  (b) parameter-dependent time offsets: failing 23/32 (needs >= 24/32), controls 30 vs baseline 27 (drop <= 3) -> NOT SUPPORTED
+Both variants are reported whatever the outcome; neither is adopted on this basis alone.
