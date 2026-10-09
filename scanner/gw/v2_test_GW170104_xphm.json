@@ -1,0 +1,58 @@
+{
+ "status": "trial-v2",
+ "code_sha256": "22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9",
+ "pairs": [
+  [
+   "GW170104",
+   "C01:IMRPhenomXPHM",
+   5.460012115910751e-10
+  ]
+ ],
+ "N_eff": 1.0,
+ "grid": [
+  -4.3680096927286006e-09,
+  4.3680096927286006e-09,
+  2.7300060579553712e-11
+ ],
+ "joint_condition": 3174.770601602865,
+ "joint_inflation_f3": 26.756893800157346,
+ "belt_trials": 2000,
+ "exp_trials": 1000,
+ "all": {
+  "exp_lower_median": -1.0374023020230425e-09,
+  "exp_upper_median": 1.1466025443412578e-09,
+  "contiguous": 0.519,
+  "edge": 0.0,
+  "coverage": {
+   "-2.184e-09": {
+    "neyman": 0.909,
+    "wilks": 0.893
+   },
+   "-8.736e-10": {
+    "neyman": 0.953,
+    "wilks": 0.861
+   },
+   "-0.000e+00": {
+    "neyman": 0.959,
+    "wilks": 0.865
+   },
+   "+8.736e-10": {
+    "neyman": 0.964,
+    "wilks": 0.894
+   },
+   "+2.184e-09": {
+    "neyman": 0.947,
+    "wilks": 0.941
+   }
+  },
+  "subspaces": 2,
+  "critical_values": [
+   1.7311908852097,
+   5.078115602872366
+  ]
+ },
+ "design": "MODULE1_DESIGN_v2.0",
+ "code_sha256_v2": "143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0",
+ "n_D": 400,
+ "D_shift_for_checks": 200
+}

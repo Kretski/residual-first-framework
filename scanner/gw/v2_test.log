@@ -1,0 +1,110 @@
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: trial-v2 (no v2.0 freeze manifest)
+    cross-set samples 25/800 (A 25/400, B 0/400; scan 25; failures 0) (87 s)
+    cross-set samples 50/800 (A 50/400, B 0/400; scan 50; failures 0) (169 s)
+    cross-set samples 75/800 (A 75/400, B 0/400; scan 75; failures 0) (251 s)
+    cross-set samples 100/800 (A 100/400, B 0/400; scan 100; failures 0) (344 s)
+    cross-set samples 125/800 (A 125/400, B 0/400; scan 125; failures 0) (433 s)
+    cross-set samples 150/800 (A 150/400, B 0/400; scan 150; failures 0) (520 s)
+    cross-set samples 175/800 (A 175/400, B 0/400; scan 175; failures 0) (606 s)
+    cross-set samples 200/800 (A 200/400, B 0/400; scan 200; failures 0) (694 s)
+    cross-set samples 225/800 (A 225/400, B 0/400; scan 225; failures 0) (780 s)
+    cross-set samples 250/800 (A 250/400, B 0/400; scan 250; failures 0) (866 s)
+    cross-set samples 275/800 (A 275/400, B 0/400; scan 275; failures 0) (951 s)
+    cross-set samples 300/800 (A 300/400, B 0/400; scan 300; failures 0) (1039 s)
+    cross-set samples 325/800 (A 325/400, B 0/400; scan 325; failures 0) (1135 s)
+    cross-set samples 350/800 (A 350/400, B 0/400; scan 350; failures 0) (1225 s)
+    cross-set samples 375/800 (A 375/400, B 0/400; scan 375; failures 0) (1313 s)
+    cross-set samples 400/800 (A 400/400, B 0/400; scan 400; failures 0) (1402 s)
+    cross-set samples 425/800 (A 400/400, B 25/400; scan 825; failures 0) (1492 s)
+    cross-set samples 450/800 (A 400/400, B 50/400; scan 850; failures 0) (1579 s)
+    cross-set samples 475/800 (A 400/400, B 75/400; scan 875; failures 0) (1665 s)
+    cross-set samples 500/800 (A 400/400, B 100/400; scan 900; failures 0) (1751 s)
+    cross-set samples 525/800 (A 400/400, B 125/400; scan 925; failures 0) (1838 s)
+    cross-set samples 550/800 (A 400/400, B 150/400; scan 950; failures 0) (1925 s)
+    cross-set samples 575/800 (A 400/400, B 175/400; scan 975; failures 0) (2016 s)
+    cross-set samples 600/800 (A 400/400, B 200/400; scan 1000; failures 0) (2105 s)
+    cross-set samples 625/800 (A 400/400, B 225/400; scan 1025; failures 0) (2194 s)
+    cross-set samples 650/800 (A 400/400, B 250/400; scan 1050; failures 0) (2282 s)
+    cross-set samples 675/800 (A 400/400, B 275/400; scan 1075; failures 0) (2370 s)
+    cross-set samples 700/800 (A 400/400, B 300/400; scan 1100; failures 0) (2460 s)
+    cross-set samples 725/800 (A 400/400, B 325/400; scan 1125; failures 0) (2548 s)
+    cross-set samples 750/800 (A 400/400, B 350/400; scan 1150; failures 0) (2637 s)
+    cross-set samples 775/800 (A 400/400, B 375/400; scan 1175; failures 0) (2725 s)
+    cross-set samples 800/800 (A 400/400, B 400/400; scan 1200; failures 0) (2816 s)
+=== GW150914 C01:SEOBNRv4PHM: cross-set samples 400 + 400 (native failures 0), rms mismatch A 4.89  B 4.92  (2818 s)
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: trial-v2 (no v2.0 freeze manifest)
+    cross-set samples 25/800 (A 25/400, B 0/400; scan 25; failures 0) (38 s)
+    cross-set samples 50/800 (A 50/400, B 0/400; scan 50; failures 0) (74 s)
+    cross-set samples 75/800 (A 75/400, B 0/400; scan 75; failures 0) (110 s)
+    cross-set samples 100/800 (A 100/400, B 0/400; scan 100; failures 0) (149 s)
+    cross-set samples 125/800 (A 125/400, B 0/400; scan 125; failures 0) (188 s)
+    cross-set samples 150/800 (A 150/400, B 0/400; scan 150; failures 0) (225 s)
+    cross-set samples 175/800 (A 175/400, B 0/400; scan 175; failures 0) (261 s)
+    cross-set samples 200/800 (A 200/400, B 0/400; scan 200; failures 0) (298 s)
+    cross-set samples 225/800 (A 225/400, B 0/400; scan 225; failures 0) (334 s)
+    cross-set samples 250/800 (A 250/400, B 0/400; scan 250; failures 0) (369 s)
+    cross-set samples 275/800 (A 275/400, B 0/400; scan 275; failures 0) (404 s)
+    cross-set samples 300/800 (A 300/400, B 0/400; scan 300; failures 0) (440 s)
+    cross-set samples 325/800 (A 325/400, B 0/400; scan 325; failures 0) (475 s)
+    cross-set samples 350/800 (A 350/400, B 0/400; scan 350; failures 0) (510 s)
+    cross-set samples 375/800 (A 375/400, B 0/400; scan 375; failures 0) (546 s)
+    cross-set samples 400/800 (A 400/400, B 0/400; scan 400; failures 0) (581 s)
+    cross-set samples 425/800 (A 400/400, B 25/400; scan 825; failures 0) (616 s)
+    cross-set samples 450/800 (A 400/400, B 50/400; scan 850; failures 0) (651 s)
+    cross-set samples 475/800 (A 400/400, B 75/400; scan 875; failures 0) (685 s)
+    cross-set samples 500/800 (A 400/400, B 100/400; scan 900; failures 0) (719 s)
+    cross-set samples 525/800 (A 400/400, B 125/400; scan 925; failures 0) (752 s)
+    cross-set samples 550/800 (A 400/400, B 150/400; scan 950; failures 0) (786 s)
+    cross-set samples 575/800 (A 400/400, B 175/400; scan 975; failures 0) (820 s)
+    cross-set samples 600/800 (A 400/400, B 200/400; scan 1000; failures 0) (854 s)
+    cross-set samples 625/800 (A 400/400, B 225/400; scan 1025; failures 0) (886 s)
+    cross-set samples 650/800 (A 400/400, B 250/400; scan 1050; failures 0) (919 s)
+    cross-set samples 675/800 (A 400/400, B 275/400; scan 1075; failures 0) (951 s)
+    cross-set samples 700/800 (A 400/400, B 300/400; scan 1100; failures 0) (983 s)
+    cross-set samples 725/800 (A 400/400, B 325/400; scan 1125; failures 0) (1016 s)
+    cross-set samples 750/800 (A 400/400, B 350/400; scan 1150; failures 0) (1048 s)
+    cross-set samples 775/800 (A 400/400, B 375/400; scan 1175; failures 0) (1081 s)
+    cross-set samples 800/800 (A 400/400, B 400/400; scan 1200; failures 0) (1113 s)
+=== GW170104 C01:IMRPhenomXPHM: cross-set samples 400 + 400 (native failures 0), rms mismatch A 3.19  B 3.22  (1116 s)
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: trial-v2 (no v2.0 freeze manifest)
+catalog: 1 pairs, grid ±8 x 6.817e-10 m^2 (321 points), N_eff 1.00
+  GW150914 C01:SEOBNRv4PHM: 18 s (subspaces A, B)
+
+[all] expected 90% interval [-1.30e-09, +2.01e-09] m^2; contiguous 0.74; edge 0.000; critical values 1.96–9.27
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -2.727e-09: Neyman 0.978  Wilks 0.921
+   true -1.091e-09: Neyman 0.984  Wilks 0.751
+   true -0.000e+00: Neyman 0.992  Wilks 0.877
+   true +1.091e-09: Neyman 0.984  Wilks 0.731
+   true +2.727e-09: Neyman 0.977  Wilks 0.881
+
+joint f2/f3/f4 condition 3611, f3 inflation x28.6; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status trial-v2
+written v2_test_GW150914_eob.json
+v2.0: status trial-v2, code_sha256_v2 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0; written v2_test_GW150914_eob.json
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: trial-v2 (no v2.0 freeze manifest)
+catalog: 1 pairs, grid ±8 x 5.460e-10 m^2 (321 points), N_eff 1.00
+  GW170104 C01:IMRPhenomXPHM: 39 s (subspaces A, B)
+
+[all] expected 90% interval [-1.04e-09, +1.15e-09] m^2; contiguous 0.52; edge 0.000; critical values 1.73–5.08
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -2.184e-09: Neyman 0.909  Wilks 0.893
+   true -8.736e-10: Neyman 0.953  Wilks 0.861
+   true -0.000e+00: Neyman 0.959  Wilks 0.865
+   true +8.736e-10: Neyman 0.964  Wilks 0.894
+   true +2.184e-09: Neyman 0.947  Wilks 0.941
+
+joint f2/f3/f4 condition 3175, f3 inflation x26.8; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status trial-v2
+written v2_test_GW170104_xphm.json
+v2.0: status trial-v2, code_sha256_v2 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0; written v2_test_GW170104_xphm.json
