@@ -1,0 +1,12 @@
+{
+ "tag": "v2.0-module1",
+ "code_sha256_v2": "143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0",
+ "code_sha256_v1": "22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9",
+ "module2_run_sha256": "d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d",
+ "n_D": 400,
+ "D_rule": "cross-sets",
+ "D_shift": 200,
+ "k_min_segments": 8,
+ "design": "MODULE1_DESIGN_v2.0.md",
+ "written_utc": "2026-10-09T01:22:36Z"
+}
