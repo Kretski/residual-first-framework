@@ -1,0 +1,60 @@
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: official-v2 (code hash matches v2.0-module1)
+GW150914           C01:IMRPhenomXPHM              new segments 8  set E 8  c0 3.21  (26 s)
+GW170104           C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.94  (44 s)
+GW170809           C01:IMRPhenomXPHM              new segments 8  set E 8  c0 5.17  (26 s)
+GW170814           C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.29  (35 s)
+GW170818           C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.99  (36 s)
+GW170823           C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.40  (24 s)
+GW190408_181802    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.14  (62 s)
+GW190412           C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.69  (123 s)
+GW190503_185404    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 5.63  (35 s)
+GW190513_205428    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 5.85  (35 s)
+GW190519_153544    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 5.66  (21 s)
+GW190521_074359    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 2.79  (12 s)
+GW190630_185205    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.68  (26 s)
+GW190706_222641    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 6.72  (30 s)
+GW190708_232457    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 6.13  (100 s)
+GW190910_112807    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.16  (18 s)
+GW191109_010717    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 6.81  (17 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/module2_run.py:482: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+GW191129_134029    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 6.60  (217 s)
+GW191216_213338    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 5.07  (219 s)
+GW191222_033537    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 5.10  (25 s)
+GW200112_155838    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 3.66  (26 s)
+GW200129_065458    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.29  (67 s)
+GW200224_222234    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 4.69  (26 s)
+GW200311_115853    C01:IMRPhenomXPHM              new segments 8  set E 8  c0 5.03  (39 s)
+E    coverage 171/192 = 0.891; 99% interval around 0.90: 0.844–0.956 -> within the interval
+ref  coverage 171/192 = 0.891; 99% interval around 0.90: 0.844–0.956 -> diagnostic
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: official-v2 (code hash matches v2.0-module1)
+GW230601_224134    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 6.41  (16 s)
+GW230627_015337    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 3.49  (828 s)
+GW230628_231200    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.01  (25 s)
+GW230731_215307    C00:IMRPhenomXPHM-SpinTaylor   new segments 0  set E 8  c0 8.12  (157 s)
+GW230811_032116    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.97  (27 s)
+GW230914_111401    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.90  (27 s)
+GW230919_215712    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 4.18  (45 s)
+GW230922_020344    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.63  (25 s)
+GW230922_040658    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 6.40  (26 s)
+GW230924_124453    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 3.33  (26 s)
+GW230927_043729    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.75  (26 s)
+GW230927_153832    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 3.64  (45 s)
+GW231020_142947    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.73  (391 s)
+GW231028_153006    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 4.97  (25 s)
+GW231102_071736    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 6.49  (15 s)
+GW231108_125142    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 4.31  (46 s)
+GW231206_233134    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.31  (24 s)
+GW231206_233901    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 4.61  (25 s)
+GW231224_024321    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 5.17  (377 s)
+GW231226_101520    C00:IMRPhenomXPHM-SpinTaylor   new segments 8  set E 8  c0 3.73  (17 s)
+E    coverage 135/152 = 0.888; 99% interval around 0.90: 0.837–0.963 -> within the interval
+ref  coverage 135/152 = 0.888; 99% interval around 0.90: 0.837–0.963 -> diagnostic
