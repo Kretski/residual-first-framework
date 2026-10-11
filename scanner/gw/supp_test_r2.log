@@ -1,0 +1,9 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+supplement_onsource.py SHA-256 350e6e8051fe805e241d1f2d9901f98ca8663d74d6fbd6e900e58278d5417e14
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+status: trial-supp (no supplement freeze manifest)
+  GW150914           segment 1126258916.4: q0 1.374422 vs stored 1.374422; c0 3.206074 vs stored 3.206074
+  GW170104           segment 1167559354.6: q0 0.187163 vs stored 0.187163; c0 4.942315 vs stored 4.942315
+  GW170809           segment 1186301973.8: q0 3.734145 vs stored 3.734145; c0 5.168836 vs stored 5.168836
+
+reproduction of the v2.0 off-source chain: worst relative difference 7.19e-16 -> PASS  (status trial-supp)

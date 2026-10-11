@@ -142,7 +142,7 @@ def union_set(chis, belts, grid):
     idx = np.where(inside)[0]
     if len(idx) == 0:
         return None
-    return {"lower": float(grid[idx[0]]), "upper": float(grid[idx[-1]]),
+    return {"lower": float(grid[idx[0]]), "upper": float(grid[idx[-1]]),  # plain types (json)
             "contiguous": bool(idx[-1] - idx[0] + 1 == len(idx)),
             "contains_zero": bool(inside[int(np.argmin(np.abs(grid)))]),
             "touches_edge": bool(idx[0] == 0 or idx[-1] == len(grid) - 1),
@@ -189,11 +189,12 @@ def stage_gate(cli, hs, status):
         n = json.load(open(V2CAT[coh]))["exp_trials"]
         lo, _ = mo.binomial_interval(0.90, n)
         cmin = min(v["neyman"] for v in r["coverage"].values())
-        ok = cmin >= lo and r["edge"] <= 0.01
+        ok = bool(cmin >= lo and r["edge"] <= 0.01)
         fail |= not ok
-        res["rules"][f"rule0_{coh}"] = {"min_coverage": cmin, "lower_99": lo, "edge": r["edge"], "pass": ok}
+        res["rules"][f"rule0_{coh}"] = {"min_coverage": float(cmin), "lower_99": float(lo),
+                                       "edge": float(r["edge"]), "pass": ok}
         print(f"rule 0  {coh:8s}: min Neyman coverage {cmin:.3f} (>= {lo:.3f}), edge {r['edge']:.3f} -> "
-              f"{'pass' if ok else 'FAIL'}")
+              f"{'pass' if ok else 'FAIL'}", flush=True)
     # rule 0a
     nc = n = 0
     for coh in ("search", "confirm"):
@@ -202,10 +203,10 @@ def stage_gate(cli, hs, status):
                 nc += r["covered"] in ("True", "1")
                 n += 1
     lo, _ = mo.binomial_interval(0.90, n)
-    ok = nc / n >= lo
+    ok = bool(nc / n >= lo)
     fail |= not ok
-    res["rules"]["rule0a"] = {"covered": nc, "n": n, "lower_99": lo, "pass": ok}
-    print(f"rule 0a pooled   : {nc}/{n} = {nc / n:.3f} (>= {lo:.3f}) -> {'pass' if ok else 'FAIL'}")
+    res["rules"]["rule0a"] = {"covered": int(nc), "n": int(n), "lower_99": float(lo), "pass": ok}
+    print(f"rule 0a pooled   : {nc}/{n} = {nc / n:.3f} (>= {lo:.3f}) -> {'pass' if ok else 'FAIL'}", flush=True)
     # rule 3: calibration-only, noise-free injections, per cohort
     m2.install_patches()
     for coh in ("search", "confirm"):
@@ -237,13 +238,13 @@ def stage_gate(cli, hs, status):
             est.append(grid[int(np.argmin(chis[j]["A"]))])
             excl += (u is None) or (not u["contains_zero"])
         med = float(np.median(est))
-        ok = abs(med) <= CAL_SIGMA_MAX * sig_cat and excl / N_CAL <= CAL_EXCL_MAX
+        ok = bool(abs(med) <= CAL_SIGMA_MAX * sig_cat and excl / N_CAL <= CAL_EXCL_MAX)
         fail |= not ok
-        res["rules"][f"rule3_{coh}"] = {"median_estimate": med, "sigma_cat": sig_cat,
-                                       "fraction_excluding_zero": excl / N_CAL, "pass": ok}
+        res["rules"][f"rule3_{coh}"] = {"median_estimate": float(med), "sigma_cat": float(sig_cat),
+                                       "fraction_excluding_zero": float(excl / N_CAL), "pass": ok}
         print(f"rule 3  {coh:8s}: median estimate {med:+.2e} m^2 ({med / sig_cat:+.2f} sigma_cat), "
-              f"sets excluding 0: {excl}/{N_CAL} -> {'pass' if ok else 'FAIL'}")
-    res["all_pass"] = not fail
+              f"sets excluding 0: {excl}/{N_CAL} -> {'pass' if ok else 'FAIL'}", flush=True)
+    res["all_pass"] = bool(not fail)
     json.dump(res, open("supplement_gate.json", "w"), indent=1)
     print(f"\ngate: {'ALL RULES PASS' if not fail else 'A RULE FIRED: no on-source computation'}; "
           f"written supplement_gate.json (status {status})")
@@ -288,7 +289,7 @@ def stage_onsource(cli, hs, status):
     tot = {w: sum(c[w] for c in chis_e) for w in "AB"}
     res = {"cohort": cli.cohort, "status": status, "code_sha256_supp": hs, "pairs": [p[:2] for p in pairs],
            "grid": [float(grid[0]), float(grid[-1]), float(grid[1] - grid[0])],
-           "critical_values": crange, "set": union_set(tot, belts, grid), "LVK_GWTC4": LVK}
+           "critical_values": [float(x) for x in crange], "set": union_set(tot, belts, grid), "LVK_GWTC4": LVK}
     w = np.array([1 / m["sigma_lin"] ** 2 for m in metas])
     top = int(np.argmax(w))
     keep = [i for i in range(len(pairs)) if i != top]

@@ -1,0 +1,34 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+supplement_onsource.py SHA-256 216f6856a04ce1ba19dbf5b45f9769ad5a8663fedd686ad9745600944694b192
+supplement code SHA-256 cbb6d617147076b3e405e21af9b8e473699b9df5c7818e90577b54a3e8870dc2
+status: official-supp (code hash matches supplement-xphm-frozen)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+rule 0  search  : min Neyman coverage 0.919 (>= 0.883), edge 0.001 -> pass
+rule 0  confirm : min Neyman coverage 0.920 (>= 0.883), edge 0.000 -> pass
+rule 0a pooled   : 306/344 = 0.890 (>= 0.858) -> pass
+rule 3  search  : median estimate +0.00e+00 m^2 (+0.00 sigma_cat), sets excluding 0: 0/100 -> pass
+rule 3  confirm : median estimate +0.00e+00 m^2 (+0.00 sigma_cat), sets excluding 0: 0/100 -> pass
+Traceback (most recent call last):
+  File "/home/lenovo/gw/supplement_onsource.py", line 358, in <module>
+    main()
+  File "/home/lenovo/gw/supplement_onsource.py", line 354, in main
+    {"test": stage_test, "gate": stage_gate, "onsource": stage_onsource}[cli.stage](cli, hs, status)
+  File "/home/lenovo/gw/supplement_onsource.py", line 247, in stage_gate
+    json.dump(res, open("supplement_gate.json", "w"), indent=1)
+  File "/home/lenovo/miniconda3/envs/gw2/lib/python3.11/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+  File "/home/lenovo/miniconda3/envs/gw2/lib/python3.11/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/home/lenovo/miniconda3/envs/gw2/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/home/lenovo/miniconda3/envs/gw2/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/home/lenovo/miniconda3/envs/gw2/lib/python3.11/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/home/lenovo/miniconda3/envs/gw2/lib/python3.11/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/home/lenovo/miniconda3/envs/gw2/lib/python3.11/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable
