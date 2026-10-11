@@ -1,0 +1,37 @@
+{
+ "status": "official-supp",
+ "code_sha256_supp": "2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730",
+ "rules": {
+  "rule0_search": {
+   "min_coverage": 0.9195,
+   "lower_99": 0.8827196666698817,
+   "edge": 0.0005,
+   "pass": true
+  },
+  "rule0_confirm": {
+   "min_coverage": 0.92,
+   "lower_99": 0.8827196666698817,
+   "edge": 0.0,
+   "pass": true
+  },
+  "rule0a": {
+   "covered": 306,
+   "n": 344,
+   "lower_99": 0.8583334164341914,
+   "pass": true
+  },
+  "rule3_search": {
+   "median_estimate": 0.0,
+   "sigma_cat": 4.70405877391635e-11,
+   "fraction_excluding_zero": 0.0,
+   "pass": true
+  },
+  "rule3_confirm": {
+   "median_estimate": 0.0,
+   "sigma_cat": 1.7992921197577182e-11,
+   "fraction_excluding_zero": 0.0,
+   "pass": true
+  }
+ },
+ "all_pass": true
+}

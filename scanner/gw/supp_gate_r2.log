@@ -1,0 +1,13 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+supplement_onsource.py SHA-256 350e6e8051fe805e241d1f2d9901f98ca8663d74d6fbd6e900e58278d5417e14
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+status: official-supp (code hash matches supplement-xphm-frozen-r2)
+rule 0  search  : min Neyman coverage 0.919 (>= 0.883), edge 0.001 -> pass
+rule 0  confirm : min Neyman coverage 0.920 (>= 0.883), edge 0.000 -> pass
+rule 0a pooled   : 306/344 = 0.890 (>= 0.858) -> pass
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+rule 3  search  : median estimate +0.00e+00 m^2 (+0.00 sigma_cat), sets excluding 0: 0/100 -> pass
+rule 3  confirm : median estimate +0.00e+00 m^2 (+0.00 sigma_cat), sets excluding 0: 0/100 -> pass
+
+gate: ALL RULES PASS; written supplement_gate.json (status official-supp)
