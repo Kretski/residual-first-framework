@@ -1,0 +1,101 @@
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: official-v2 (code hash matches v2.0-module1)
+catalog: 25 pairs, grid ±8 x 3.043e-11 m^2 (321 points), N_eff 4.02
+  GW150914 C01:SEOBNRv4PHM: 55 s (subspaces A, B)
+  GW170104 C01:SEOBNRv4PHM: 117 s (subspaces A, B)
+  GW170809 C01:SEOBNRv4PHM: 55 s (subspaces A, B)
+  GW170814 C01:SEOBNRv4PHM: 85 s (subspaces A, B)
+  GW170818 C01:SEOBNRv4PHM: 87 s (subspaces A, B)
+  GW190408_181802 C01:SEOBNRv4PHM: 171 s (subspaces A, B)
+  GW190412 C01:SEOBNRv4PHM: 354 s (subspaces A, B)
+  GW190503_185404 C01:SEOBNRv4PHM: 85 s (subspaces A, B)
+  GW190512_180714 C01:SEOBNRv4PHM: 162 s (subspaces A, B)
+  GW190513_205428 C01:SEOBNRv4PHM: 90 s (subspaces A, B)
+  GW190519_153544 C01:SEOBNRv4PHM: 46 s (subspaces A, B)
+  GW190521_074359 C01:SEOBNRv4PHM: 18 s (subspaces A, B)
+  GW190620_030421 C01:SEOBNRv4PHM: 31 s (subspaces A, B)
+  GW190630_185205 C01:SEOBNRv4PHM: 57 s (subspaces A, B)
+  GW190706_222641 C01:SEOBNRv4PHM: 56 s (subspaces A, B)
+  GW190708_232457 C01:SEOBNRv4PHM: 234 s (subspaces A, B)
+  GW190910_112807 C01:SEOBNRv4PHM: 31 s (subspaces A, B)
+  GW190915_235702 C01:SEOBNRv4PHM: 156 s (subspaces A, B)
+  GW191129_134029 C01:SEOBNRv4PHM: 978 s (subspaces A, B)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+  GW191216_213338 C01:SEOBNRv4PHM: 995 s (subspaces A, B)
+  GW191222_033537 C01:SEOBNRv4PHM: 60 s (subspaces A, B)
+  GW200112_155838 C01:SEOBNRv4PHM: 59 s (subspaces A, B)
+  GW200129_065458 C01:SEOBNRv4PHM: 160 s (subspaces A, B)
+  GW200224_222234 C01:SEOBNRv4PHM: 43 s (subspaces A, B)
+  GW200311_115853 C01:SEOBNRv4PHM: 78 s (subspaces A, B)
+
+leave-one-out without GW191129_134029: own grid ±8 x 5.315e-11 m^2
+
+[all] expected 90% interval [-4.56e-11, +4.56e-11] m^2; contiguous 0.69; edge 0.003; critical values 2.02–5.44
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -1.217e-10: Neyman 0.947  Wilks 0.869
+   true -4.869e-11: Neyman 0.948  Wilks 0.846
+   true -0.000e+00: Neyman 0.947  Wilks 0.867
+   true +4.869e-11: Neyman 0.944  Wilks 0.828
+   true +1.217e-10: Neyman 0.942  Wilks 0.868
+
+[leave_one_out without GW191129_134029] expected 90% interval [-6.38e-11, +5.85e-11] m^2; contiguous 0.81; edge 0.000; critical values 1.89–5.60
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -2.126e-10: Neyman 0.951  Wilks 0.914
+   true -8.503e-11: Neyman 0.960  Wilks 0.850
+   true -0.000e+00: Neyman 0.951  Wilks 0.888
+   true +8.503e-11: Neyman 0.942  Wilks 0.847
+   true +2.126e-10: Neyman 0.947  Wilks 0.920
+
+joint f2/f3/f4 condition 222, f3 inflation x7.3; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official-v2
+written v2_catalog_search_eob.json
+v2.0: status official-v2, code_sha256_v2 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0; written v2_catalog_search_eob.json
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: official-v2 (code hash matches v2.0-module1)
+catalog: 20 pairs, grid ±8 x 2.238e-11 m^2 (321 points), N_eff 2.08
+  GW230601_224134 C00:SEOBNRv5PHM: 26 s (subspaces A, B)
+  GW230627_015337 C00:SEOBNRv5PHM: 1693 s (subspaces A, B)
+  GW230628_231200 C00:SEOBNRv5PHM: 50 s (subspaces A, B)
+  GW230731_215307 C00:SEOBNRv5PHM: 839 s (subspaces A, B)
+  GW230811_032116 C00:SEOBNRv5PHM: 50 s (subspaces A, B)
+  GW230914_111401 C00:SEOBNRv5PHM: 47 s (subspaces A, B)
+  GW230919_215712 C00:SEOBNRv5PHM: 94 s (subspaces A, B)
+  GW230922_020344 C00:SEOBNRv5PHM: 48 s (subspaces A, B)
+  GW230922_040658 C00:SEOBNRv5PHM: 45 s (subspaces A, B)
+  GW230924_124453 C00:SEOBNRv5PHM: 47 s (subspaces A, B)
+  GW230927_043729 C00:SEOBNRv5PHM: 48 s (subspaces A, B)
+  GW230927_153832 C00:SEOBNRv5PHM: 90 s (subspaces A, B)
+  GW231020_142947 C00:SEOBNRv5PHM: 820 s (subspaces A, B)
+  GW231028_153006 C00:SEOBNRv5PHM: 46 s (subspaces A, B)
+  GW231102_071736 C00:SEOBNRv5PHM: 26 s (subspaces A, B)
+  GW231108_125142 C00:SEOBNRv5PHM: 103 s (subspaces A, B)
+  GW231206_233134 C00:SEOBNRv5PHM: 47 s (subspaces A, B)
+  GW231206_233901 C00:SEOBNRv5PHM: 51 s (subspaces A, B)
+  GW231224_024321 C00:SEOBNRv5PHM: 888 s (subspaces A, B)
+  GW231226_101520 C00:SEOBNRv5PHM: 30 s (subspaces A, B)
+
+leave-one-out without GW230627_015337: own grid ±8 x 4.464e-11 m^2
+
+[all] expected 90% interval [-2.91e-11, +3.36e-11] m^2; contiguous 0.82; edge 0.000; critical values 1.72–4.02
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -8.953e-11: Neyman 0.914  Wilks 0.906
+   true -3.581e-11: Neyman 0.927  Wilks 0.875
+   true -0.000e+00: Neyman 0.946  Wilks 0.888
+   true +3.581e-11: Neyman 0.935  Wilks 0.879
+   true +8.953e-11: Neyman 0.927  Wilks 0.921
+
+[leave_one_out without GW230627_015337] expected 90% interval [-4.02e-11, +5.80e-11] m^2; contiguous 0.63; edge 0.000; critical values 1.77–4.56
+   union of 2 subspaces (v0.9.14): coverage above 0.90 is expected and reported as conservative; only below the interval stops the analysis
+   true -1.786e-10: Neyman 0.916  Wilks 0.907
+   true -7.143e-11: Neyman 0.918  Wilks 0.884
+   true -0.000e+00: Neyman 0.958  Wilks 0.849
+   true +7.143e-11: Neyman 0.941  Wilks 0.883
+   true +1.786e-10: Neyman 0.920  Wilks 0.899
+
+joint f2/f3/f4 condition 322, f3 inflation x8.6; LVK GWTC-4.0 [-2.4e-11, +7.4e-12]; status official-v2
+written v2_catalog_confirm_eob.json
+v2.0: status official-v2, code_sha256_v2 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0; written v2_catalog_confirm_eob.json

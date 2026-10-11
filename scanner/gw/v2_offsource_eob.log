@@ -1,0 +1,221 @@
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: official-v2 (code hash matches v2.0-module1)
+GW150914           C01:SEOBNRv4PHM                new segments 8  set E 8  c0 8.33  (86 s)
+GW170104           C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.87  (115 s)
+GW170809           C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.47  (91 s)
+GW170814           C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.71  (103 s)
+GW170818           C01:SEOBNRv4PHM                new segments 8  set E 8  c0 4.45  (90 s)
+GW190408_181802    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.43  (134 s)
+GW190412           C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.69  (231 s)
+GW190503_185404    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.21  (89 s)
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+GW190512_180714    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.01  (152 s)
+GW190513_205428    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.16  (103 s)
+GW190519_153544    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 7.57  (80 s)
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+GW190521_074359    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.98  (68 s)
+GW190620_030421    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.58  (79 s)
+GW190630_185205    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.84  (91 s)
+GW190706_222641    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 7.60  (87 s)
+GW190708_232457    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.74  (213 s)
+GW190910_112807    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.52  (75 s)
+GW190915_235702    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.83  (130 s)
+GW191129_134029    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.25  (634 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/module2_run.py:482: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+GW191216_213338    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.67  (550 s)
+GW191222_033537    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.26  (85 s)
+GW200112_155838    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.37  (83 s)
+GW200129_065458    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.61  (119 s)
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+XLAL Error - XLALEOBCheckNyquistFrequency: Ringdown frequency > Nyquist frequency!
+At present this situation is not supported.
+XLAL Error - XLALSimIMRSpinPrecEOBWaveform (LALSimIMRSpinPrecEOBv4P.c:949): Input domain error
+XLAL Error - XLALSimInspiralChooseTDWaveform_legacy (LALSimInspiralGeneratorLegacy.c:1281): Internal function call failed: Input domain error
+GW200224_222234    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 6.20  (72 s)
+GW200311_115853    C01:SEOBNRv4PHM                new segments 8  set E 8  c0 5.18  (96 s)
+E    coverage 167/200 = 0.835; 99% interval around 0.90: 0.845–0.955 -> STOP: below the 99% binomial interval around 0.90
+ref  coverage 183/200 = 0.915; 99% interval around 0.90: 0.845–0.955 -> diagnostic
+v1.0 code SHA-256 22a5127d30e414a39bc13eea3317735cc364693be1b1686e71d251275cc466c9
+module2_run.py SHA-256 d4ccf7b478d88fbe0d0179cc4a350893d4ddc1ab02cca50dcb395d45a1a0739d
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+status: official-v2 (code hash matches v2.0-module1)
+GW230601_224134    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 6.62  (27 s)
+GW230627_015337    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 4.17  (778 s)
+GW230628_231200    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.04  (26 s)
+GW230731_215307    C00:SEOBNRv5PHM                new segments 0  set E 8  c0 6.32  (155 s)
+GW230811_032116    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.71  (26 s)
+GW230914_111401    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.13  (26 s)
+GW230919_215712    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.12  (45 s)
+GW230922_020344    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 4.95  (27 s)
+GW230922_040658    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.09  (25 s)
+GW230924_124453    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 4.12  (27 s)
+GW230927_043729    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.62  (25 s)
+GW230927_153832    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 4.21  (46 s)
+GW231020_142947    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 7.25  (371 s)
+GW231028_153006    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 4.55  (27 s)
+GW231102_071736    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 6.34  (17 s)
+GW231108_125142    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.40  (47 s)
+GW231206_233134    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.65  (26 s)
+GW231206_233901    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 5.24  (27 s)
+GW231224_024321    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 6.75  (366 s)
+GW231226_101520    C00:SEOBNRv5PHM                new segments 8  set E 8  c0 4.73  (19 s)
+E    coverage 132/152 = 0.868; 99% interval around 0.90: 0.837–0.963 -> within the interval
+ref  coverage 133/152 = 0.875; 99% interval around 0.90: 0.837–0.963 -> diagnostic
