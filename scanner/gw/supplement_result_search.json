@@ -1,0 +1,137 @@
+{
+ "cohort": "search",
+ "status": "official-supp",
+ "code_sha256_supp": "2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730",
+ "pairs": [
+  [
+   "GW150914",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW170104",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW170809",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW170814",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW170818",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW170823",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190408_181802",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190412",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190503_185404",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190513_205428",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190519_153544",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190521_074359",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190630_185205",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190706_222641",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190708_232457",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW190910_112807",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW191109_010717",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW191129_134029",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW191216_213338",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW191222_033537",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW200112_155838",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW200129_065458",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW200224_222234",
+   "C01:IMRPhenomXPHM"
+  ],
+  [
+   "GW200311_115853",
+   "C01:IMRPhenomXPHM"
+  ]
+ ],
+ "grid": [
+  -5.206382507011138e-10,
+  5.206382507011138e-10,
+  3.2539890668819055e-12
+ ],
+ "critical_values": [
+  1.8519214105828072,
+  4.622201645522163
+ ],
+ "set": {
+  "lower": -9.436568293957686e-11,
+  "upper": 5.206382507011138e-11,
+  "contiguous": true,
+  "contains_zero": true,
+  "touches_edge": false,
+  "best_A": -1.6269945334409805e-11,
+  "best_B": -1.6269945334409805e-11
+ },
+ "LVK_GWTC4": [
+  -2.4e-11,
+  7.4e-12
+ ],
+ "leave_one_out": {
+  "left_out": "GW191129_134029",
+  "set": {
+   "lower": -6.09604845366108e-11,
+   "upper": 1.0529538238141865e-10,
+   "contiguous": true,
+   "contains_zero": true,
+   "touches_edge": false,
+   "best_A": -5.541862230600982e-12,
+   "best_B": -1.1083724461201964e-11
+  }
+ }
+}

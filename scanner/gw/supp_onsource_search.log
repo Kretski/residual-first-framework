@@ -1,0 +1,40 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+supplement_onsource.py SHA-256 350e6e8051fe805e241d1f2d9901f98ca8663d74d6fbd6e900e58278d5417e14
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+status: official-supp (code hash matches supplement-xphm-frozen-r2)
+cohort search: 24 pairs; grid ±8 x 6.508e-11 m^2
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+critical values reproduced: 1.8519–4.6222
+  GW150914           on-source residual: time shift +0.40 ms, |a| 1.091
+  GW170104           on-source residual: time shift -0.10 ms, |a| 1.044
+  GW170809           on-source residual: time shift +0.15 ms, |a| 1.070
+  GW170814           on-source residual: time shift -0.10 ms, |a| 1.064
+  GW170818           on-source residual: time shift -0.15 ms, |a| 1.117
+  GW170823           on-source residual: time shift -0.25 ms, |a| 0.896
+  GW190408_181802    on-source residual: time shift +0.05 ms, |a| 0.879
+  GW190412           on-source residual: time shift +0.15 ms, |a| 1.111
+  GW190503_185404    on-source residual: time shift +0.05 ms, |a| 0.995
+  GW190513_205428    on-source residual: time shift -0.20 ms, |a| 1.044
+  GW190519_153544    on-source residual: time shift +0.45 ms, |a| 1.092
+  GW190521_074359    on-source residual: time shift -0.00 ms, |a| 1.025
+  GW190630_185205    on-source residual: time shift +0.10 ms, |a| 1.178
+  GW190706_222641    on-source residual: time shift -0.10 ms, |a| 0.928
+  GW190708_232457    on-source residual: time shift +0.15 ms, |a| 1.083
+  GW190910_112807    on-source residual: time shift -0.25 ms, |a| 1.113
+  GW191109_010717    on-source residual: time shift -0.10 ms, |a| 1.027
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+  GW191129_134029    on-source residual: time shift -0.15 ms, |a| 0.979
+  GW191216_213338    on-source residual: time shift -0.10 ms, |a| 0.989
+  GW191222_033537    on-source residual: time shift -0.00 ms, |a| 1.014
+  GW200112_155838    on-source residual: time shift +0.25 ms, |a| 1.032
+  GW200129_065458    on-source residual: time shift +0.05 ms, |a| 0.994
+  GW200224_222234    on-source residual: time shift -0.30 ms, |a| 1.024
+  GW200311_115853    on-source residual: time shift -0.00 ms, |a| 1.056
+
+90% confidence set (search, IMRPhenomXPHM, v2.0 construction, SECONDARY analysis):
+  [-9.437e-11, +5.206e-11] m^2  contiguous True  contains 0: True  touches edge: False
+  leave-one-out without GW191129_134029: [-6.096e-11, +1.053e-10] m^2  contains 0: True
+  LVK GWTC-4.0 (90%): [-2.4e-11, +7.4e-12] m^2
+written supplement_result_search.json (status official-supp); commit it before any further on-source computation
