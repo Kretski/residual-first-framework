@@ -1,0 +1,56 @@
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+supplement_validation.py SHA-256 3c5fc0df510debb7f790ab71be8cca840b165fbf9afb18a192d7de6db13a7050
+validation code SHA-256 28d4bad07bbe97edc58dd631fbaecb4d13f288f8cca0a256446fbd7284a6dd7c
+status: official-val (code hash matches supplement-validation-frozen)
+  search  GW150914           segments 8  set F 8  (37 s)
+  search  GW170104           segments 8  set F 8  (63 s)
+  search  GW170809           segments 8  set F 8  (37 s)
+  search  GW170814           segments 8  set F 8  (64 s)
+  search  GW170818           segments 8  set F 8  (60 s)
+  search  GW170823           segments 8  set F 8  (45 s)
+  search  GW190408_181802    segments 8  set F 8  (83 s)
+  search  GW190412           segments 8  set F 8  (142 s)
+  search  GW190503_185404    segments 8  set F 8  (58 s)
+  search  GW190513_205428    segments 8  set F 8  (60 s)
+  search  GW190519_153544    segments 8  set F 8  (57 s)
+  search  GW190521_074359    segments 8  set F 8  (25 s)
+  search  GW190630_185205    segments 8  set F 8  (52 s)
+  search  GW190706_222641    segments 8  set F 8  (35 s)
+  search  GW190708_232457    segments 8  set F 8  (89 s)
+  search  GW190910_112807    segments 8  set F 8  (40 s)
+  search  GW191109_010717    segments 8  set F 8  (30 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+  search  GW191129_134029    segments 8  set F 8  (199 s)
+  search  GW191216_213338    segments 8  set F 8  (205 s)
+  search  GW191222_033537    segments 8  set F 8  (40 s)
+  search  GW200112_155838    segments 8  set F 8  (36 s)
+  search  GW200129_065458    segments 8  set F 8  (78 s)
+  search  GW200224_222234    segments 8  set F 8  (39 s)
+  search  GW200311_115853    segments 8  set F 8  (55 s)
+  confirm GW230601_224134    segments 8  set F 8  (34 s)
+  confirm GW230627_015337    segments 8  set F 8  (724 s)
+  confirm GW230628_231200    segments 8  set F 8  (48 s)
+  confirm GW230731_215307    segments 0  set F 8  (236 s)
+  confirm GW230811_032116    segments 8  set F 8  (48 s)
+  confirm GW230914_111401    segments 8  set F 8  (47 s)
+  confirm GW230919_215712    segments 8  set F 8  (65 s)
+  confirm GW230922_020344    segments 8  set F 8  (38 s)
+  confirm GW230922_040658    segments 8  set F 8  (38 s)
+  confirm GW230924_124453    segments 8  set F 8  (46 s)
+  confirm GW230927_043729    segments 8  set F 8  (50 s)
+  confirm GW230927_153832    segments 8  set F 8  (64 s)
+  confirm GW231020_142947    segments 8  set F 8  (359 s)
+  confirm GW231028_153006    segments 8  set F 8  (44 s)
+  confirm GW231102_071736    segments 8  set F 8  (35 s)
+  confirm GW231108_125142    segments 8  set F 8  (54 s)
+  confirm GW231206_233134    segments 8  set F 8  (47 s)
+  confirm GW231206_233901    segments 8  set F 8  (46 s)
+  confirm GW231224_024321    segments 8  set F 8  (349 s)
+  confirm GW231226_101520    segments 8  set F 8  (30 s)
+
+V1: pooled coverage 189/344 = 0.549; 99% interval around 0.90: 0.858-0.942 -> BELOW the 99% interval
+     estimate minus truth, in sigma_lin: median +0.050, 16-84% [-2.556, +2.350]
+written supplement_validation_v1.csv (status official-val)
