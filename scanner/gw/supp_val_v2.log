@@ -1,0 +1,121 @@
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+supplement_validation.py SHA-256 3c5fc0df510debb7f790ab71be8cca840b165fbf9afb18a192d7de6db13a7050
+validation code SHA-256 28d4bad07bbe97edc58dd631fbaecb4d13f288f8cca0a256446fbd7284a6dd7c
+status: official-val (code hash matches supplement-validation-frozen)
+  search  GW150914           segments 8  set F 8  (52 s)
+  search  GW170104           segments 8  set F 8  (63 s)
+  search  GW170809           segments 8  set F 8  (40 s)
+  search  GW170814           segments 8  set F 8  (68 s)
+  search  GW170818           segments 8  set F 8  (69 s)
+  search  GW170823           segments 8  set F 8  (45 s)
+  search  GW190408_181802    segments 8  set F 8  (82 s)
+  search  GW190412           segments 8  set F 8  (136 s)
+  search  GW190503_185404    segments 8  set F 8  (54 s)
+  search  GW190513_205428    segments 8  set F 8  (57 s)
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.000000000000004 changed to f_ref=10.000000000000002
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.000000000000007 changed to f_ref=10.000000000000004
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+  search  GW190519_153544    segments 8  set F 8  (53 s)
+  search  GW190521_074359    segments 8  set F 8  (25 s)
+  search  GW190630_185205    segments 8  set F 8  (49 s)
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+  search  GW190706_222641    segments 8  set F 8  (36 s)
+  search  GW190708_232457    segments 8  set F 8  (91 s)
+  search  GW190910_112807    segments 8  set F 8  (40 s)
+  search  GW191109_010717    segments 8  set F 8  (29 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+  search  GW191129_134029    segments 8  set F 8  (194 s)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+  search  GW191216_213338    segments 8  set F 8  (209 s)
+  search  GW191222_033537    segments 8  set F 8  (39 s)
+  search  GW200112_155838    segments 8  set F 8  (40 s)
+  search  GW200129_065458    segments 8  set F 8  (86 s)
+  search  GW200224_222234    segments 8  set F 8  (44 s)
+  search  GW200311_115853    segments 8  set F 8  (58 s)
+  confirm GW230601_224134    segments 8  set F 8  (37 s)
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.894139379826166,chi_1=[-0.07528843 -0.03281003 -0.05929931],chi_2=[ 0.48357764 -0.3627723   0.39765298],omega_ref=0.004847159889740733, omega_start = 0.003230632066512198, Mt = 15.662387051557529
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.577622327672929,chi_1=[-0.0010169  -0.11462584 -0.15476465],chi_2=[-0.10541171 -0.22968084  0.39267744],omega_ref=0.004704851425047208, omega_start = 0.0031357834747939638, Mt = 15.202552776344024
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.0154142002123134,chi_1=[-0.0719205  -0.27431312 -0.14598979],chi_2=[-0.00999739 -0.03097973  0.11803603],omega_ref=0.004554590895720055, omega_start = 0.003035634831997417, Mt = 14.717023389563337
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.8790808053874457,chi_1=[-0.15318306  0.05430659 -0.04979212],chi_2=[ 0.33738318 -0.0981192   0.35870048],omega_ref=0.004839427346144764, omega_start = 0.003225478326205485, Mt = 15.63740126741836
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.6248619186110969,chi_1=[ 0.08149179 -0.14319434  0.06105052],chi_2=[ 0.21952772 -0.04923677 -0.00045498],omega_ref=0.0047236315771700685, omega_start = 0.0031483004461838504, Mt = 15.263236149314235
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.6857842469211006,chi_1=[-0.09135302 -0.16473647  0.02795709],chi_2=[-0.12035205 -0.04146045  0.05401743],omega_ref=0.004741055682933777, omega_start = 0.0031599136126753626, Mt = 15.319537797022639
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.7480075519685434,chi_1=[-0.09506801 -0.01959831 -0.10653267],chi_2=[-0.08206507  0.37187482  0.41858828],omega_ref=0.0047826138186368465, omega_start = 0.003187612110121458, Mt = 15.453822537226955
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.2142873063786614,chi_1=[ 0.01614843 -0.00568983 -0.00422278],chi_2=[ 0.10606706 -0.09007732  0.00759121],omega_ref=0.004584147082928013, omega_start = 0.0030553340307715206, Mt = 14.8125268295879
+  confirm GW230627_015337    segments 8  set F 8  (313 s)
+  confirm GW230628_231200    segments 8  set F 8  (49 s)
+  confirm GW230731_215307    segments 0  set F 8  (238 s)
+  confirm GW230811_032116    segments 8  set F 8  (48 s)
+  confirm GW230914_111401    segments 8  set F 8  (50 s)
+  confirm GW230919_215712    segments 8  set F 8  (63 s)
+  confirm GW230922_020344    segments 8  set F 8  (40 s)
+  confirm GW230922_040658    segments 8  set F 8  (40 s)
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.5255975508994188,chi_1=[ 0.02454536 -0.09935066  0.17809515],chi_2=[ 0.04876088 -0.18917044 -0.44424074],omega_ref=0.022493438462702926, omega_start = 0.014991876735391497, Mt = 72.68193072584788
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.077530803671745,chi_1=[-0.88359257 -0.11290879  0.19994973],chi_2=[ 0.12526575 -0.09679633  0.07118567],omega_ref=0.02328618499787107, omega_start = 0.015520242301081066, Mt = 75.24349323874628
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.0280851030070024,chi_1=[-0.07288162 -0.15110923  0.11249636],chi_2=[ 0.02909833  0.0422141  -0.00837381],omega_ref=0.022722043306001093, omega_start = 0.01514424186344973, Mt = 73.42061020394286
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.2178267991574832,chi_1=[-0.08203914  0.0737718  -0.01732951],chi_2=[-0.0960446  -0.10903928 -0.01621605],omega_ref=0.022086024781284293, omega_start = 0.014720335516725983, Mt = 71.3654751284197
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.3749513180812125,chi_1=[-0.25286708  0.64653683  0.02927753],chi_2=[-0.31112667 -0.18431209  0.06896661],omega_ref=0.0231750671509726, omega_start = 0.015446182256123236, Mt = 74.88444365795092
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.3968616536704406,chi_1=[ 4.93550091e-05 -2.39222152e-04 -6.31414516e-04],chi_2=[0.0847495  0.01213668 0.02648366],omega_ref=0.02264768201479224, omega_start = 0.015094680062859026, Mt = 73.18033025629109
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.2015634494375165,chi_1=[-0.02502893  0.25931525  0.90120984],chi_2=[-0.16886342  0.49049786 -0.70934489],omega_ref=0.02462192456126842, omega_start = 0.016410512720085403, Mt = 79.5596021598256
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.32346146423679,chi_1=[ 0.00064098 -0.00642541  0.05399998],chi_2=[0.00425052 0.00443559 0.01094246],omega_ref=0.023198524511470173, omega_start = 0.01546181658689487, Mt = 74.96024026208163
+  confirm GW230924_124453    segments 8  set F 8  (37 s)
+  confirm GW230927_043729    segments 8  set F 8  (51 s)
+  confirm GW230927_153832    segments 8  set F 8  (67 s)
+  confirm GW231020_142947    segments 8  set F 8  (373 s)
+  confirm GW231028_153006    segments 8  set F 8  (44 s)
+  confirm GW231102_071736    segments 8  set F 8  (35 s)
+  confirm GW231108_125142    segments 8  set F 8  (53 s)
+  confirm GW231206_233134    segments 8  set F 8  (47 s)
+  confirm GW231206_233901    segments 8  set F 8  (45 s)
+  confirm GW231224_024321    segments 8  set F 8  (348 s)
+  confirm GW231226_101520    segments 8  set F 8  (31 s)
+
+V2: pooled coverage 277/328 = 0.845; 99% interval around 0.90: 0.857-0.943 -> BELOW the 99% interval
+     estimate minus truth, in sigma_lin: median +0.000, 16-84% [-1.984, +1.984]
+     skipped (SEOBNRv5PHM not generated): 16 segments, events ['GW230627_015337', 'GW230924_124453']
+written supplement_validation_v2.csv (status official-val)
