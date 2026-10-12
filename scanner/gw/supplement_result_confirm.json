@@ -1,0 +1,121 @@
+{
+ "cohort": "confirm",
+ "status": "official-supp",
+ "code_sha256_supp": "2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730",
+ "pairs": [
+  [
+   "GW230601_224134",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230627_015337",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230628_231200",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230731_215307",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230811_032116",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230914_111401",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230919_215712",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230922_020344",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230922_040658",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230924_124453",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230927_043729",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW230927_153832",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231020_142947",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231028_153006",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231102_071736",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231108_125142",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231206_233134",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231206_233901",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231224_024321",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ],
+  [
+   "GW231226_101520",
+   "C00:IMRPhenomXPHM-SpinTaylor"
+  ]
+ ],
+ "grid": [
+  -1.869889214853922e-10,
+  1.869889214853922e-10,
+  1.16868075928371e-12
+ ],
+ "critical_values": [
+  1.643964484278664,
+  4.05717729278318
+ ],
+ "set": {
+  "lower": -3.2723061259943634e-11,
+  "upper": 1.753021138925552e-11,
+  "contiguous": true,
+  "contains_zero": true,
+  "touches_edge": false,
+  "best_A": -5.843403796418506e-12,
+  "best_B": -4.674723037134805e-12
+ },
+ "LVK_GWTC4": [
+  -2.4e-11,
+  7.4e-12
+ ],
+ "leave_one_out": {
+  "left_out": "GW231224_024321",
+  "set": {
+   "lower": -3.5102057482867243e-11,
+   "upper": 2.0322243805870514e-11,
+   "contiguous": true,
+   "contains_zero": true,
+   "touches_edge": false,
+   "best_A": -5.5424301288737756e-12,
+   "best_B": -1.847476709624592e-12
+  }
+ }
+}

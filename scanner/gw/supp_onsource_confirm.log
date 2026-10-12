@@ -1,0 +1,32 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+supplement_onsource.py SHA-256 350e6e8051fe805e241d1f2d9901f98ca8663d74d6fbd6e900e58278d5417e14
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+status: official-supp (code hash matches supplement-xphm-frozen-r2)
+cohort confirm: 20 pairs; grid ±8 x 2.337e-11 m^2
+critical values reproduced: 1.6440–4.0572
+  GW230601_224134    on-source residual: time shift -0.55 ms, |a| 0.961
+  GW230627_015337    on-source residual: time shift +0.15 ms, |a| 0.967
+  GW230628_231200    on-source residual: time shift -0.05 ms, |a| 1.016
+  GW230731_215307    on-source residual: time shift -0.00 ms, |a| 1.224
+  GW230811_032116    on-source residual: time shift +0.35 ms, |a| 1.041
+  GW230914_111401    on-source residual: time shift +0.15 ms, |a| 1.057
+  GW230919_215712    on-source residual: time shift -0.05 ms, |a| 1.019
+  GW230922_020344    on-source residual: time shift -0.20 ms, |a| 0.981
+  GW230922_040658    on-source residual: time shift +0.80 ms, |a| 1.055
+  GW230924_124453    on-source residual: time shift +0.15 ms, |a| 0.951
+  GW230927_043729    on-source residual: time shift -0.20 ms, |a| 1.183
+  GW230927_153832    on-source residual: time shift -0.05 ms, |a| 1.032
+  GW231020_142947    on-source residual: time shift -0.10 ms, |a| 1.033
+  GW231028_153006    on-source residual: time shift -0.55 ms, |a| 1.023
+  GW231102_071736    on-source residual: time shift -0.45 ms, |a| 0.939
+  GW231108_125142    on-source residual: time shift -0.10 ms, |a| 0.889
+  GW231206_233134    on-source residual: time shift -0.20 ms, |a| 0.870
+  GW231206_233901    on-source residual: time shift -0.45 ms, |a| 0.984
+  GW231224_024321    on-source residual: time shift +0.10 ms, |a| 1.015
+  GW231226_101520    on-source residual: time shift +0.35 ms, |a| 0.975
+
+90% confidence set (confirm, IMRPhenomXPHM, v2.0 construction, SECONDARY analysis):
+  [-3.272e-11, +1.753e-11] m^2  contiguous True  contains 0: True  touches edge: False
+  leave-one-out without GW231224_024321: [-3.510e-11, +2.032e-11] m^2  contains 0: True
+  LVK GWTC-4.0 (90%): [-2.4e-11, +7.4e-12] m^2
+written supplement_result_confirm.json (status official-supp); commit it before any further on-source computation
