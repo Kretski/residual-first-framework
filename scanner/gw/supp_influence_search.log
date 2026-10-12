@@ -1,0 +1,61 @@
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+supplement_influence.py SHA-256 b7de0b8320d9e3709042637a257a8a8bcffd631605e3b157b2269a5f51b056da
+DESCRIPTIVE analysis (not registered; decided after the on-source results)
+  GW150914           per-event belts and chi2 done
+  GW170104           per-event belts and chi2 done
+  GW170809           per-event belts and chi2 done
+  GW170814           per-event belts and chi2 done
+  GW170818           per-event belts and chi2 done
+  GW170823           per-event belts and chi2 done
+  GW190408_181802    per-event belts and chi2 done
+  GW190412           per-event belts and chi2 done
+  GW190503_185404    per-event belts and chi2 done
+  GW190513_205428    per-event belts and chi2 done
+  GW190519_153544    per-event belts and chi2 done
+  GW190521_074359    per-event belts and chi2 done
+  GW190630_185205    per-event belts and chi2 done
+  GW190706_222641    per-event belts and chi2 done
+  GW190708_232457    per-event belts and chi2 done
+  GW190910_112807    per-event belts and chi2 done
+  GW191109_010717    per-event belts and chi2 done
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+/home/lenovo/gw/supplement_onsource.py:103: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * (fb[1] - fb[0]) / e["net"].sw[i] ** 2 for i in ifos}
+  GW191129_134029    per-event belts and chi2 done
+  GW191216_213338    per-event belts and chi2 done
+  GW191222_033537    per-event belts and chi2 done
+  GW200112_155838    per-event belts and chi2 done
+  GW200129_065458    per-event belts and chi2 done
+  GW200224_222234    per-event belts and chi2 done
+  GW200311_115853    per-event belts and chi2 done
+
+consistency: full set reproduced [-9.437e-11, +5.206e-11] m^2
+
+Drop-one influence (search, IMRPhenomXPHM, DESCRIPTIVE); full set width 1.464e-10 m^2
+  event               sigma_lin  share          set without the event  0 in  width
+  GW191129_134029      6.51e-11  0.522   [-6.10e-11, +1.05e-10]  True   +13.5%  own grid (stored leave-one-out)
+  GW191216_213338      1.11e-10  0.180   [-1.04e-10, +5.86e-11]  True   +11.1%  
+  GW190412             1.36e-10  0.119   [-1.24e-10, +6.83e-11]  True   +31.1%  
+  GW190708_232457      1.99e-10  0.056   [-9.44e-11, +6.18e-11]  True    +6.7%  
+  GW190408_181802      2.28e-10  0.042   [-9.44e-11, +4.56e-11]  True    -4.4%  
+  GW190630_185205      4.26e-10  0.012   [-9.44e-11, +5.53e-11]  True    +2.2%  
+  GW200224_222234      4.39e-10  0.011   [-9.44e-11, +6.18e-11]  True    +6.7%  
+  GW200311_115853      4.61e-10  0.010   [-9.11e-11, +5.21e-11]  True    -2.2%  
+  GW190513_205428      4.94e-10  0.009   [-8.79e-11, +4.88e-11]  True    -6.7%  
+  GW200129_065458      5.39e-10  0.008   [-9.76e-11, +4.88e-11]  True    +0.0%  
+  GW170104             5.46e-10  0.007   [-9.76e-11, +5.21e-11]  True    +2.2%  
+  GW170814             6.26e-10  0.006   [-9.44e-11, +5.86e-11]  True    +4.4%  
+  GW200112_155838      8.78e-10  0.003   [-9.44e-11, +5.53e-11]  True    +2.2%  
+  GW150914             9.47e-10  0.002   [-9.44e-11, +5.53e-11]  True    +2.2%  
+  GW170809             9.57e-10  0.002   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW170823             1.18e-09  0.002   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW190503_185404      1.18e-09  0.002   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW170818             1.22e-09  0.001   [-9.44e-11, +4.88e-11]  True    -2.2%  
+  GW191109_010717      1.33e-09  0.001   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW190519_153544      1.71e-09  0.001   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW190910_112807      1.78e-09  0.001   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW191222_033537      2.74e-09  0.000   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW190706_222641      3.09e-09  0.000   [-9.44e-11, +5.21e-11]  True    +0.0%  
+  GW190521_074359      3.33e-09  0.000   [-9.44e-11, +5.21e-11]  True    +0.0%  
+written supplement_influence_search.csv

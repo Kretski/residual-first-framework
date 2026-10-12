@@ -1,0 +1,49 @@
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+supplement_influence.py SHA-256 b7de0b8320d9e3709042637a257a8a8bcffd631605e3b157b2269a5f51b056da
+DESCRIPTIVE analysis (not registered; decided after the on-source results)
+  GW230601_224134    per-event belts and chi2 done
+  GW230627_015337    per-event belts and chi2 done
+  GW230628_231200    per-event belts and chi2 done
+  GW230731_215307    per-event belts and chi2 done
+  GW230811_032116    per-event belts and chi2 done
+  GW230914_111401    per-event belts and chi2 done
+  GW230919_215712    per-event belts and chi2 done
+  GW230922_020344    per-event belts and chi2 done
+  GW230922_040658    per-event belts and chi2 done
+  GW230924_124453    per-event belts and chi2 done
+  GW230927_043729    per-event belts and chi2 done
+  GW230927_153832    per-event belts and chi2 done
+  GW231020_142947    per-event belts and chi2 done
+  GW231028_153006    per-event belts and chi2 done
+  GW231102_071736    per-event belts and chi2 done
+  GW231108_125142    per-event belts and chi2 done
+  GW231206_233134    per-event belts and chi2 done
+  GW231206_233901    per-event belts and chi2 done
+  GW231224_024321    per-event belts and chi2 done
+  GW231226_101520    per-event belts and chi2 done
+
+consistency: full set reproduced [-3.272e-11, +1.753e-11] m^2
+
+Drop-one influence (confirm, IMRPhenomXPHM, DESCRIPTIVE); full set width 5.025e-11 m^2
+  event               sigma_lin  share          set without the event  0 in  width
+  GW231224_024321      2.34e-11  0.593   [-3.51e-11, +2.03e-11]  True   +10.3%  own grid (stored leave-one-out)
+  GW230627_015337      3.69e-11  0.237   [-3.97e-11, +1.75e-11]  True   +14.0%  
+  GW231020_142947      5.65e-11  0.101   [-2.80e-11, +1.75e-11]  True    -9.3%  
+  GW230731_215307      1.07e-10  0.028   [-3.39e-11, +1.75e-11]  True    +2.3%  
+  GW231108_125142      1.41e-10  0.016   [-3.16e-11, +1.75e-11]  True    -2.3%  
+  GW230927_153832      2.46e-10  0.005   [-3.27e-11, +1.75e-11]  True    +0.0%  
+  GW230919_215712      2.68e-10  0.004   [-3.16e-11, +1.75e-11]  True    -2.3%  
+  GW231206_233134      3.65e-10  0.002   [-3.27e-11, +1.75e-11]  True    +0.0%  
+  GW230922_020344      3.98e-10  0.002   [-3.04e-11, +1.75e-11]  True    -4.7%  
+  GW230628_231200      3.98e-10  0.002   [-3.16e-11, +1.75e-11]  True    -2.3%  
+  GW230924_124453      4.80e-10  0.001   [-3.16e-11, +1.75e-11]  True    -2.3%  
+  GW230927_043729      4.83e-10  0.001   [-3.27e-11, +1.64e-11]  True    -2.3%  
+  GW230811_032116      5.21e-10  0.001   [-3.27e-11, +1.75e-11]  True    +0.0%  
+  GW231226_101520      5.72e-10  0.001   [-3.27e-11, +1.64e-11]  True    -2.3%  
+  GW230601_224134      5.80e-10  0.001   [-3.16e-11, +1.75e-11]  True    -2.3%  
+  GW230922_040658      6.12e-10  0.001   [-3.16e-11, +1.75e-11]  True    -2.3%  
+  GW231206_233901      6.77e-10  0.001   [-3.27e-11, +1.64e-11]  True    -2.3%  
+  GW231102_071736      1.28e-09  0.000   [-3.27e-11, +1.64e-11]  True    -2.3%  
+  GW230914_111401      1.57e-09  0.000   [-3.27e-11, +1.75e-11]  True    +0.0%  
+  GW231028_153006      4.88e-09  0.000   [-3.16e-11, +1.75e-11]  True    -2.3%  
+written supplement_influence_confirm.csv
