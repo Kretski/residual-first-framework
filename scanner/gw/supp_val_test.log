@@ -1,0 +1,59 @@
+supplement code SHA-256 2567e4550f96afd5b4cebd42df537dfd63ae5376cd8ec1d8a5aef2e1ec2fd730
+supplement_validation.py SHA-256 3c5fc0df510debb7f790ab71be8cca840b165fbf9afb18a192d7de6db13a7050
+validation code SHA-256 28d4bad07bbe97edc58dd631fbaecb4d13f288f8cca0a256446fbd7284a6dd7c
+status: trial-val (no validation freeze manifest)
+reproduction (GW150914): q0 1.374422 vs 1.374422; c0 3.206074 vs 3.206074 -> PASS
+settings keys of C01:IMRPhenomXPHM: ['duration', 'f_an', 'f_high', 'f_ref', 'f_wf', 'srate', 'wf_args']
+SEOBNRv5PHM probe (one set-F sample per pair):
+  search  GW150914           set F 8  SEOBNRv5PHM: ok
+  search  GW170104           set F 8  SEOBNRv5PHM: ok
+  search  GW170809           set F 8  SEOBNRv5PHM: ok
+  search  GW170814           set F 8  SEOBNRv5PHM: ok
+  search  GW170818           set F 8  SEOBNRv5PHM: ok
+  search  GW170823           set F 8  SEOBNRv5PHM: ok
+  search  GW190408_181802    set F 8  SEOBNRv5PHM: ok
+  search  GW190412           set F 8  SEOBNRv5PHM: ok
+  search  GW190503_185404    set F 8  SEOBNRv5PHM: ok
+  search  GW190513_205428    set F 8  SEOBNRv5PHM: ok
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+  search  GW190519_153544    set F 8  SEOBNRv5PHM: ok
+  search  GW190521_074359    set F 8  SEOBNRv5PHM: ok
+  search  GW190630_185205    set F 8  SEOBNRv5PHM: ok
+WARNING:pyseobnr.models.SEOBNRv5HM:f_ref < f_start: f_start=20.0 changed to f_ref=10.0
+  search  GW190706_222641    set F 8  SEOBNRv5PHM: ok
+  search  GW190708_232457    set F 8  SEOBNRv5PHM: ok
+  search  GW190910_112807    set F 8  SEOBNRv5PHM: ok
+  search  GW191109_010717    set F 8  SEOBNRv5PHM: ok
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+  search  GW191129_134029    set F 8  SEOBNRv5PHM: ok
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+  search  GW191216_213338    set F 8  SEOBNRv5PHM: ok
+  search  GW191222_033537    set F 8  SEOBNRv5PHM: ok
+  search  GW200112_155838    set F 8  SEOBNRv5PHM: ok
+  search  GW200129_065458    set F 8  SEOBNRv5PHM: ok
+  search  GW200224_222234    set F 8  SEOBNRv5PHM: ok
+  search  GW200311_115853    set F 8  SEOBNRv5PHM: ok
+  confirm GW230601_224134    set F 8  SEOBNRv5PHM: ok
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.894139379826166,chi_1=[-0.07528843 -0.03281003 -0.05929931],chi_2=[ 0.48357764 -0.3627723   0.39765298],omega_ref=0.004847159889740733, omega_start = 0.003230632066512198, Mt = 15.662387051557529
+  confirm GW230627_015337    set F 8  SEOBNRv5PHM: FAILS: ValueError: Internal function call failed: Input domain error. Ringdown frequency of (4,4) mo
+  confirm GW230628_231200    set F 8  SEOBNRv5PHM: ok
+  confirm GW230731_215307    set F 8  SEOBNRv5PHM: ok
+  confirm GW230811_032116    set F 8  SEOBNRv5PHM: ok
+  confirm GW230914_111401    set F 8  SEOBNRv5PHM: ok
+  confirm GW230919_215712    set F 8  SEOBNRv5PHM: ok
+  confirm GW230922_020344    set F 8  SEOBNRv5PHM: ok
+  confirm GW230922_040658    set F 8  SEOBNRv5PHM: ok
+ERROR:pyseobnr.models.SEOBNRv5HM:Waveform generation failed for q=1.5255975508994188,chi_1=[ 0.02454536 -0.09935066  0.17809515],chi_2=[ 0.04876088 -0.18917044 -0.44424074],omega_ref=0.022493438462702926, omega_start = 0.014991876735391497, Mt = 72.68193072584788
+  confirm GW230924_124453    set F 8  SEOBNRv5PHM: FAILS: ValueError: Internal function call failed: Input domain error. Ringdown frequency of (4,4) mo
+  confirm GW230927_043729    set F 8  SEOBNRv5PHM: ok
+  confirm GW230927_153832    set F 8  SEOBNRv5PHM: ok
+  confirm GW231020_142947    set F 8  SEOBNRv5PHM: ok
+  confirm GW231028_153006    set F 8  SEOBNRv5PHM: ok
+  confirm GW231102_071736    set F 8  SEOBNRv5PHM: ok
+  confirm GW231108_125142    set F 8  SEOBNRv5PHM: ok
+  confirm GW231206_233134    set F 8  SEOBNRv5PHM: ok
+  confirm GW231206_233901    set F 8  SEOBNRv5PHM: ok
+  confirm GW231224_024321    set F 8  SEOBNRv5PHM: ok
+  confirm GW231226_101520    set F 8  SEOBNRv5PHM: ok
