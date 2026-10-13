@@ -103,18 +103,27 @@ def split_w(ifos, vec):
 
 
 class Scan:
-    """Projection and chi2 curve of one subspace on one grid (as so.chi2_curve)."""
+    """Projection and chi2 curve of one subspace on one grid (as so.chi2_curve). The scan matrix
+    is kept as the float32 array of the frozen ProfileScan and multiplied in float64 by column
+    chunks (same numbers as a float64 copy, without the memory of one): long O4a signals have
+    more than 10^6 rows, and two float64 copies exceeded the 6 GB available (OOM, v3.0 r1)."""
+
+    CHUNK = 1 << 16
 
     def __init__(self, e, wsp, grid):
         A = e[wsp]
         sc = me.ProfileScan(A, e["K"], e["href"], e["net"], e["fb"], grid)
-        self.Q = A.Q.astype(np.float64)
-        self.B = sc.b.astype(np.float64)
-        self.g = np.diag(sc.G).copy()
+        self.Q = A.Q
+        self.B = sc.b
+        self.g = np.diag(sc.G).astype(np.float64).copy()
+        del sc
 
     def chi(self, R):
         pr = R - self.Q @ (self.Q.T @ R)
-        return -2.0 * (self.B @ pr) + self.g
+        v = np.zeros(self.B.shape[0])
+        for a in range(0, self.B.shape[1], self.CHUNK):
+            v += self.B[:, a:a + self.CHUNK].astype(np.float64) @ pr[a:a + self.CHUNK]
+        return -2.0 * v + self.g
 
 
 class Pair:
@@ -272,16 +281,17 @@ def catalog_trials(args, coh, truths_sig, n_tr, seed_base, shift):
         t0 = time.time()
         p = Pair(a, k, ev, label, r5)
         S = load_samples(args, p)
-        scans = {s: Scan(p.e, s, grid) for s in "AB"}
-        for ti, t in enumerate(tix):
-            for wsp in "AB":
+        for wsp in "AB":                                   # one scan in memory at a time
+            scan = Scan(p.e, wsp, grid)
+            for ti, t in enumerate(tix):
                 rng = np.random.default_rng(seed_base + 1000 * k + 10 * ti + (0 if wsp == "A" else 1))
                 cal = mc.cal_error_fn(p.e, rng)
                 for j in range(n_tr):
                     smp, _ = trial_sample(S, j, shift, wsp)
                     dw = trial_data(p, smp, grid[t], rng, cal)
-                    (c,), _, _ = p.chain_chi(dw, [scans[wsp]])
+                    (c,), _, _ = p.chain_chi(dw, [scan])
                     tot[wsp][ti, j] += c
+            del scan
         print(f"  {coh} {ev:18s} {len(tix)} truths x {n_tr} trials x 2 subspaces ({time.time() - t0:.0f} s)", flush=True)
         del p, S
     return tot, grid, tix, sig_cat
@@ -436,14 +446,15 @@ def stage_rule3(args, h3, status):
         tot = {s: np.zeros((n_cal, len(grid))) for s in "AB"}
         for k, (ev, label, r5) in enumerate(pairs):
             p = Pair(a, k, ev, label, r5)
-            scans = [Scan(p.e, s, grid) for s in "AB"]
-            rng = np.random.default_rng(me.SEED + 31 + 1000 * k)
-            cal = mc.cal_error_fn(p.e, rng)
-            for j in range(n_cal):
-                cw = split_w(p.ifos, cal())
-                (cA, cB), _, _ = p.chain_chi({i: p.hw[i] + cw[i] for i in p.ifos}, scans)
-                tot["A"][j] += cA
-                tot["B"][j] += cB
+            for wsp in "AB":                               # same draws for both subspaces
+                scan = Scan(p.e, wsp, grid)
+                rng = np.random.default_rng(me.SEED + 31 + 1000 * k)
+                cal = mc.cal_error_fn(p.e, rng)
+                for j in range(n_cal):
+                    cw = split_w(p.ifos, cal())
+                    (c,), _, _ = p.chain_chi({i: p.hw[i] + cw[i] for i in p.ifos}, [scan])
+                    tot[wsp][j] += c
+                del scan
             del p
         tz = int(np.argmin(np.abs(grid)))
         est, excl = [], 0
@@ -491,9 +502,12 @@ def stage_onsource(args, h3, status):
     for k, (ev, label, r5) in enumerate(pairs):
         p = Pair(a, k, ev, label, r5)
         d = so.strain_segment(a, ev, p.ifos, p.st, p.band, p.seg_on)
-        (cA, cB), tsh, amp = p.chain_chi({i: d[i] * p.sw[i] for i in p.ifos}, [Scan(p.e, s, grid) for s in "AB"])
-        tot["A"] += cA
-        tot["B"] += cB
+        dw = {i: d[i] * p.sw[i] for i in p.ifos}
+        for wsp in "AB":                                   # one scan in memory at a time
+            scan = Scan(p.e, wsp, grid)
+            (c,), tsh, amp = p.chain_chi(dw, [scan])
+            tot[wsp] += c
+            del scan
         print(f"  {ev:18s} on-source: time shift {tsh * 1e3:+.2f} ms, |a| {abs(amp):.3f}", flush=True)
         del p
     inside = np.zeros(len(grid), bool)
