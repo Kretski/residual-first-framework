@@ -1,0 +1,6 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+module3_run.py SHA-256 224c8e8e43f3e6a74b31f717711a20be75fd4b0e25fc494a2b464f965f6d4d3a
+v3.0 code SHA-256 800f629904231c51ad92471f089146783a21bbecb336ad0c887c41eca19cdc86
+status: trial-v3 (no v3.0 freeze manifest)
+fast_refine vs frozen refine (GW150914): t +0.00020 vs +0.00020; residual rel diff 9.6e-13; q0 1.374422 vs stored 1.374422 -> PASS
+synthetic smoke test: 20 full-chain trials in 0.1 s
