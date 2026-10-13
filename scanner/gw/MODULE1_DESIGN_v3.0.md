@@ -99,3 +99,8 @@ If any rule fails, v3.0 stops before any on-source computation, and the failure 
   checks test exactly the construction that is used on-source. The mismatch between the checked
   and the used construction is what V1 exposed in v2.0; it is not repeated. This adds about one
   day of computation.
+
+## 7. Amendment before freeze (2026-10-12): failed SEOBNRv5PHM samples
+
+One rule for every pair: a trial that calls for SEOBNRv5PHM uses the SEOBNRv5PHM waveform of its sample if it was generated with the label settings, and the IMRPhenomXPHM waveform of the same position otherwise; V2' rows are skipped where the set-G sample has no SEOBNRv5PHM waveform. This replaces the pair-level wording of section 3. Generated SEOBNRv5PHM samples (sets A, B of 200 each; set G of 8): 40 pairs complete; GW190706_222641 191/193/6; GW230811_032116 198/199/8; GW230924_124453 28/21/1; GW230627_015337 0/0/0 (IMRPhenomXPHM only). Counts recorded in v3_samples.log. No settings were changed to make generation succeed.
+
