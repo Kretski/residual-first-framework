@@ -14,3 +14,5 @@ D3EE19CD005C11C4F92CFF39050989E4EEAB1E7C610490EBCA64E04B24A4DB25  1576  scanner\
 
 Sources: GLOBEX data base, Zenodo record 4009405 (https://zenodo.org/record/4009405), archives A1.zip and A3.zip; the .npy files are derived with scanner/globex/convert_globex.py. Wave surfaces (Surfaces_20111004_113800_short.nc): source to be added.
 
+Wave surfaces (Surfaces_20111004_113800_short.nc, record BS_2011): WASS stereo data, Black Sea, acquisition 2011-10-04 11:38:00, 12 Hz, 0.05 m grid, file created 2019-10-20; download source not recorded, file kept locally until it is.
+
