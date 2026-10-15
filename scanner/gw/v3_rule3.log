@@ -1,0 +1,8 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+module3_run.py SHA-256 0b125d9eea5271f2731d2dfc40c698c02bb4d356b9d5bfb95914ca9cee003735
+v3.0 code SHA-256 5dba18e7e787f01528d833d20ee26386f5f18f6783f052621d92b2a785e26c4e
+status: official-v3 (code hash matches v3.0-module1-r2)
+/home/lenovo/gw/module1_run.py:243: RuntimeWarning: divide by zero encountered in divide
+  Seff = {i: 4 * df / d[f"sw_{i}"].astype(np.float64) ** 2 for i in ifos}
+rule 3 search: median +0.00e+00 (+0.00 sigma_cat), excluding 0: 0/100 -> pass
+rule 3 confirm: median +0.00e+00 (+0.00 sigma_cat), excluding 0: 0/100 -> pass

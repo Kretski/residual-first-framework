@@ -1,0 +1,5 @@
+v2.0 code SHA-256 143141d531472dd115baced0585e0e3489ff480e0e2d79cabc358b60e28323c0
+module3_run.py SHA-256 0b125d9eea5271f2731d2dfc40c698c02bb4d356b9d5bfb95914ca9cee003735
+v3.0 code SHA-256 5dba18e7e787f01528d833d20ee26386f5f18f6783f052621d92b2a785e26c4e
+status: official-v3 (code hash matches v3.0-module1-r2)
+gate: A RULE FIRED (or results from different code): no on-source computation

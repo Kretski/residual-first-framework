@@ -1,0 +1,18 @@
+{
+ "status": "official-v3",
+ "code_sha256_v3": "5dba18e7e787f01528d833d20ee26386f5f18f6783f052621d92b2a785e26c4e",
+ "rule3": {
+  "search": {
+   "median_estimate": 0.0,
+   "sigma_cat": 4.704058773916351e-11,
+   "fraction_excluding_zero": 0.0,
+   "pass": true
+  },
+  "confirm": {
+   "median_estimate": 0.0,
+   "sigma_cat": 1.7992921197577182e-11,
+   "fraction_excluding_zero": 0.0,
+   "pass": true
+  }
+ }
+}
