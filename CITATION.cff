@@ -1,36 +1,70 @@
 cff-version: 1.2.0
-message: "If you use this code or its results, please cite it as below, together with the preprint that describes the part you use."
+message: "If you use this software or its results, please cite it as below, together with the preprint that describes the part you use."
 type: software
 title: "Residual-First Framework: pre-registered residual audits of pulsar-timing and gravitational-wave data"
 authors:
   - family-names: Kretski
     given-names: Dimitar
     orcid: "https://orcid.org/0000-0001-5108-2243"
-    affiliation: "Center for Hydro- and Aerodynamics, Institute of Metal Science, Equipment and Technologies 'Acad. A. Balevski', Bulgarian Academy of Sciences, Varna, Bulgaria"
+    affiliation: >-
+      Institute of Metal Science, Equipment and Technologies "Acad. A. Balevski",
+      Center for Hydro- and Aerodynamics, Bulgarian Academy of Sciences, Varna, Bulgaria
+date-released: 2026-10-16
+license: MIT
 repository-code: "https://github.com/Kretski/residual-first-framework"
+abstract: >-
+  Pre-registered residual-level analyses with explicit calibration and stopping rules.
+  Pulsar timing: residual-level cross-pulsar statistics applied to NANOGrav 15-yr and
+  EPTA DR2 timing residuals. A sky-scramble-calibrated Hellings–Downs test orthogonalised
+  against monopole and dipole patterns gives p = 0.0135 (EPTA DR2full, pre-registered
+  primary) and p = 0.0065 (DR2new, pre-registered secondary), recovering the known PTA
+  signal; an omnibus cross-correlation statistic and temporal-shift nulls are shown to be
+  miscalibrated on real PTA sampling.
+  Gravitational waves (Module 1, scanner/gw): a frequentist test of a quadratic-in-frequency
+  modification of the gravitational-wave group velocity on public LIGO–Virgo–KAGRA data.
+  Three pre-registered versions stopped at their own coverage rules before any on-source
+  estimate; a secondary IMRPhenomXPHM-only analysis is consistent with zero, and
+  full-chain, model-marginalised belts restore coverage at a large cost in sensitivity.
 keywords:
   - pre-registration
-  - residual analysis
-  - frequentist coverage
-  - Neyman construction
+  - calibration
+  - reproducibility
+  - pulsar timing arrays
+  - Hellings-Downs correlation
+  - NANOGrav
+  - EPTA
   - gravitational waves
   - modified dispersion
-  - pulsar timing
+  - frequentist coverage
+  - Neyman construction
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.23324211
-    description: "Preprint: Frequentist validation of a gravitational-wave dispersion test (Module 1, scanner/gw)"
-  - type: doi
     value: 10.5281/zenodo.22976009
-    description: "Methods note: pulsar-timing residual audit (NANOGrav, EPTA)"
+    description: "Methods note: residual-level Hellings–Downs diagnostics for pulsar timing arrays"
+  - type: doi
+    value: 10.5281/zenodo.23324211
+    description: "Preprint: frequentist validation of a gravitational-wave dispersion test (Module 1)"
 references:
+  - type: dataset
+    title: "The NANOGrav 15-Year Data Set (v2.1.0)"
+    authors:
+      - name: "The NANOGrav Collaboration"
+    doi: "10.5281/zenodo.16051178"
+  - type: dataset
+    title: "EPTA DR2"
+    authors:
+      - name: "The EPTA Collaboration"
+    doi: "10.5281/zenodo.8300645"
   - type: article
     title: "Frequentist validation of a gravitational-wave dispersion test: two pre-registered analyses stopped by their own coverage rules"
     authors:
       - family-names: Kretski
         given-names: Dimitar
         orcid: "https://orcid.org/0000-0001-5108-2243"
-    doi: 10.5281/zenodo.23324211
-    publisher:
-      name: Zenodo
+    doi: "10.5281/zenodo.23324211"
     year: 2026
+  - type: dataset
+    title: "Gravitational Wave Open Science Center strain data and LVK parameter-estimation releases (GWTC-2.1, GWTC-3, GWTC-4.0)"
+    authors:
+      - name: "LIGO Scientific, Virgo and KAGRA Collaborations"
+    url: "https://gwosc.org"
