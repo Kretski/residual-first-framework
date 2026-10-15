@@ -1,0 +1,168 @@
+{
+ "status": "official-v3",
+ "code_sha256_v3": "5dba18e7e787f01528d833d20ee26386f5f18f6783f052621d92b2a785e26c4e",
+ "rule0": {
+  "search": {
+   "truths": [
+    {
+     "truth_sigma_cat": 0.0,
+     "coverage": 0.99,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 0.5,
+     "coverage": 0.9925,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -0.5,
+     "coverage": 0.9925,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 1.0,
+     "coverage": 0.99,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -1.0,
+     "coverage": 0.995,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 2.0,
+     "coverage": 0.995,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -2.0,
+     "coverage": 0.98,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 4.0,
+     "coverage": 0.995,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -4.0,
+     "coverage": 0.9875,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 8.0,
+     "coverage": 0.985,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -8.0,
+     "coverage": 0.9925,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 0.75,
+     "coverage": 0.99,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -0.75,
+     "coverage": 0.995,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 3.0,
+     "coverage": 0.9875,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -3.0,
+     "coverage": 0.99,
+     "pass": true
+    }
+   ],
+   "edge_fraction": 0.8975,
+   "pass": false
+  },
+  "confirm": {
+   "truths": [
+    {
+     "truth_sigma_cat": 0.0,
+     "coverage": 0.98,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 0.5,
+     "coverage": 0.9875,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -0.5,
+     "coverage": 0.9825,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 1.0,
+     "coverage": 0.9975,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -1.0,
+     "coverage": 0.995,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 2.0,
+     "coverage": 0.9825,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -2.0,
+     "coverage": 0.9925,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 4.0,
+     "coverage": 0.9725,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -4.0,
+     "coverage": 0.985,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 8.0,
+     "coverage": 0.97,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -8.0,
+     "coverage": 0.9925,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 0.75,
+     "coverage": 0.99,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -0.75,
+     "coverage": 0.9925,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": 3.0,
+     "coverage": 0.99,
+     "pass": true
+    },
+    {
+     "truth_sigma_cat": -3.0,
+     "coverage": 0.94,
+     "pass": true
+    }
+   ],
+   "edge_fraction": 0.0375,
+   "pass": false
+  }
+ }
+}
