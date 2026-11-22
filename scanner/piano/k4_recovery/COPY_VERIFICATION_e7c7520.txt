@@ -1,0 +1,42 @@
+COPY VERIFICATION — B1 wrapper vs residual-first-framework e7c7520
+Generated mechanically by comparing source text (no code executed).
+piano_scanner.py sha256 335ba8b8abaef4b424b36a516f55df568b9345f83cc8b6bc1c0dc1cc33c9e5d4 (text as stored at e7c7520)
+
+[1] synth_note (piano_scanner.py l. 387–403, 17 lines) vs synth_mixture (k4_recovery_b1.py l. 199–215)
+    identical after stripping indentation: True (17/17 lines)
+     387 == if jitter_cents > 0:
+     388 == fn = fn * 2 ** (rng.normal(0, jitter_cents, len(fn)) / 1200.0)
+     389 == keep = (fn > 0) & (fn < 0.45 * sr)
+     390 == n, fn = n[keep], fn[keep]
+     391 == amps = n ** -0.8 * rng.lognormal(0, 0.3, len(n))
+     392 == tau0 = float(np.clip(3.0 * np.sqrt(261.6 / f0), 0.3, 8.0))
+     393 == t = np.arange(int(dur * sr)) / sr - 0.05
+     394 == on = t >= 0
+     395 == tt = t[on]
+     396 == x = np.zeros_like(t)
+     397 == for k in range(len(n)):
+     398 == tau = tau0 / (1 + 0.08 * n[k])
+     399 == env = np.exp(-tt / tau) * (1 - np.exp(-tt / 0.003))
+     400 == x[on] += amps[k] * env * np.sin(2 * np.pi * fn[k] * tt + rng.uniform(0, 2 * np.pi))
+     401 == x /= np.max(np.abs(x))
+     402 == x += rng.normal(0, 10 ** (noise_db / 20.0), len(x))
+     403 == return x, sr
+
+[2] globex_scanner._ftest body (l. 282–285) vs ftest_globex body (k4_recovery_b1.py)
+    identical after stripping indentation: True (4/4 lines)
+         == if rss_big <= 0 or dof <= 0:   ||   if rss_big <= 0 or dof <= 0:
+         == return np.inf, 0.0   ||   return np.inf, 0.0
+         == F = max(0.0, (rss_small - rss_big) / (rss_big / dof))   ||   F = max(0.0, (rss_small - rss_big) / (rss_big / dof))
+         == return float(F), float(stats.f.sf(F, 1, dof))   ||   return float(F), float(stats.f.sf(F, 1, dof))
+
+[3] For reference, synth_note l. 377–386 (frequency law, NOT copied; synth_mixture has its own law):
+     377     """
+     378     nmax = min(80, int(0.45 * sr / f0))
+     379     n = np.arange(1, nmax + 1, dtype=float)
+     380     if model == "stiff":
+     381         fn = n * f0 * np.sqrt(1.0 + B * n ** 2)
+     382     elif model == "power":
+     383         d10 = 10 * f0 * (2 ** (cents_at_10 / 1200.0) - 1)
+     384         fn = n * f0 + d10 * (n / 10.0) ** p
+     385     else:
+     386         fn = n * f0
