@@ -1,0 +1,60 @@
+{
+  "spec": "SHAMMASS_R0_PREANALYSIS_SPEC_v1.0.3",
+  "stage": "audit",
+  "inputs": {
+    "exp_large": {
+      "sha256": "203637ca80adee49d01bc01a2c9456db5fb5bcbf9e8efac768e8e2537adbb39b",
+      "n": 16
+    },
+    "exp_small": {
+      "sha256": "a39239136a7011a794a8e72e2f50f0176fef4e04eb5362076d6ed512e190aa02",
+      "n": 9
+    },
+    "gpe_large": {
+      "sha256": "ddb5e53199d8048aba8ccd08c6905b44151c63e573d11ff7514657f703d2e4d9",
+      "n": 38
+    },
+    "gpe_small": {
+      "sha256": "c19213b54d9c5433265140f8cad1517102733bc5031a581b3bc7e7c26b500066",
+      "n": 28
+    }
+  },
+  "wpd_sha256": "291f83d0a7699f8c867eab6ff7448b2e867342a25009e10cae18356decc98beb",
+  "calibration_A": [
+    [
+      0.006582958727458431,
+      -3.180173298289093e-05
+    ],
+    [
+      -7.95043324572262e-06,
+      -0.0032437767642548797
+    ]
+  ],
+  "calibration_c": [
+    -0.7828835975703612,
+    2.145861207478362
+  ],
+  "reproduction": {
+    "exp_large": {
+      "n": 16,
+      "max_abs_dk": 1.7763568394002505e-15,
+      "max_abs_df": 4.440892098500626e-16
+    },
+    "exp_small": {
+      "n": 9,
+      "max_abs_dk": 1.7763568394002505e-15,
+      "max_abs_df": 4.440892098500626e-16
+    },
+    "gpe_large": {
+      "n": 38,
+      "max_abs_dk": 1.7763568394002505e-15,
+      "max_abs_df": 4.440892098500626e-16
+    },
+    "gpe_small": {
+      "n": 28,
+      "max_abs_dk": 1.7763568394002505e-15,
+      "max_abs_df": 4.440892098500626e-16
+    }
+  },
+  "note": "No interpolation, residual, physical fit, or synthetic gate executed."
+}
